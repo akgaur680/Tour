@@ -22,11 +22,27 @@ Add the following commands in new Provider public function boot() { $this->regis
 Link Storage so that it access the secret_key & private_key
 
 php artisan storage:link
+
+php artisan db:seed --class=AdminSeeder
+
 If there is error of Client Token
 
 php artisan tinker 
-use Laravel\Passport\Client; Client::where(personal_access_client', true)->first();
-Client::where('personal_access_client', true)->first();
+
+use Laravel\Passport\Client;
+
+Client::create([
+    'name' => 'Personal Access Client',
+    'secret' => \Illuminate\Support\Str::random(40),
+    'redirect' => '',
+    'personal_access_client' => true,
+    'password_client' => false,
+    'revoked' => false,
+]);
+
+
+use Laravel\Passport\Client; Client::where('personal_access_client', true)->first();
+
 
 php artisan passport:client --personal
 npm install

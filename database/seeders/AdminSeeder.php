@@ -2,18 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class AdminSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        // ✅ Create Super Admin User
         $superAdmin = User::create([
             'name' => 'Super Admin',
             'email' => 'superadmin@gmail.com',
@@ -25,6 +23,7 @@ class AdminSeeder extends Seeder
         ]);
         $superAdmin->assignRole('Super Admin');
 
+        // ✅ Create Admin User
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
@@ -35,6 +34,5 @@ class AdminSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         $admin->assignRole('Admin');
-
     }
 }

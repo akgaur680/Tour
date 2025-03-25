@@ -4,6 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <title>Admin Panel | Dashboard</title>
 
  <!-- Google Font: Source Sans Pro -->
@@ -27,13 +29,24 @@
 <!-- Summernote -->
 <link rel="stylesheet" href="{{ asset('adminassets/plugins/summernote/summernote-bs4.min.css') }}">
 
+<!-- Yajra DataTables -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <link rel="stylesheet" href="{{ asset('adminassets/css/style.css') }}">
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+    <img class="animation__shake" src="/adminassets/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
 
   <!-- Navbar -->
@@ -85,7 +98,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <img src="/adminassets/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Brad Diesel
@@ -101,7 +114,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="/adminassets/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   John Pierce
@@ -117,7 +130,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="/adminassets/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Nora Silvester
@@ -170,6 +183,15 @@
           <i class="fas fa-th-large"></i>
         </a>
       </li>
+      <li class="nav-item">
+    <form id="logout-form" action="{{ route('auth.logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="nav-link" style="background: none; border: none; cursor: pointer;">
+            <i class="fas fa-sign-out-alt" style="font-size: larger;"></i>
+        </button>
+    </form>
+</li>
+
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -178,7 +200,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="{{asset('adminassets/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="{{asset('/adminassets/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Admin Panel</span>
     </a>
 
@@ -187,7 +209,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{asset('adminassets/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{asset('/adminassets/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"> @if(Auth::user()->name) {{ Auth::user()->name }} @endif </a>
@@ -216,10 +238,10 @@
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <i class="right fas fa-angle-left"></i>
+                <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <!-- <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="./index.html" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
@@ -238,28 +260,41 @@
                   <p>Dashboard v3</p>
                 </a>
               </li>
-            </ul>
+            </ul> -->
           </li>
           @if(Auth::user()->HasRole('Super Admin'))
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="/admin/index" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Add Admins
-                <span class="right badge badge-danger">New</span>
+                <i class="right fas fa-user-friends"></i>
+                <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
           @endif
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="/admin/cars" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Add Users
-                <span class="right badge badge-danger">New</span>
+                Add Cars
+                <i class="right fas fa-car"></i>
+                <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="pages/widgets.html" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Add Drivers
+                <i class="right fas fa-user-friends"></i>
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+<!-- 
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
@@ -853,11 +888,12 @@
               <p>Informational</p>
             </a>
           </li>
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
+    /.sidebar -->
   </aside>
 
   @yield('content')
@@ -876,6 +912,7 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
+
 </div>
 <!-- ./wrapper -->
 <!-- jQuery -->
@@ -912,6 +949,10 @@
 <script src="{{ asset('adminassets/dist/js/demo.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('adminassets/dist/js/pages/dashboard.js') }}"></script>
+<script src="{{ asset('adminassets/js/script.js') }}"></script>
+<script src="{{ asset('adminassets/js/cars/index.js') }}"></script>
+<script src="{{ asset('adminassets/js/cars/addCar.js') }}"></script>
+<script src="{{ asset('adminassets/js/cars/updateCar.js') }}"></script>
 
 </body>
 </html>

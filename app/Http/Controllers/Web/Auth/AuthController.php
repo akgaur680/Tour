@@ -19,7 +19,7 @@ class AuthController extends Controller
         $validated = $request->validated();
         if (Auth::attempt($validated)) {
             if (Auth::user()) {
-                return redirect('/dashboard/admin/index');
+                return redirect('/admin/dashboard');
             } 
             else{
                 return redirect()->back()->withErrors(['login' => 'You are prohibited.']);
@@ -27,5 +27,10 @@ class AuthController extends Controller
         } else {
             return redirect()->back()->withErrors(['login' => 'Invalid credentials provided.'])->withInput();
         }
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect('/');
     }
 }

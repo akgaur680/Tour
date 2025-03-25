@@ -53,8 +53,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function getGuardNameAttribute()
-    {
-        return $this->role === 'Admin' || $this->role === 'Super Admin' ? 'web' : 'api';
-    }
+    // public function getGuardNameAttribute()
+    // {
+    //     return $this->role === 'Admin' || $this->role === 'Super Admin' ? 'web' : 'api';
+    // }
 }
