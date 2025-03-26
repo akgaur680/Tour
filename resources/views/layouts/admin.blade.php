@@ -278,7 +278,7 @@
             <a href="/admin/cars" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Add Cars
+              Fleet Management
                 <i class="right fas fa-car"></i>
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
@@ -288,8 +288,58 @@
             <a href="pages/widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Add Drivers
+              Driver Management
                 <i class="right fas fa-user-friends"></i>
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="pages/widgets.html" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+              Tour Pricing
+                <i class="right fas fa-tag"></i>
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="pages/widgets.html" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+              Trip Categories
+                <i class="right fas fa-table"></i>
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="pages/widgets.html" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+              Customers
+                <i class="right fas fa-users"></i>
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="pages/widgets.html" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+              Bookings
+                <i class="right fas fa-cubes"></i>
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="pages/widgets.html" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+              Transactions
+                <i class="right fas fa-rupee-sign"></i>
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
@@ -916,6 +966,8 @@
 </div>
 <!-- ./wrapper -->
 <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="{{ asset('adminassets/plugins/jquery/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('adminassets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
@@ -953,6 +1005,7 @@
 <script src="{{ asset('adminassets/js/cars/index.js') }}"></script>
 <script src="{{ asset('adminassets/js/cars/addCar.js') }}"></script>
 <script src="{{ asset('adminassets/js/cars/updateCar.js') }}"></script>
+<script src="{{ asset('adminassets/js/cars/viewCar.js') }}"></script>
 
 </body>
 </html>

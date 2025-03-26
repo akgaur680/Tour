@@ -14,8 +14,17 @@ function addCar(event) {
     })
     .then((response) => response.json())
     .then((data) => {
-        alert(data.message);
-        console.log(data);
+        Swal.fire({
+            icon: "success",
+            title: "Added!",
+            text: data.message,
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000
+        })
+        form.reset();
+        closeDiv(event, "addCarDiv");
         dataTable.ajax.reload(null, false); // Reload DataTable
     })
     .catch((error) => console.error("Error:", error));
