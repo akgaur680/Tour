@@ -29,10 +29,7 @@ class CarController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -41,8 +38,6 @@ class CarController extends Controller
     {
         $validated = $request->validated();
         return (new CarService)->store($validated);
-        
-        
     }
 
     /**
@@ -51,10 +46,9 @@ class CarController extends Controller
     public function show(string $id)
     {
         $car = CarModel::findorFail($id);
-        if($car){
-            return response()->json(['status'=> true, 'car' => $car]);
-        }
-        else{
+        if ($car) {
+            return response()->json(['status' => true, 'car' => $car]);
+        } else {
             return response()->json(['status' => false, 'message' => 'Error in Getting Car Details']);
         }
     }
@@ -64,21 +58,24 @@ class CarController extends Controller
      */
     public function edit(string $id)
     {
-        $car = CarModel::findofFail($id);
-        if($car){
-            return response()->json(['status'=> true, 'car' => $car]);
-        }
-        else{
-            return response()->json(['status' => false, 'message' => 'Error in Getting Car Details']);
-        }
+        return (new CarService)->edit($id);
+       
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CarStoreRequest $request, string $id)
     {
-        //
+        $validated = $request->validated();
+        return (new CarService)->update($validated, $id);
+        // $car = CarModel::findorFail($id);
+        // $update = $car->update($request->all());
+        // if ($update) {
+        //     return response()->json(['status' => true, 'message' => 'Car Updated Successfully']);
+        // } else {
+        //     return response()->json(['status' => false, 'message' => 'Error in Updating Car']);
+        // }
     }
 
     /**
@@ -87,13 +84,12 @@ class CarController extends Controller
     public function destroy(string $id)
     {
         $car = CarModel::findorFail($id);
-       $delete = $car->delete();
-       if($delete){
+        $delete = $car->delete();
+        if ($delete) {
 
-           return response()->json(['status' => true, 'message' => 'Car Deleted Successfully']);
-       }
-       else{
-        return response()->json(['status' => false, 'message' => 'Error in Deleting Car']);
-       }
+            return response()->json(['status' => true, 'message' => 'Car Deleted Successfully']);
+        } else {
+            return response()->json(['status' => false, 'message' => 'Error in Deleting Car']);
+        }
     }
 }
