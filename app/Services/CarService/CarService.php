@@ -2,17 +2,20 @@
 
 namespace App\Services\CarService;
 
+use App\Helpers\ImageHelper;
 use App\Models\CarModel;
 use App\Services\CoreService;
 
 class CarService extends CoreService
 {
     public function store(array $data){
-        // $data = $data->except('car_image');
-        // if ($data->hasFile('car_image')) {
-        //     $imagePath = $data->file('car_image')->store('cars', 'public'); // Store in storage/app/public/cars
-        //     $data['car_image'] = $imagePath;
-        // }
+        $carImage = $data['car_image'] ?? null;
+        unset($data['car_image']);
+
+        if ($carImage) {
+            $data['car_image'] = ImageHelper::storeImage($carImage, 'cars');
+        }
+
         $car = CarModel::create($data);
 
         if($car){

@@ -24,7 +24,7 @@ function viewCar(event, id) {
                 // Update car image
                 const carImage = document.getElementById("view_car_image");
                 if (data.car.car_image) {
-                    carImage.src = data.car.car_image; // Ensure this is a valid image URL
+                    carImage.src = `/storage/${data.car.car_image}`; // Ensure this is a valid image URL
                 } else {
                     carImage.src = "/adminassets/dist/img/defaultCar.avif"; // Fallback image
                 }

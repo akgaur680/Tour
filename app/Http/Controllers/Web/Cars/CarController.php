@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Cars;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\CarRequest\CarStoreRequest;
 use App\Models\CarModel;
@@ -16,15 +17,21 @@ class CarController extends Controller
      */
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $data = CarModel::all();
+    
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('car_image', function ($row) {
+                    return $row->car_image ? '<img src="' . ImageHelper::getImageUrl($row->car_image) . '" width="50" height="50"/>' : 'No Image';
+                })
+                ->rawColumns(['car_image']) // Ensure HTML is not escaped
                 ->make(true);
         }
+    
         return view('/admin/cars/index');
     }
+    
 
     /**
      * Show the form for creating a new resource.

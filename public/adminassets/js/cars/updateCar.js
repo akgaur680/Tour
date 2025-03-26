@@ -12,7 +12,7 @@ function editCar(event, id) {
         .then((data) => {
             if (data.status == true) {
                 console.log(data);
-                showForm(event, "addCarDiv");
+                showForm(event, "addCarDiv", 'edit');
                 const car_model = document.getElementById("car_model");
                 const car_number = document.getElementById("car_number");
                 const car_type = document.getElementById("car_type");
@@ -28,6 +28,14 @@ function editCar(event, id) {
                 price_per_km.value = data.car.price_per_km;
                 ac.value = data.car.ac; // Set the value
                 ac.setAttribute("selected", "selected"); // Corrected method name
+
+                  // Update car image
+                  const carImage = document.getElementById("car_image");
+                  if (data.car.car_image) {
+                      carImage.src = `/storage/${data.car.car_image}`; // Ensure this is a valid image URL
+                  } else {
+                      carImage.src = "/adminassets/dist/img/defaultCar.avif"; // Fallback image
+                  }
 
                 const title = document.getElementById("car-title");
                 title.textContent = "Update Car";
