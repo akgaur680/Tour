@@ -85,7 +85,10 @@ class AuthByMobile extends CoreService
         // Generate Passport access token
        
         $token = $user->createToken('authToken')->accessToken;
+<<<<<<< HEAD
         // dd($token);
+=======
+>>>>>>> 76edfe8a18cdd617ab98c5ee67bfdcc9bd4a60cd
    
         return response()->json([
             'status' => true,
