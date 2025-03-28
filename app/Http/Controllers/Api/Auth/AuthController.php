@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Auth\RegisterRequest;
 use App\Http\Requests\Api\Auth\VerifyOtpRequest;
 use App\Services\Auth\AuthByMobile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -28,7 +29,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user) {
             $request->user()->token()->revoke(); // Revoke the token
@@ -41,10 +42,10 @@ class AuthController extends Controller
 
     public function logoutFromAllDevices(Request $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user) {
-            $user->tokens()->delete(); // Revoke all tokens
+            $user->tokens()->delete();
             return response()->json(['message' => 'Logged out from all devices']);
         }
 

@@ -14,12 +14,9 @@ class CoreService
         $this->twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
     }
 
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> 76edfe8a18cdd617ab98c5ee67bfdcc9bd4a60cd
     public function sendSMS($receiverNumber, $message)
     {
         try {
