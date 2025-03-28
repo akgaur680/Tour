@@ -15,7 +15,7 @@ class RideBookingController extends Controller
       return (new TripCostEstimatorService())->calculateFarePrice($request);  
     }
 
-    public function bookATrip(){
+    public function getPlaces(){
 
     }
 

@@ -10,6 +10,6 @@ Route::middleware(['auth:api'])->group(function () {
 
     Route::get('/get-places',[RideBookingController::class,'getPlaces'] );
 
-    Route::get('/get-city-state/{query}',[RideBookingController::class,'getCityState']);
+    Route::get('/get-city-state',[RideBookingController::class,'getCityState']);
     
 });
