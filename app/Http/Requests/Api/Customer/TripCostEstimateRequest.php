@@ -27,7 +27,7 @@ class TripCostEstimateRequest extends FormRequest
             'trip_type' => ['required', 'string', 'exists:trip_types,slug'],
             'return_date' => ['required_if:trip_type,round-trip', 'date'],
             'pickup_date' => ['required', 'date'],
-            'pickup_time' => ['required', 'date_format:H:i'], 
+            'pickup_time' => ['required', 'date_format:H:i']
         ];
     }
 

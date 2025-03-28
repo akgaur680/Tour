@@ -12,68 +12,68 @@ class TripCostEstimatorService
 {
     public function calculateFarePrice($request): JsonResponse
     {
-        $fixedPriceResponse = $this->isFixedPriceAvailable($request);
-        return $fixedPriceResponse ?? $this->calculatePriceOnDistance($request);
+        return $this->isFixedPriceAvailable($request) ?? $this->calculatePriceOnDistance($request);
     }
 
     private function isFixedPriceAvailable($request): ?JsonResponse
     {
         $from = $this->extractLocationDetails($request->from_address);
         $to = $this->extractLocationDetails($request->to_address);
+        $distance = $this->getDistanceBetweenLocations($request->from_address, $request->to_address);
 
         if (!$from || !$to) {
             return $this->jsonResponse(false, 'Invalid city or state name in the provided addresses.');
         }
 
-        $fixedPrice = FixedTourPrices::where([
+        $fixedPrices = FixedTourPrices::where([
             ['origin_city_id', $from['city_id']],
             ['origin_state_id', $from['state_id']],
             ['destination_city_id', $to['city_id']],
             ['destination_state_id', $to['state_id']]
         ])->with('car')->get();
 
-        if ($fixedPrice->isNotEmpty()) {
-            return $this->jsonResponse(true, 'Fixed price found for this route.', $this->formatCarData($fixedPrice));
-        }
-
-        return null;
+        return $fixedPrices->isEmpty() ? null : 
+            $this->jsonResponse(true, 'Fixed price found for this route.', $this->formatCarData($fixedPrices, $request, $distance));
     }
 
-    private function formatCarData($cars)
+    private function formatCarData($cars, $request, $distance)
     {
-        return $cars->map(function ($item) {
-            return [
-                'car_id' => $item->car->id,
-                'car_name' => $item->car->car_model,
-                'car_number' => $item->car->car_number,
-                'car_type' => $item->car->car_type,
-                'seats' => $item->car->seats,
-                'is_ac' => $item->car->ac ? 'Yes' : 'No',
-                'luggage_limit' => $item->car->luggage_limit,
-                'price_per_km' => $item->car->price_per_km,
-                'car_image' => url('public/' . ltrim($item->car->car_image, '/')),
-                'price' => $item->price
-            ];
-        });
+        return $cars->map(fn($item) => array_merge($this->getCarDetails($item->car), [
+            'price' => $item->price,
+            'customer_name' => $request->user()->name,
+            'customer_phone' => $request->user()->mobile_no,
+            'customer_email' => $request->user()->email,
+            'total_distance' => "$distance Km",
+            'pickup_date' => $request->pickup_date,
+            'pickup_time' => $request->pickup_time,
+            'return_date' => $request->return_date ? $request->return_date : null,
+            'inclusions' => $this->getInclusions($request->trip_type, $item->car->price_per_km, $distance),
+            'exclusions' => $this->getExclusions($request->trip_type, $item->car->price_per_km, $distance),
+        ]));
+    }
+
+    private function getCarDetails($car)
+    {
+        return [
+            'car_id' => $car->id,
+            'car_name' => $car->car_model,
+            'car_number' => $car->car_number,
+            'car_type' => $car->car_type,
+            'seats' => $car->seats,
+            'is_ac' => $car->ac ? 'Yes' : 'No',
+            'luggage_limit' => $car->luggage_limit,
+            'price_per_km' => $car->price_per_km,
+            'car_image' => url('public/' . ltrim($car->car_image, '/')),
+        ];
     }
 
     private function extractLocationDetails($address): ?array
     {
         $parts = array_map('trim', explode(',', $address));
         return count($parts) < 2 ? null : [
-            'city_id' => $this->getCityId($parts[0]),
-            'state_id' => $this->getStateId($parts[1])
+            'city_id' => City::where('name', 'like', "%{$parts[0]}%")->value('id'),
+            'state_id' => State::where('name', 'like', "%{$parts[1]}%")->value('id')
         ];
-    }
-
-    private function getCityId($cityName): ?int
-    {
-        return City::where('name', 'like', '%' . $cityName . '%')->value('id');
-    }
-
-    private function getStateId($stateName): ?int
-    {
-        return State::where('name', 'like', '%' . $stateName . '%')->value('id');
     }
 
     private function jsonResponse(bool $status, string $message, $data = null): JsonResponse
@@ -83,64 +83,48 @@ class TripCostEstimatorService
 
     public function calculatePriceOnDistance($request): JsonResponse
     {
-        if (empty($request->from_address) || empty($request->to_address)) {
-            return $this->jsonResponse(false, 'Both from and to addresses are required.');
-        }
-
         $distance = $this->getDistanceBetweenLocations($request->from_address, $request->to_address);
-
         if ($distance <= 0) {
             return $this->jsonResponse(false, 'Invalid distance or duration received.');
         }
 
-        $cars = $this->getAllCars();
-        if ($cars->isEmpty()) {
-            return $this->jsonResponse(false, 'No cars available.');
-        }
-
-        return $this->jsonResponse(true, 'Price Found for this route.', $this->calculateCarPrices($cars, $distance));
+        $cars = Car::all();
+        return $cars->isEmpty() ? $this->jsonResponse(false, 'No cars available.') :
+            $this->jsonResponse(true, 'Price found for this route.', $this->calculateCarPrices($cars, $distance, $request));
     }
 
     private function getDistanceBetweenLocations($fromAddress, $toAddress): int
     {
-        $from = $this->formatLocation($fromAddress);
-        $to = $this->formatLocation($toAddress);
-
-        $distanceService = new CalculateDistanceService();
-        $distance = $distanceService->calculateDistance($from, $to);
-        
-        return (int) str_replace([',', 'Km', 'KM'], '', trim($distance));
+        return (int) preg_replace('/[^0-9]/', '', (new CalculateDistanceService())->calculateDistance($fromAddress, $toAddress));
     }
 
-    private function formatLocation($address): string
+    private function calculateCarPrices($cars, $distance, $request)
     {
-        $parts = array_map('trim', explode(',', $address));
-        $city = City::where('name', 'like', '%' . $parts[0] . '%')->value('name');
-        $state = State::where('name', 'like', '%' . $parts[1] . '%')->value('name');
-        return "$city, $state";
+        return $cars->map(fn($car) => array_merge($this->getCarDetails($car), [
+            'customer_name' => $request->user()->name,
+            'customer_phone' => $request->user()->mobile_no,
+            'customer_email' => $request->user()->email,
+            'pickup_date' => $request->pickup_date,
+            'pickup_time' => $request->pickup_time,
+            'return_date' => $request->return_date ? $request->return_date : null,
+            'price' => $car->price_per_km * $distance,
+            'total_distance' => "$distance Km",
+            'inclusions' => $this->getInclusions($request->trip_type, $car->price_per_km, $distance),
+            'exclusions' => $this->getExclusions($request->trip_type, $car->price_per_km, $distance),
+        ]));
     }
 
-    private function calculateCarPrices($cars, $distance)
+    private function getInclusions($tripType, $carPricePerKm, $distance)
     {
-        return $cars->map(function ($car) use ($distance) {
-            return [
-                'car_id' => $car->id,
-                'car_name' => $car->car_model,
-                'car_number' => $car->car_number,
-                'car_type' => $car->car_type,
-                'seats' => $car->seats,
-                'is_ac' => $car->ac ? 'Yes' : 'No',
-                'luggage_limit' => $car->luggage_limit,
-                'price_per_km' => $car->price_per_km,
-                'car_image' => url('public/' . ltrim($car->car_image, '/')),
-                'price' => $car->price_per_km * $distance,
-                'total_distance' => $distance . ' Km',
-            ];
-        });
+        return $tripType === 'one-way' ?
+            ['Fuel Charges', 'Driver Allowance', 'Toll / State Tax (₹680 - ₹810)', 'GST 5%'] :
+            ["Pay ₹{$carPricePerKm}/km after {$distance} Km", 'Fuel Charges', 'Driver Allowance', 'GST 5%'];
     }
 
-    private function getAllCars()
+    private function getExclusions($tripType, $carPricePerKm, $distance)
     {
-        return Car::all();
+        return $tripType === 'one-way' ?
+            ["Pay ₹{$carPricePerKm}/km after {$distance} Km", 'Multiple pickups/drops', 'Airport Entry/Parking'] :
+            ['Toll / State Tax (₹680 - ₹810)', 'Night Allowance', 'Parking'];
     }
 }
