@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web\Cars;
 use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\CarRequest\CarStoreRequest;
-use App\Models\CarModel;
+use App\Models\Car;
 use App\Services\CarService\CarService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -18,7 +18,7 @@ class CarController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = CarModel::all();
+            $data = Car::all();
     
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -52,7 +52,7 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        $car = CarModel::findorFail($id);
+        $car = Car::findorFail($id);
         if ($car) {
             return response()->json(['status' => true, 'car' => $car]);
         } else {
@@ -76,7 +76,7 @@ class CarController extends Controller
     {
         $validated = $request->validated();
         return (new CarService)->update($validated, $id);
-        // $car = CarModel::findorFail($id);
+        // $car = Car::findorFail($id);
         // $update = $car->update($request->all());
         // if ($update) {
         //     return response()->json(['status' => true, 'message' => 'Car Updated Successfully']);
@@ -90,7 +90,7 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
-        $car = CarModel::findorFail($id);
+        $car = Car::findorFail($id);
         $delete = $car->delete();
         if ($delete) {
 

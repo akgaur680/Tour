@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\Customer\RideBookingController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth:api'])->group(function () {
     
-    Route::get('/one-way-trip', );
+    Route::get('/get-trip-cost',[RideBookingController::class,'getOneWayTripCost'] );
     
 });

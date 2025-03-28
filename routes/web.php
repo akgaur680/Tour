@@ -6,6 +6,8 @@ use App\Http\Controllers\Web\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\CitiesImport;
 
 // Route::get('/', function () {
 //     return view('welcome');

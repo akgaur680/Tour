@@ -3,7 +3,7 @@
 namespace App\Services\CarService;
 
 use App\Helpers\ImageHelper;
-use App\Models\CarModel;
+use App\Models\Car;
 use App\Services\CoreService;
 
 class CarService extends CoreService
@@ -16,7 +16,7 @@ class CarService extends CoreService
             $data['car_image'] = ImageHelper::storeImage($carImage, 'cars');
         }
 
-        $car = CarModel::create($data);
+        $car = Car::create($data);
 
         if($car){
             return response()->json(['status'=> true, 'message' => 'Car Added Successfully', 'car' => $car]);
@@ -27,7 +27,7 @@ class CarService extends CoreService
     }
 
     public function edit(int $id){
-        $car = CarModel::findorFail($id);
+        $car = Car::findorFail($id);
         if($car){
             return response()->json(['status'=> true, 'car' => $car]);
         }
@@ -37,7 +37,7 @@ class CarService extends CoreService
     }
 
     public function update(array $data, int $id){
-        $car = CarModel::findorFail($id);
+        $car = Car::findorFail($id);
         $update = $car->update($data);
         if ($update) {
             return response()->json(['status' => true, 'message' => 'Car Updated Successfully']);
