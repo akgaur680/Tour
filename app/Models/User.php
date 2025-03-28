@@ -52,16 +52,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-<<<<<<< HEAD
-    public function getGuardNameAttribute()
-    {
-        return $this->role === 'Admin' || $this->role === 'Super Admin' ? 'web' : 'api';
-    }
-=======
-    // public function getGuardNameAttribute()
-    // {
-    //     return $this->role === 'Admin' || $this->role === 'Super Admin' ? 'web' : 'api';
-    // }
->>>>>>> 76edfe8a18cdd617ab98c5ee67bfdcc9bd4a60cd
 }

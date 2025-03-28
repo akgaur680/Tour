@@ -12,7 +12,7 @@ function editCar(event, id) {
         .then((data) => {
             if (data.status == true) {
                 console.log(data);
-                showForm(event, "addCarDiv", 'edit');
+                showForm(event, "addCarDiv", "edit", "Edit Car", "Update Car");
                 const car_model = document.getElementById("car_model");
                 const car_number = document.getElementById("car_number");
                 const car_type = document.getElementById("car_type");
@@ -27,15 +27,15 @@ function editCar(event, id) {
                 luggage_limit.value = data.car.luggage_limit;
                 price_per_km.value = data.car.price_per_km;
                 ac.value = data.car.ac; // Set the value
-                ac.setAttribute("selected", "selected"); // Corrected method name
+                ac.value = data.car.ac.toString(); 
 
-                  // Update car image
-                  const carImage = document.getElementById("car_image");
-                  if (data.car.car_image) {
-                      carImage.src = `/storage/${data.car.car_image}`; // Ensure this is a valid image URL
-                  } else {
-                      carImage.src = "/adminassets/dist/img/defaultCar.avif"; // Fallback image
-                  }
+                //   Update car image
+                const carImage = document.getElementById("carimage");
+                if (data.car.car_image) {
+                    carImage.src = `/storage/${data.car.car_image}`; // Ensure this is a valid image URL
+                } else {
+                    carImage.src = "/adminassets/dist/img/defaultCar.avif"; // Fallback image
+                }
 
                 const title = document.getElementById("car-title");
                 title.textContent = "Update Car";
@@ -49,29 +49,54 @@ function editCar(event, id) {
 
 function updateCar(event, id) {
     event.preventDefault();
-    const car_model = document.getElementById("car_model").value;
-    const car_number = document.getElementById("car_number").value;
-    const car_type = document.getElementById("car_type").value;
-    const seats = document.getElementById("seats").value;
-    const luggage_limit = document.getElementById("luggage_limit").value;
-    const price_per_km = document.getElementById("price_per_km").value;
-    const ac = document.getElementById("ac").value;
+
+    const form = document.getElementById("addCarForm");
+    const formData = new FormData(form);
+    formData.append("_method", "PUT");
+
+    // Clear previous errors
+    clearErrors();
+
+    // Validate Form
+    const validationErrors = validateCarForm(formData);
+    if (validationErrors.length > 0) {
+        showValidationErrors(validationErrors);
+        return;
+    }
 
     fetch(`/admin/cars/${id}`, {
-        method: "PUT",
+        method: "POST", // ✅ Use POST (not PUT)
+        body: formData,
         headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
         },
-        body: JSON.stringify({ car_model, car_number, car_type, seats, luggage_limit, price_per_km, ac }),
     })
         .then((response) => response.json())
         .then((data) => {
             if (data.status == true) {
-                alert(data.message);
-                console.log(data);
-                dataTable.ajax.reload(null, false); // Reload DataTable
-                closeDiv(event, "addCarDiv");
+                Swal.fire({
+                    icon: "success",
+                    title: "Updated!",
+                    text: data.message,
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                dataTable.ajax.reload(null, false);
+                form.reset();
+                setTimeout(() => closeDiv(null, "addCarDiv"), 200);
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: data.error,
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
             }
         })
         .catch((error) => console.error("Error:", error));
