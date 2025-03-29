@@ -16,6 +16,12 @@ class Car extends Model
         'ac',
         'luggage_limit',
         'price_per_km',
-        'car_image'
+        'car_image',
+        'price_per_hour',
     ];
+
+    public function carTripTypes()
+    {
+        return $this->hasMany(CarTripType::class);
+    }
 }

@@ -2,14 +2,13 @@
 
 namespace App\Services\Customer;
 
-use App\Models\City;
-use App\Models\State;
-use Exception;
+use App\Models\Airport;
 use Illuminate\Http\JsonResponse;
+use Exception;
 
-class GetCityStateService
-{
-    public function getPlaces($request): JsonResponse
+class GetAirportService {
+
+    public function getAirports($request)  : JsonResponse
     {
         try {
             $query = trim($request->query('query', '')); 
@@ -19,20 +18,20 @@ class GetCityStateService
                 return response()->json(['status' => false, 'message' => 'Query parameter is required'], 400);
             }
     
-            $cities = City::whereRaw("LOWER(name) LIKE LOWER(?)", ["$query%"])
+            $airports = Airport::whereRaw("LOWER(name) LIKE LOWER(?)", ["$query%"])
                 ->limit($limit)
                 ->get();
     
-            if ($cities->isEmpty()) {
-                return response()->json(['status' => false, 'message' => 'No matching city found'], 404);
+            if ($airports->isEmpty()) {
+                return response()->json(['status' => false, 'message' => 'No matching airport found'], 404);
             }
     
-            $locations = $cities->map(fn($city) => $city->name . ', ' . optional($city->state)->name)->toArray();
+            $locations = $airports->map(fn($airport) => $airport->name . ', ' . $airport->state)->toArray();
 
     
             return response()->json([
                 'status' => true,
-                'message' => 'Cities found',
+                'message' => 'Airports found',
                 'data' => $locations
             ]);
     

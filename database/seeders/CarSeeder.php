@@ -18,6 +18,7 @@ class CarSeeder extends Seeder
                 'ac' => true,
                 'luggage_limit' => 4,
                 'price_per_km' => 12,
+                'price_per_hour' => 200,
                 'car_image' => 'cars/innova.jpg',
             ],
             [
@@ -28,6 +29,7 @@ class CarSeeder extends Seeder
                 'ac' => true,
                 'luggage_limit' => 2,
                 'price_per_km' => 10,
+                'price_per_hour' => 100,
                 'car_image' => 'cars/swift.jpg',
             ],
             [
@@ -38,6 +40,7 @@ class CarSeeder extends Seeder
                 'ac' => true,
                 'luggage_limit' => 3,
                 'price_per_km' => 14,
+                'price_per_hour' => 400,
                 'car_image' => 'cars/creta.jpg',
             ],
             [
@@ -48,6 +51,7 @@ class CarSeeder extends Seeder
                 'ac' => true,
                 'luggage_limit' => 2,
                 'price_per_km' => 13,
+                'price_per_hour' => 500,
                 'car_image' => 'cars/city.jpg',
             ],
             [
@@ -58,6 +62,7 @@ class CarSeeder extends Seeder
                 'ac' => false,
                 'luggage_limit' => 2,
                 'price_per_km' => 9,
+                'price_per_hour' => 0,
                 'car_image' => 'cars/tiago.jpg',
             ],
             [
@@ -68,6 +73,7 @@ class CarSeeder extends Seeder
                 'ac' => true,
                 'luggage_limit' => 4,
                 'price_per_km' => 15,
+                'price_per_hour' => 600,
                 'car_image' => 'cars/xuv500.jpg',
             ],
             [
@@ -78,6 +84,7 @@ class CarSeeder extends Seeder
                 'ac' => true,
                 'luggage_limit' => 3,
                 'price_per_km' => 11,
+                'price_per_hour' => 300,
                 'car_image' => 'cars/ecosport.jpg',
             ],
             [
@@ -88,6 +95,7 @@ class CarSeeder extends Seeder
                 'ac' => true,
                 'luggage_limit' => 2,
                 'price_per_km' => 10,
+                'price_per_hour' => 0,
                 'car_image' => 'cars/polo.jpg',
             ],
             [
@@ -98,6 +106,7 @@ class CarSeeder extends Seeder
                 'ac' => true,
                 'luggage_limit' => 3,
                 'price_per_km' => 12,
+                'price_per_hour' => 0,
                 'car_image' => 'cars/magnite.jpg',
             ],
             [
@@ -108,6 +117,7 @@ class CarSeeder extends Seeder
                 'ac' => true,
                 'luggage_limit' => 3,
                 'price_per_km' => 14,
+                'price_per_hour' => 0,
                 'car_image' => 'cars/octavia.jpg',
             ],
         ];

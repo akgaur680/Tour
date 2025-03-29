@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookATripRequest extends FormRequest
+class GetAddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class BookATripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'location' => ['required', 'string','regex:/^[A-Za-z\s]+,\s?[A-Za-z\s]+$/'],
         ];
     }
 }

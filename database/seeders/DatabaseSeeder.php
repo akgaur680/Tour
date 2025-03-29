@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(StatesTableSeeder::class);
         // $this->call(CarSeeder::class);
         $this->call(FixedTourPriceSeeder::class);
+        // $this->call(CitySeeder::class);
+        // $this->call(CarTripTypeSeeder::class);
 
         // User::factory()->create([
         //     'name' => 'Test User',
