@@ -24,7 +24,7 @@ class CarStoreRequest extends BaseRequest
             'ac' => ['required', 'boolean'],
             'luggage_limit' => ['required', 'integer', 'min:1', 'max:10'],
             'price_per_km' => ['required', 'integer', 'min:1', 'max:10'],
-            'car_image' => ['nullable','image', 'mimes:jpeg,png,jpg,avif', 'max:2048'],
+            'car_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,avif,web.p', 'max:2048'],
         ];
     }
 }

@@ -46,5 +46,15 @@ class CarService extends CoreService
         }
     }
 
-    
+        // if ($carImage) {
+        //     $data['car_image'] = ImageHelper::updateImage($carImage, $car->car_image, 'cars'); // Pass old image path
+        // }
+
+        // $update = $car->update($data);
+
+        // return response()->json([
+        //     'status' => (bool) $update,
+        //     'message' => $update ? 'Car Updated Successfully' : 'Error in Updating Car',
+        // ]);
+    }
 }

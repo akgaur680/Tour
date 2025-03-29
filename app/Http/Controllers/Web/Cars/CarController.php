@@ -76,13 +76,7 @@ class CarController extends Controller
     {
         $validated = $request->validated();
         return (new CarService)->update($validated, $id);
-        // $car = Car::findorFail($id);
-        // $update = $car->update($request->all());
-        // if ($update) {
-        //     return response()->json(['status' => true, 'message' => 'Car Updated Successfully']);
-        // } else {
-        //     return response()->json(['status' => false, 'message' => 'Error in Updating Car']);
-        // }
+        
     }
 
     /**
