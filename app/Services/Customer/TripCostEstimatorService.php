@@ -10,10 +10,11 @@ use App\Models\Driver;
 use App\Models\FixedTourPrices;
 use App\Models\State;
 use App\Models\TripType;
+use App\Services\CoreService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
-class TripCostEstimatorService
+class TripCostEstimatorService extends CoreService
 {
     public function calculateFarePrice($request): JsonResponse
     {
@@ -211,6 +212,7 @@ class TripCostEstimatorService
         $checkCarHasDriver = Driver::where('car_id', $car->id)->exists();
         if (!$checkCarHasDriver) {
             return [
+                'driver_id' => null,
                 'driver_name' => null,
                 'driver_phone' => null,
                 'driver_email' => null,
@@ -221,6 +223,7 @@ class TripCostEstimatorService
         else{
             $driver = Driver::where('car_id', $car->id)->with('user')->first();
             return [
+                'driver_id' => $driver->user->id,
                 'driver_name' => $driver->user->name,
                 'driver_phone' => $driver->user->mobile_no,
                 'driver_email' => $driver->user->email,
@@ -228,20 +231,6 @@ class TripCostEstimatorService
                 'is_driver_available' => $driver->is_available
             ];
         }
-    }
-
-    private function extractLocationDetails($address): ?array
-    {
-        $parts = array_map('trim', explode(',', $address));
-        return count($parts) < 2 ? null : [
-            'city_id' => City::where('name', 'like', "%{$parts[0]}%")->value('id'),
-            'state_id' => State::where('name', 'like', "%{$parts[1]}%")->value('id')
-        ];
-    }
-
-    private function jsonResponse(bool $status, string $message, $data = null): JsonResponse
-    {
-        return response()->json(compact('status', 'message', 'data'));
     }
 
     private function getCustomerDetails($request): array

@@ -2,9 +2,10 @@
 
 namespace App\Services\Customer;
 
+use App\Services\CoreService;
 use Illuminate\Http\JsonResponse;
 
-class UpdateCustomerProfile {
+class UpdateCustomerProfile extends CoreService{
     public function updateProfile($request) : JsonResponse
     {
         $user = $request->user();
@@ -19,8 +20,4 @@ class UpdateCustomerProfile {
         return $this->jsonResponse(true, 'Profile updated successfully.', $user);
     }
 
-    private function jsonResponse(bool $status, string $message, $data = null): JsonResponse
-    {
-        return response()->json(compact('status', 'message', 'data'));
-    }
 }

@@ -11,6 +11,8 @@ class TripBookingController extends Controller
 {
     public function bookATrip(BookATripRequest $request)
     {
-      return (new BookATripService())->bookATrip(request());
+      return (new BookATripService())->bookATrip($request); 
     }
 }
+
+
