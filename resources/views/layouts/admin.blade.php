@@ -289,11 +289,11 @@
             </li>
             @endif
             <li class="nav-item">
-            <a href="/admin/cars" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Add Users
-                <span class="right badge badge-danger">New</span>
+              <a href="/admin/cars" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  Add Users
+                  <span class="right badge badge-danger">New</span>
                 </p>
               </a>
             </li>
@@ -307,7 +307,7 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item"><a href="pages/widgets.html" class="nav-link">
+            <li class="nav-item"><a href="/admin/drivers" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Driver Management
@@ -337,13 +337,13 @@
               </a>
             </li>
             <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Customers
-                <i class="right fas fa-users"></i>
-                <!-- <span class="right badge badge-danger">New</span> -->
-              </p>
+              <a href="pages/widgets.html" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  Customers
+                  <i class="right fas fa-users"></i>
+                  <!-- <span class="right badge badge-danger">New</span> -->
+                </p>
               </a>
             </li>
             <li class="nav-item">
@@ -994,7 +994,6 @@
   <!-- jQuery -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  >>>>>>> 76edfe8a18cdd617ab98c5ee67bfdcc9bd4a60cd
   <script src="{{ asset('adminassets/plugins/jquery/jquery.min.js') }}"></script>
   <!-- jQuery UI 1.11.4 -->
   <script src="{{ asset('adminassets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
@@ -1029,10 +1028,20 @@
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="{{ asset('adminassets/dist/js/pages/dashboard.js') }}"></script>
   <script src="{{ asset('adminassets/js/script.js') }}"></script>
-  <script src="{{ asset('adminassets/js/cars/index.js') }}"></script>
-  <script src="{{ asset('adminassets/js/cars/addCar.js') }}"></script>
-  <script src="{{ asset('adminassets/js/cars/updateCar.js') }}"></script>
-  <script src="{{ asset('adminassets/js/cars/viewCar.js') }}"></script>
+  @php
+  $scripts = glob(public_path('adminassets/js/cars/*.js'));
+  @endphp
+
+@foreach ($scripts as $script)
+<script src="{{ asset('adminassets/js/cars/' . basename($script)) }}"></script>
+@endforeach
+@php
+  $scripts = glob(public_path('adminassets/js/drivers/*.js'));
+  @endphp
+
+@foreach ($scripts as $script)
+<script src="{{ asset('adminassets/js/drivers/' . basename($script)) }}"></script>
+@endforeach
 
 
 </body>

@@ -1,6 +1,7 @@
 function showForm(
     event,
     divId,
+    entity,
     type,
     defaultTitle = "Add New",
     defaultButtonText = "Save"
@@ -12,37 +13,40 @@ function showForm(
         return;
     }
 
-    if (type === "store") {
-        const form = div.querySelector("form");
-        if (form) {
-            form.reset(); // Reset form fields
-            form.method = "POST";
-            form.setAttribute("action", "/admin/cars");
+    const form = div.querySelector("form");
+    clearErrors(); // Clear previous errors
+    if (form) {
+        form.reset(); // Reset form fields
+        form.method = type === "store" ? "POST" : "PUT"; // Use PUT for edit
+        form.setAttribute("action", `/admin/${entity}`);
+    }
 
-        }
+    // Set title and button text dynamically
+    const titleElement = div.querySelector(".modal-title, .form-title, #div-title");
+    if (titleElement) {
+        titleElement.textContent = type === "edit" ? "Edit" : defaultTitle;
+    }
 
-        // Reset title dynamically based on modal structure
-        const titleElement = div.querySelector(
-            ".modal-title, .form-title, #car-title"
-        );
-        if (titleElement) {
-            titleElement.textContent = defaultTitle; // Set dynamic default title
-        }
-
-        // Reset button text dynamically
-        const buttonElement = div.querySelector(
-            'button[type="submit"], .modal-btn, #addCarBtn'
-        );
-        if (buttonElement) {
-            buttonElement.textContent = defaultButtonText; // Set dynamic default button text
+    const buttonElement = div.querySelector('button[type="submit"], .modal-btn, #submitBtn');
+    if (buttonElement) {
+        buttonElement.textContent = type === "edit" ? "Update" : defaultButtonText;
+        buttonElement.removeAttribute('onclick');
+        if (type === "store") {
+            buttonElement.setAttribute('onclick', `add${entity}(event);`);
         }
     }
 
-    // Toggle form visibility
-    div.style.display =
-        div.style.display === "none" || div.style.display === ""
-            ? "block"
-            : "none";
+    // Reset Image Previews for "store" mode
+    if (type === "store") {
+        const imageElements = div.querySelectorAll(".img_preview");
+        imageElements.forEach((img) => {
+            img.src = "/adminassets/dist/img/defaultImage.avif"; // Set default image
+            img.style.display = "none"; // Hide the image
+        });
+    }
+
+    // Show the form
+    div.style.display = "block";
 
     // Close form when clicking outside
     window.onclick = function (event) {
@@ -51,6 +55,7 @@ function showForm(
         }
     };
 }
+
 
 function closeDiv(event, divId) {
     const div = document.getElementById(divId);
@@ -70,3 +75,25 @@ function InitializeTable(id, url, columns) {
         });
     });
 }
+
+function showValidationErrors(errors) {
+    errors.forEach(error => {
+        const inputField = document.getElementById(error.field);
+        if (inputField) {
+            let errorSpan = document.createElement("span");
+            errorSpan.className = "error-message";
+            errorSpan.style.color = "red";
+            errorSpan.style.fontSize = "12px";
+            errorSpan.textContent = error.message;
+
+            inputField.classList.add("input-error"); // Highlight the input
+            inputField.parentNode.appendChild(errorSpan); // Append error message
+        }
+    });
+}
+
+function clearErrors() {
+    document.querySelectorAll(".error-message").forEach(error => error.remove());
+    document.querySelectorAll(".input-error").forEach(input => input.classList.remove("input-error"));
+}
+

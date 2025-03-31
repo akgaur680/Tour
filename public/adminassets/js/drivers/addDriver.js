@@ -1,20 +1,20 @@
 // Add Car Function
-function addcars(event) {
+function adddrivers(event) {
     event.preventDefault();
-    const form = document.getElementById("addCarForm");
+    const form = document.getElementById("driversForm");
     const formData = new FormData(form);
 
     // Clear previous errors
     clearErrors();
 
     // Validate Form
-    const validationErrors = validateCarForm(formData);
+    const validationErrors = validateDriverForm(formData);
     if (validationErrors.length > 0) {
         showValidationErrors(validationErrors);
         return;
     }
 
-    fetch("/admin/cars", {
+    fetch("/admin/drivers", {
         method: "POST",
         body: formData,
         headers: {
@@ -35,7 +35,7 @@ function addcars(event) {
             });
             dataTable.ajax.reload(null, false); // Reload DataTable
             form.reset();
-            closeDiv(event, "addCarDiv");
+            closeDiv(event, "driversDiv");
         } else {
             Swal.fire({
                 icon: "error",

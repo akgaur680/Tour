@@ -38,23 +38,22 @@ class CarService extends CoreService
 
     public function update(array $data, int $id){
         $car = Car::findorFail($id);
-        $update = $car->update($data);
-        if ($update) {
-            return response()->json(['status' => true, 'message' => 'Car Updated Successfully']);
-        } else {
-            return response()->json(['status' => false, 'message' => 'Error in Updating Car']);
+        if(!$car){
+            return response()->json(['status' => false, 'message' => 'Car Not Found']);
         }
-    }
+    $carImage = $data['car_image'] ?? null;
+    unset($data['car_image']);
 
-        // if ($carImage) {
-        //     $data['car_image'] = ImageHelper::updateImage($carImage, $car->car_image, 'cars'); // Pass old image path
-        // }
 
-        // $update = $car->update($data);
+        if ($carImage) {
+            $data['car_image'] = ImageHelper::updateImage($carImage, $car->car_image, 'cars'); // Pass old image path
+        }
 
-        // return response()->json([
-        //     'status' => (bool) $update,
-        //     'message' => $update ? 'Car Updated Successfully' : 'Error in Updating Car',
-        // ]);
+        $update = $car->update($data);
+
+        return response()->json([
+            'status' => (bool) $update,
+            'message' => $update ? 'Car Updated Successfully' : 'Error in Updating Car',
+        ]);
     }
 }
