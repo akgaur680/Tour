@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('fixed_tour_prices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('car_id')->constrained('cars')->onDelete('cascade');
-            $table->foreignId('origin_city_id')->constrained('cities')->onDelete('cascade');
-            $table->foreignId('origin_state_id')->constrained('states')->onDelete('cascade');
-            $table->foreignId('destination_city_id')->constrained('cities')->onDelete('cascade');
-            $table->foreignId('destination_state_id')->constrained('states')->onDelete('cascade');
+            $table->foreignId('origin_city_id') ->nullable()->constrained('cities')->onDelete('cascade');
+            $table->foreignId('origin_state_id') ->nullable()->constrained('states')->onDelete('cascade');
+            $table->foreignId('destination_city_id')->nullable()->constrained('cities')->onDelete('cascade');
+            $table->foreignId('destination_state_id')->nullable()->constrained('states')->onDelete('cascade');
             $table->decimal('price', 10, 2);
             $table->timestamps();
         });

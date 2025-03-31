@@ -12,9 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::middleware('auth:api')
-                ->prefix('customer')
-                ->group(base_path('routes/customer.php'));
+            Route::prefix('customer')->group(base_path('routes/customer.php'));
+            Route::prefix('driver')->group(base_path('routes/driver.php'));    
         },
     )
     ->withMiddleware(function (Middleware $middleware) {

@@ -4,8 +4,16 @@ namespace App\Http\Requests\Api\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class CustomerProfileEditRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,9 +23,8 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:2048'],
-            'email' => ['required', 'email', 'max:255' , 'unique:users'],
-            'mobile_no' => ['required', 'integer', 'digits:10'],
-            'role' => ['required', 'in:customer,driver'],
+            'email' => ['required', 'email', 'max:255'],
         ];
     }
+
 }

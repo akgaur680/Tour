@@ -2,9 +2,11 @@
 
 namespace App\Services\Customer;
 
+use App\Models\Airport;
 use App\Models\Car;
 use App\Models\CarTripType;
 use App\Models\City;
+use App\Models\Driver;
 use App\Models\FixedTourPrices;
 use App\Models\State;
 use App\Models\TripType;
@@ -15,14 +17,11 @@ class TripCostEstimatorService
 {
     public function calculateFarePrice($request): JsonResponse
     {
-        $fixedPrice = $this->isFixedPriceAvailable($request);
-        if ($fixedPrice) {
-            return $fixedPrice;
-        }
-
         return match ($request->trip_type) {
+            'one-way' => $this->isFixedPriceAvailable($request),
             'local' => $this->calculatePriceOnHours($request),
-            'airport' => $this->calculatePriceOnAirportDistance($request),
+            // 'airport' => $this->calculatePriceOnAirportDistance($request),
+            'airport' => $this->isFixedPriceAvailable($request),
             default => $this->calculatePriceOnDistance($request),
         };
     }
@@ -80,7 +79,7 @@ class TripCostEstimatorService
         $getTripTypeId = TripType::where('slug', $request->trip_type)->value('id');
 
         if ($request->trip_type == 'airport') {
-            return null;
+            return $this->checkFixedPriceForAirport($request, $getTripTypeId);
         }
 
         if (!$getTripTypeId) {
@@ -100,7 +99,7 @@ class TripCostEstimatorService
             ['trip_type_id', $getTripTypeId],
         ])->with('car')->get();
 
-        return $fixedPrices->isEmpty() ? null :
+        return $fixedPrices->isEmpty() ? $this->jsonResponse(true, 'No Cars - no car available in the given city') :
             $this->jsonResponse(true, 'Fixed price found for this route.', $this->formatCarData($fixedPrices, $request));
     }
 
@@ -193,7 +192,7 @@ class TripCostEstimatorService
 
     private function getCarDetails($car): array
     {
-        return [
+        return array_merge([
             'car_id' => $car->id,
             'car_name' => $car->car_model,
             'car_number' => $car->car_number,
@@ -204,7 +203,31 @@ class TripCostEstimatorService
             'price_per_km' => $car->price_per_km,
             'price_per_hour' => $car->price_per_hour,
             'car_image' => url('public/' . ltrim($car->car_image, '/')),
-        ];
+        ],$this->getDriverDetails($car));
+    }
+
+    private function getDriverDetails($car): array
+    {
+        $checkCarHasDriver = Driver::where('car_id', $car->id)->exists();
+        if (!$checkCarHasDriver) {
+            return [
+                'driver_name' => null,
+                'driver_phone' => null,
+                'driver_email' => null,
+                'is_driver_verified' => false,
+                'is_driver_available' => false
+            ];
+        }
+        else{
+            $driver = Driver::where('car_id', $car->id)->with('user')->first();
+            return [
+                'driver_name' => $driver->user->name,
+                'driver_phone' => $driver->user->mobile_no,
+                'driver_email' => $driver->user->email,
+                'is_driver_verified' => $driver->is_approved,
+                'is_driver_available' => $driver->is_available
+            ];
+        }
     }
 
     private function extractLocationDetails($address): ?array
@@ -271,10 +294,58 @@ class TripCostEstimatorService
         }
 
         $getTripTypeCarsIds = CarTripType::where('trip_type_id', $getTripId)->pluck('car_id');
-
+        
         if ($getTripTypeCarsIds->isEmpty()) {
             return collect();
         }
+       
         return Car::whereIn('id', $getTripTypeCarsIds)->get();
     }
+
+    private function checkFixedPriceForAirport($request, $getTripTypeId)
+    {
+
+        $airportName = strtok($request->airport_location, ',');
+        $getAirpotId = Airport::where('name', $airportName)->value('id');
+        
+        if (!$getAirpotId) {
+            return $this->jsonResponse(false, 'Invalid airport name.');
+        }
+    
+        if ($request->from_airport) {   
+            $to = $this->extractLocationDetails($request->to_address);
+    
+            if (!$to) {
+                return $this->jsonResponse(false, 'Invalid city or state name in the provided addresses.');
+            }
+    
+            $fixedPrices = FixedTourPrices::where([
+                ['destination_city_id', $to['city_id']],
+                ['destination_state_id', $to['state_id']],
+                ['trip_type_id', $getTripTypeId],
+                ['airport_id', $getAirpotId],
+            ])->with('car')->get();
+            
+        } else {
+
+            $from = $this->extractLocationDetails($request->from_address);
+            if (!$from) {
+                return $this->jsonResponse(false, 'Invalid city or state name in the provided addresses.');
+            }
+            $fixedPrices = FixedTourPrices::where([
+                ['airport_id', $getAirpotId],
+                ['destination_city_id', $from['city_id']],
+                ['destination_state_id', $from['state_id']],
+                ['trip_type_id', $getTripTypeId],
+                ['airport_id', $getAirpotId],
+            ])->with('car')->get();
+        }
+
+        if ($fixedPrices->isEmpty()) {
+            return  $this->jsonResponse(true, 'No Cars - no car available in the given city');
+        }
+        
+        return $this->jsonResponse(true, 'Fixed price found for this route.', $this->formatCarData($fixedPrices, $request));
+    }
+    
 }

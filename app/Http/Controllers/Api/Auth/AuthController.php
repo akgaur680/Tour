@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Auth\CustomerProfileEditRequest;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Requests\Api\Auth\RegisterRequest;
 use App\Http\Requests\Api\Auth\VerifyOtpRequest;
 use App\Services\Auth\AuthByMobile;
+use App\Services\Auth\GetProfileDetailsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\Customer\UpdateCustomerProfile;
+
 
 class AuthController extends Controller
 {
@@ -50,5 +54,15 @@ class AuthController extends Controller
         }
 
         return response()->json(['error' => 'User not authenticated'], 401);
+    }
+
+    public function updateProfile(CustomerProfileEditRequest $request)
+    {
+        return (new UpdateCustomerProfile())->updateProfile($request);
+    }
+
+    public function getProfileDetails(Request $request)
+    {
+        return (new GetProfileDetailsService())->getProfileDetails($request);
     }
 }

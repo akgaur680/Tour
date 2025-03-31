@@ -7,9 +7,10 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\AdminSeeder;
 use Database\Seeders\RolePermissionSeeder;
-use Database\Seeders\CitySeeder;
+use Database\Seeders\CarSeeder;
 use Database\Seeders\StatesTableSeeder;
 use Database\Seeders\FixedTourPriceSeeder;
+use Database\Seeders\TripTypeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,9 +24,12 @@ class DatabaseSeeder extends Seeder
         // $this->call(AdminSeeder::class);
         // $this->call(StatesTableSeeder::class);
         // $this->call(CarSeeder::class);
-        $this->call(FixedTourPriceSeeder::class);
-        // $this->call(CitySeeder::class);
+        // $this->call(FixedTourPriceSeeder::class);
         // $this->call(CarTripTypeSeeder::class);
+        // $this->call(TripTypeSeeder::class);
+        // $this->call(CarTripTypeSeeder::class);
+        // $this->call(UserSeeder::class);
+        $this->call(DriverSeeder::class);
 
         // User::factory()->create([
         //     'name' => 'Test User',
