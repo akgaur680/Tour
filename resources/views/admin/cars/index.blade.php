@@ -31,21 +31,21 @@
 
 
                 <!-- <button class="btn btn-outline-success" onclick="showForm(event, 'addCarDiv', 'store')">Add New Car</button> -->
-                <button class="btn btn-outline-success"  onclick="showForm(event, 'addCarDiv', 'cars', 'store' )">Add Car</button>
+                <button class="btn btn-outline-success" onclick="showForm(event, 'addCarDiv', 'cars', 'store', 'Add New Car', 'Save Car')">Add Car</button>
 
             </div>
             <!-- Add / Update Car -->
             <div class="modal" id="addCarDiv" style="display: none;">
                 <div class="card modal-content">
                     <h2 class="card-title mt-2" id="card-title">
-                        <span id="div-title"></span><span>&nbsp;Car</span>
+                        <span id="car-title"></span>
                         <button type="button" class="close m-3" aria-label="Close" onclick="closeDiv(event, 'addCarDiv')">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </h2>
 
                     <div class="card-body">
-                        <form class="form" action="" method="post" id="addCarForm" enctype="multipart/form-data">
+                        <form class="form" action="" method="post" id="addCarForm">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -82,15 +82,15 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-6">
-                                <input type="file" accept="image/*" class="form-control mb-2" id="car_image" name="car_image" placeholder="Car Image">
-                                <img id="carimage" src="" alt="Car Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+                                    <input type="file" accept="image/*" class="form-control mb-2" id="car_image" name="car_image" placeholder="Car Image">
+                                    <img id="carimage" src="" alt="Car1 Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
 
                                 </div>
                             </div>
 
                             <br>
                             <br>
-                            <button type="button" name="submit" class="btn btn-outline-success" id="submitBtn" onclick="addCar(event)" name="addCarBtn">Save</button>
+                            <button type="button" name="submit" class="btn btn-outline-success" id="addCarBtn" onclick="addCar(event)" name="addCarBtn">Save</button>
                         </form>
 
 
@@ -99,57 +99,57 @@
             </div>
 
 
-<!-- View Car Modal -->
-<div class="modal" id="viewCarDiv" style="display: none;">
-    <div class="card modal-content">
-        <h2 class="card-title mt-2" id="card-title">
-            View Car Details
-            <button type="button" class="close m-3" aria-label="Close" onclick="closeDiv(event, 'viewCarDiv')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </h2>
+            <!-- View Car Modal -->
+            <div class="modal" id="viewCarDiv" style="display: none;">
+                <div class="card modal-content">
+                    <h2 class="card-title mt-2" id="card-title">
+                        View Car Details
+                        <button type="button" class="close m-3" aria-label="Close" onclick="closeDiv(event, 'viewCarDiv')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h2>
 
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-6">
-                    <label class="fw-bold">Car Number:</label>
-                    <p id="view_car_number"></p>
-                </div>
-                <div class="col-sm-6">
-                    <label class="fw-bold">Car Model:</label>
-                    <p id="view_car_model"></p>
-                </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="fw-bold">Car Number:</label>
+                                <p id="view_car_number"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="fw-bold">Car Model:</label>
+                                <p id="view_car_model"></p>
+                            </div>
 
-                <div class="col-sm-6">
-                    <label class="fw-bold">Car Type:</label>
-                    <p id="view_car_type"></p>
-                </div>
-                <div class="col-sm-6">
-                    <label class="fw-bold">No. of Seats:</label>
-                    <p id="view_seats"></p>
-                </div>
-                <div class="col-sm-6">
-                    <label class="fw-bold">Luggage Limit:</label>
-                    <p id="view_luggage_limit"></p>
-                </div>
-                <div class="col-sm-6">
-                    <label class="fw-bold">Price Per KM:</label>
-                    <p id="view_price_per_km"></p>
-                </div>
-                <div class="col-sm-6">
-                    <label class="fw-bold">AC Availability:</label>
-                    <p id="view_ac"></p>
-                </div>
-                <div class="col-sm-6">
-                    <label class="fw-bold">Car Image:</label>
-                    <div>
-                        <img id="view_car_image" src="" alt="Car Image" class="img-fluid rounded" style="max-height: 150px;">
+                            <div class="col-sm-6">
+                                <label class="fw-bold">Car Type:</label>
+                                <p id="view_car_type"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="fw-bold">No. of Seats:</label>
+                                <p id="view_seats"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="fw-bold">Luggage Limit:</label>
+                                <p id="view_luggage_limit"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="fw-bold">Price Per KM:</label>
+                                <p id="view_price_per_km"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="fw-bold">AC Availability:</label>
+                                <p id="view_ac"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="fw-bold">Car Image:</label>
+                                <div>
+                                    <img id="view_car_image" src="" alt="Car Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
 
             <table class="table carTable text-center table-hover  table-bordered" id="carTable">

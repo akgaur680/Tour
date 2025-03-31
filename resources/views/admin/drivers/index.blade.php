@@ -152,11 +152,11 @@
             </div>
 
 
-            <!-- View Car Modal -->
+            <!-- View Driver Modal -->
             <div class="modal" id="viewDriverDiv" style="display: none;">
                 <div class="card modal-content">
                     <h2 class="card-title mt-2" id="card-title">
-                        View Car Details
+                        View Driver Details
                         <button type="button" class="close m-3" aria-label="Close" onclick="closeDiv(event, 'viewDriverDiv')">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -166,39 +166,66 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label class="fw-bold">Name:</label>
-                                <p id="view_car_number"></p>
+                                <p id="view_name"></p>
                             </div>
                             <div class="col-sm-6">
-                                <label class="fw-bold">Car Model:</label>
-                                <p id="view_car_model"></p>
+                                <label class="fw-bold">Email ID:</label>
+                                <p id="view_email"></p>
                             </div>
 
                             <div class="col-sm-6">
-                                <label class="fw-bold">Car Type:</label>
-                                <p id="view_car_type"></p>
+                                <label class="fw-bold">Contact Number:</label>
+                                <p id="view_mobile_no"></p>
                             </div>
                             <div class="col-sm-6">
-                                <label class="fw-bold">No. of Seats:</label>
-                                <p id="view_seats"></p>
+                                <label class="fw-bold">View Car Details:</label>
+                                <p id="view_car"></p>
                             </div>
                             <div class="col-sm-6">
-                                <label class="fw-bold">Luggage Limit:</label>
-                                <p id="view_luggage_limit"></p>
+                                <label class="fw-bold">Driving License:</label>
+                                <p id="view_driving_license"></p>
                             </div>
                             <div class="col-sm-6">
-                                <label class="fw-bold">Price Per KM:</label>
-                                <p id="view_price_per_km"></p>
+                                <label class="fw-bold">Adhaar Number:</label>
+                                <p id="view_adhaar_number"></p>
                             </div>
                             <div class="col-sm-6">
-                                <label class="fw-bold">AC Availability:</label>
-                                <p id="view_ac"></p>
+                                <label class="fw-bold">Date Of Birth:</label>
+                                <p id="view_dob"></p>
                             </div>
                             <div class="col-sm-6">
-                                <label class="fw-bold">Car Image:</label>
-                                <div>
-                                    <img id="view_car_image" src="" alt="Car Image" class="img-fluid rounded" style="max-height: 150px;">
+                                <label class="fw-bold">Driving License Expiry:</label>
+                                <p id="view_license_expiry"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="fw-bold">Address:</label>
+                                <p id="view_address"></p>
+                            </div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6 d-flex flex-column align-items-center text-center mb-3">
+                                        <label class="fw-bold">Profile Image:</label>
+                                        <img id="view_profile_image" src="" alt="Profile Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+                                    </div>
+
+                                    <div class="col-md-6 d-flex flex-column align-items-center text-center mb-3">
+                                        <label class="fw-bold">Driving License Image:</label>
+                                        <img id="view_driving_license_image" src="" alt="Driving License Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+                                    </div>
+
+                                    <div class="col-md-6 d-flex flex-column align-items-center text-center mb-3">
+                                        <label class="fw-bold">Aadhaar Card Front Image:</label>
+                                        <img id="view_adhaar_front_image" src="" alt="Aadhaar Card Front Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+                                    </div>
+
+                                    <div class="col-md-6 d-flex flex-column align-items-center text-center mb-3">
+                                        <label class="fw-bold">Aadhaar Card Back Image:</label>
+                                        <img id="view_adhaar_back_image" src="" alt="Aadhaar Card Back Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+                                    </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>

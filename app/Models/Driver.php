@@ -44,7 +44,7 @@ class Driver extends Model
     }
     public function getProfilePicUrlAttribute()
     {
-        return $this->user->profile_pic ? asset('storage/' . $this->user->profile_pic) : null;
+        return $this->user->profile_image ? asset('storage/' . $this->user->profile_image) : null;
     }
     public function getCarImageUrlAttribute()
     {
