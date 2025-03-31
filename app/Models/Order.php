@@ -15,6 +15,7 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
+        'booking_token',
         'from_address_city_id',
         'from_address_state_id',
         'to_address_city_id',

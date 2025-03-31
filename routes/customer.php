@@ -34,5 +34,21 @@ Route::middleware(['auth:api'])->group(function () {
 
     // Get Profile Details
     Route::get('get-profile-details',[AuthController::class,'getProfileDetails'] );
-
+    
 });
+
+    Route::get('test',function(){
+        dd(
+            App\Models\Order::with([
+                'tripType',
+                'car',
+                'user',
+                'fromAddressCity',
+                'fromAddressState',
+                'toAddressCity',
+                'toAddressState',
+                'airport'
+            ])->find(1)->toArray()
+        );
+        
+    });

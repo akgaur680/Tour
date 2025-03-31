@@ -2,6 +2,8 @@
 
 namespace App\Services\Customer;
 
+use App\Jobs\sendBookingNotificationsViaEmail;
+use App\Jobs\sendBookingNotificationsViaWhatsapp;
 use App\Models\Airport;
 use App\Models\Order;
 use App\Models\TripType;
@@ -61,6 +63,7 @@ class BookATripService extends CoreService
             DB::beginTransaction();
 
             $orderData = array_merge([
+                'booking_token' => 'S' . date('md') . '-' . rand(1000000, 9999999),
                 'from_address_city_id' => $from['city_id'],
                 'from_address_state_id' => $from['state_id'],
                 'trip_type_id' => $tripTypeId,
@@ -91,7 +94,9 @@ class BookATripService extends CoreService
 
             DB::commit();
 
-            // (new SendBookingEmail())->sendEmail($bookOrder);
+            sendBookingNotificationsViaEmail::dispatch($bookOrder);
+            // sendBookingNotificationsViaWhatsapp::dispatch($bookOrder);
+
             return $this->jsonResponse(true, ucfirst(str_replace('-', ' ', $request->trip_type)) . ' Trip booked successfully.', $bookOrder);
         } catch (\Exception $e) {
             DB::rollBack();
