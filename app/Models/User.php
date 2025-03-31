@@ -28,6 +28,9 @@ class User extends Authenticatable
         'otp_expiry',
         'role',
         'mobile_verified',
+        'dob',
+        'address',
+        'profile_image'
     ];
 
     /**
@@ -52,9 +55,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    // public function getGuardNameAttribute()
-    // {
-    //     return $this->role === 'Admin' || $this->role === 'Super Admin' ? 'web' : 'api';
-    // }
 }

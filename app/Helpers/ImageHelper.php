@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class ImageHelper
 {
@@ -11,14 +12,18 @@ class ImageHelper
      */
     public static function storeImage($file, $folder)
     {
-        $path = "public/{$folder}";
 
-        // Ensure directory exists before storing image
-        if (!Storage::exists($path)) {
-            Storage::makeDirectory($path, 0775, true); // Create directory with permissions
+        if (!$file instanceof UploadedFile) {
+            throw new \Exception("Invalid file instance"); // Debugging
         }
 
-        return $file ? $file->store($folder, 'public') : null;
+        $path = "public/{$folder}";
+
+        if (!Storage::exists($path)) {
+            Storage::makeDirectory($path, 0775, true);
+        }
+
+        return $file->store($folder, 'public'); // ✅ Store the file correctly
     }
 
     /**
@@ -44,10 +49,12 @@ class ImageHelper
      */
     public static function updateImage($file, $oldFilePath, $folder)
     {
+
         if ($file) {
-            self::deleteImage($oldFilePath); // Delete old image
+            self::deleteImage($oldFilePath); // Delete the old image
             return self::storeImage($file, $folder); // Store new image
         }
-        return $oldFilePath; // If no new file, keep the old one
+
+        return $oldFilePath; // Return the old file path if no new file is provided
     }
 }
