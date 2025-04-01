@@ -4,6 +4,7 @@ use App\Http\Controllers\Web\Auth\AuthController;
 use App\Http\Controllers\Web\Cars\CarController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\Drivers\DriverController;
+use App\Http\Controllers\Web\FixedPricing\FixedPricingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,4 +35,5 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/admin/cars', CarController::class);
     Route::resource('admin/drivers', DriverController::class);
+    Route::resource('admin/fixed-pricing', FixedPricingController::class);
 });

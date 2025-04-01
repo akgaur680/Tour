@@ -1,5 +1,6 @@
 function viewCar(event, id) {
     event.preventDefault();
+    showForm(event, 'viewCarDiv', 'cars', 'view');
 
     fetch(`/admin/cars/${id}`, {
         method: "GET",

@@ -29,8 +29,15 @@ class GetAirportService  extends CoreService
             }
     
             $locations = $airports->map(fn($airport) => $airport->name . ', ' . $airport->state)->toArray();
-
-            return $this->jsonResponse(true, 'Airports found', $locations);
+            $airportIds = $airports->pluck('id')->toArray();
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Airports found',
+                'data' => $locations,
+                'airport_ids' => $airportIds
+            ]);
+    
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
