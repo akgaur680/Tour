@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1094688477504",
+    "project_id": "sardarji-cabs",
+    "storage_bucket": "sardarji-cabs.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094688477504:android:3ee29e7b204333cbdf6aa5",
+        "android_client_info": {
+          "package_name": "sardarji.cabs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0do558xooInM6PpWJYXA-CGwrnBaXdKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

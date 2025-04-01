@@ -15,9 +15,9 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:2048'],
-            'email' => ['required', 'email', 'max:255'],
-            'mobile_no' => ['required', 'integer', 'min:0'],
-            'role' => ['required', 'in:driver,customer']
+            'email' => ['required', 'email', 'max:255' , 'unique:users'],
+            'mobile_no' => ['required', 'integer', 'digits:10'],
+            'role' => ['required', 'in:customer,driver'],
         ];
     }
 }

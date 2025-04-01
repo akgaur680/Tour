@@ -16,6 +16,7 @@ class FixedTourPrices extends Model
         'car_id',
         'price',
         'trip_type_id',
+        'airport_id'
     ];
 
     public function originCity()

@@ -36,7 +36,8 @@ class CarService extends CoreService
         }
     }
 
-    public function update(array $data, int $id){
+    public function update(array $data, int $id)
+    {
         $car = Car::findorFail($id);
         $update = $car->update($data);
         if ($update) {

@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cities', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->foreignId('state_id')->constrained('states')->onDelete('cascade');
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('booking_token')->unique();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cities');
+        Schema::table('orders', function (Blueprint $table) {
+            //
+        });
     }
 };

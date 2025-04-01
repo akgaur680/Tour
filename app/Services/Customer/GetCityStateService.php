@@ -4,10 +4,11 @@ namespace App\Services\Customer;
 
 use App\Models\City;
 use App\Models\State;
+use App\Services\CoreService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-class GetCityStateService
+class GetCityStateService extends CoreService
 {
     public function getPlaces($request): JsonResponse
     {
@@ -29,12 +30,7 @@ class GetCityStateService
     
             $locations = $cities->map(fn($city) => $city->name . ', ' . optional($city->state)->name)->toArray();
 
-    
-            return response()->json([
-                'status' => true,
-                'message' => 'Cities found',
-                'data' => $locations
-            ]);
+            return $this->jsonResponse(true, 'Cities found', $locations);
     
         } catch (Exception $e) {
             return response()->json([
