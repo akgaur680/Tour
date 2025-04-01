@@ -39,4 +39,7 @@ class FixedTourPrices extends Model
     {
         return $this->belongsTo(Car::class);
     }
+    public function airport(){
+        return $this->belongsTo(Airport::class);    
+    }
 }

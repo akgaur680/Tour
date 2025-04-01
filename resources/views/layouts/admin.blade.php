@@ -1043,6 +1043,13 @@
 <script src="{{ asset('adminassets/js/drivers/' . basename($script)) }}"></script>
 @endforeach
 
+@php
+  $scripts = glob(public_path('adminassets/js/pricing/*.js'));
+  @endphp
+
+@foreach ($scripts as $script)
+<script src="{{ asset('adminassets/js/pricing/' . basename($script)) }}"></script>
+@endforeach
 
 </body>
 

@@ -27,12 +27,13 @@ class GetAirportService {
             }
     
             $locations = $airports->map(fn($airport) => $airport->name . ', ' . $airport->state)->toArray();
-
+            $airportIds = $airports->pluck('id')->toArray();
     
             return response()->json([
                 'status' => true,
                 'message' => 'Airports found',
-                'data' => $locations
+                'data' => $locations,
+                'airport_ids' => $airportIds
             ]);
     
         } catch (Exception $e) {

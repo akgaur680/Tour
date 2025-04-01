@@ -49,30 +49,36 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="row">
                                 <div class="col-sm-6">
+                                    <label for="car_number">Car Number:</label>
                                     <input type="text" class="form-control mb-2" id="car_number" name="car_number" value="{{old('car_number')}}" placeholder="Car Number">
                                 </div>
                                 <div class="col-sm-6">
-
+                                    <label for="car_model">Car Model:</label>
                                     <input type="text" class="form-control mb-2" id="car_model" name="car_model" value="{{old('car_model')}}" placeholder="Car Model">
                                 </div>
 
                                 <div class="col-sm-6">
+                                    <label for="car_type">Car Type:</label>
                                     <input type="text" class="form-control mb-2" id="car_type" name="car_type" value="{{old('car_type')}}" placeholder="Car Type">
 
                                 </div>
                                 <div class="col-sm-6">
+                                    <label for="seats">No. of Seats:</label>
                                     <input type="number" class="form-control mb-2" id="seats" name="seats" value="{{old('seats')}}" placeholder="No. of Seats">
 
                                 </div>
                                 <div class="col-sm-6">
+                                    <label for="luggage_limit">Luggage Limit:</label>
                                     <input type="number" class="form-control mb-2" id="luggage_limit" name="luggage_limit" value="{{old('luggage_limit')}}" placeholder="Luggage Limit">
 
                                 </div>
                                 <div class="col-sm-6">
+                                    <label for="price_per_km">Price Per KM:</label>
                                     <input type="number" class="form-control mb-2" id="price_per_km" name="price_per_km" value="{{old('price_per_km')}}" placeholder="Price Per KM">
 
                                 </div>
                                 <div class="col-sm-6">
+                                    <label for="ac">AC Availability:</label>
                                     <select id="ac" name="ac" class="form-control">
                                         <option value="" selected>Select AC Availability ...</option>
 
@@ -82,6 +88,7 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-6">
+                                    <label for="car_image">Car Image:</label>
                                     <input type="file" accept="image/*" class="form-control mb-2" id="car_image" name="car_image" placeholder="Car Image">
                                     <img id="carimage" src="" alt="Car1 Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
 
