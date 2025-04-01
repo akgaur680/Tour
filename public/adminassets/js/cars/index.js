@@ -1,4 +1,4 @@
-const columns = [
+const carColumns = [
     { data: "id" },
     { data: "car_image" },
     { data: "car_number" },
@@ -16,7 +16,7 @@ const columns = [
         },
     },
 ];
-InitializeTable("carTable", "/admin/cars", columns);
+InitializeTable("carTable", "/admin/cars", carColumns);
 
 // Delete Car Function
 function deleteCar(id) {
@@ -51,8 +51,8 @@ function deleteCar(id) {
                         timer: 3000
                     });
 
-                    console.log(data);
                     dataTable.ajax.reload(null, false); // Reload DataTable without resetting pagination
+                    console.log(data);
                 })
                 .catch((error) => {
                     console.error("Error:", error);
@@ -121,25 +121,7 @@ function validateCarForm(formData) {
     return errors;
 }
 
-function showValidationErrors(errors) {
-    errors.forEach(error => {
-        const inputField = document.getElementById(error.field);
-        if (inputField) {
-            let errorSpan = document.createElement("span");
-            errorSpan.className = "error-message";
-            errorSpan.style.color = "red";
-            errorSpan.style.fontSize = "12px";
-            errorSpan.textContent = error.message;
 
-            inputField.classList.add("input-error"); // Highlight the input
-            inputField.parentNode.appendChild(errorSpan); // Append error message
-        }
-    });
-}
 
-function clearErrors() {
-    document.querySelectorAll(".error-message").forEach(error => error.remove());
-    document.querySelectorAll(".input-error").forEach(input => input.classList.remove("input-error"));
-}
 
 

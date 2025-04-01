@@ -31,21 +31,21 @@
 
 
                 <!-- <button class="btn btn-outline-success" onclick="showForm(event, 'addCarDiv', 'store')">Add New Car</button> -->
-                <button class="btn btn-outline-success"  onclick="showForm(event, 'addCarDiv', 'store', 'Add New Car', 'Save Car')">Add Car</button>
+                <button class="btn btn-outline-success"  onclick="showForm(event, 'addCarDiv', 'cars', 'store' )">Add Car</button>
 
             </div>
             <!-- Add / Update Car -->
             <div class="modal" id="addCarDiv" style="display: none;">
                 <div class="card modal-content">
                     <h2 class="card-title mt-2" id="card-title">
-                        <span id="car-title"></span>
+                        <span id="div-title"></span><span>&nbsp;Car</span>
                         <button type="button" class="close m-3" aria-label="Close" onclick="closeDiv(event, 'addCarDiv')">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </h2>
 
                     <div class="card-body">
-                        <form class="form" action="" method="post" id="addCarForm">
+                        <form class="form" action="" method="post" id="addCarForm" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -83,14 +83,14 @@
                                 </div>
                                 <div class="col-sm-6">
                                 <input type="file" accept="image/*" class="form-control mb-2" id="car_image" name="car_image" placeholder="Car Image">
-                                <img id="carimage" src="" alt="Car Image" class="img-fluid rounded" style="max-height: 150px;">
+                                <img id="carimage" src="" alt="Car Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
 
                                 </div>
                             </div>
 
                             <br>
                             <br>
-                            <button type="button" name="submit" class="btn btn-outline-success" id="addCarBtn" onclick="addCar(event)" name="addCarBtn">Save</button>
+                            <button type="button" name="submit" class="btn btn-outline-success" id="submitBtn" onclick="addCar(event)" name="addCarBtn">Save</button>
                         </form>
 
 
