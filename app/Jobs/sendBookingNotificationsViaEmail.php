@@ -2,9 +2,11 @@
 
 namespace App\Jobs;
 
+use App\Mail\SendMailToAdmin;
 use App\Mail\SendMailToCustomer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class sendBookingNotificationsViaEmail implements ShouldQueue
@@ -25,6 +27,7 @@ class sendBookingNotificationsViaEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::from('bhattprince306@gmail.com')->to($this->order->user->email)->send(new SendMailToCustomer($this->order));
+        Mail::to($this->order['user']['email'])->send(new SendMailToCustomer((object) $this->order));
+        // Mail::to(config('app.admin_email'))->send(new SendMailToAdmin((object) $this->order));
     }
 }

@@ -195,9 +195,9 @@ class TripCostEstimatorService extends CoreService
     {
         return array_merge([
             'car_id' => $car->id,
-            'car_name' => $car->car_model,
+            'car_name' => $car->car_type,
             'car_number' => $car->car_number,
-            'car_type' => $car->car_type,
+            'car_model' => $car->car_model,
             'seats' => $car->seats,
             'is_ac' => $car->ac ? 'Yes' : 'No',
             'luggage_limit' => $car->luggage_limit,

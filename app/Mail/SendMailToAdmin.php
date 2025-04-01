@@ -13,12 +13,17 @@ class SendMailToAdmin extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $orderDetails;
+    public $emailTitle;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($orderDetails)
     {
-        //
+
+        $this->orderDetails = $orderDetails;
+        $this->emailTitle = $this->generateTripTitle($this->orderDetails);
     }
 
     /**
@@ -27,7 +32,7 @@ class SendMailToAdmin extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Send Mail To Admin',
+            subject: '🚨 🚖 New Booking Alert 🚖 🚨',
         );
     }
 
@@ -37,17 +42,28 @@ class SendMailToAdmin extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.admin_booking_confirmation',
+            with: [
+                'orderDetails' => $this->orderDetails,
+                'emailTitle' => $this->emailTitle,
+            ]
         );
     }
 
     /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * Generate Trip Title and Subject for the Email.
      */
-    public function attachments(): array
+    private function generateTripTitle($orderDetails)
     {
-        return [];
+        return match ($orderDetails->trip_type['slug']) {
+            'one-way' => "Your confirmed One Way booking from {$orderDetails->pickup_location} to {$orderDetails->drop_location} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+            'local' => "Your confirmed Local ({$orderDetails->total_hours} hrs/" . ($orderDetails->total_hours * 10) . " km) booking in {$orderDetails->pickup_location} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+            'round-trip' => "Your confirmed Round booking from {$orderDetails->pickup_location} - {$orderDetails->drop_location} - {$orderDetails->pickup_location} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+            'airport' => $orderDetails->to_airport
+                ? "Your confirmed Airport booking from {$orderDetails->pickup_location} - {$orderDetails->airport['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})"
+                : "Your confirmed Airport booking from {$orderDetails->airport['name']} - {$orderDetails->drop_location} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+            default => "Your confirmed booking (ID: {$orderDetails->booking_token})"
+        };
     }
+
 }

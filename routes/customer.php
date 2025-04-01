@@ -35,20 +35,7 @@ Route::middleware(['auth:api'])->group(function () {
     // Get Profile Details
     Route::get('get-profile-details',[AuthController::class,'getProfileDetails'] );
     
+    // Upload Payment Proof
+    Route::post('/upload-payment-proof',[TripBookingController::class,'uploadPaymentProof'] );
 });
 
-    Route::get('test',function(){
-        dd(
-            App\Models\Order::with([
-                'tripType',
-                'car',
-                'user',
-                'fromAddressCity',
-                'fromAddressState',
-                'toAddressCity',
-                'toAddressState',
-                'airport'
-            ])->find(1)->toArray()
-        );
-        
-    });

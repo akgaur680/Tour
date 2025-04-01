@@ -35,10 +35,6 @@ class AuthByMobile extends CoreService
                 'mobile_verified' => false
             ]);
 
-            if($data['role'] == 'driver'){
-                $this->registerDriver($data, $user);
-            }
-
             $message = "Here is the OTP for Registration. Your OTP code is : $otp";
             $smsResponse = $this->sendSMS($user->mobile_no, $message, 'Registration');
           
@@ -97,4 +93,5 @@ class AuthByMobile extends CoreService
             'user' => $user,
         ]);
     }
+
 }

@@ -5,6 +5,7 @@ namespace App\Services\Customer;
 use App\Jobs\sendBookingNotificationsViaEmail;
 use App\Jobs\sendBookingNotificationsViaWhatsapp;
 use App\Models\Airport;
+use App\Models\FixedTourPrices;
 use App\Models\Order;
 use App\Models\TripType;
 use App\Services\CoreService;
@@ -25,7 +26,10 @@ class BookATripService extends CoreService
 
     private function bookOneWayTrip($request)
     {
-        return $this->createOrder($request);
+        return $this->createOrder($request , [
+            'to_address_city_id' => $this->extractLocationDetails($request->to_address)['city_id'],
+            'to_address_state_id' => $this->extractLocationDetails($request->to_address)['state_id'],
+        ]);
     }
 
     private function bookLocalTrip($request)
@@ -41,13 +45,24 @@ class BookATripService extends CoreService
     private function bookAirportTrip($request)
     {
         $airportName = strtok($request->airport_location, ',');
+
+        $checkFixedPrice = FixedTourPrices::where([
+            ['trip_type_id', TripType::where('slug', $request->trip_type)->value('id')],
+            ['airport_id', Airport::where('name', $airportName)->value('id')],
+            ['car_id', $request->car_id]
+        ])->exists();
+
+        if (!$checkFixedPrice) {
+            return $this->jsonResponse(false, 'No Booking Available for this route.');
+        }
+
         $airportId = Airport::where('name', $airportName)->value('id');
-        
+
         $additionalData = ['airport_id' => $airportId];
         if ($request->to_airport) {
             return $this->createOrder($request, $additionalData);
         }
-        
+
         return $this->createOrder($request, array_merge($additionalData, [
             'to_address_city_id' => $this->extractLocationDetails($request->to_address)['city_id'],
             'to_address_state_id' => $this->extractLocationDetails($request->to_address)['state_id'],
@@ -58,6 +73,7 @@ class BookATripService extends CoreService
     {
         try {
             $from = $this->extractLocationDetails($request->from_address);
+            $to = $this->extractLocationDetails($request->to_address);
             $tripTypeId = TripType::where('slug', $request->trip_type)->value('id');
 
             DB::beginTransaction();
@@ -94,8 +110,23 @@ class BookATripService extends CoreService
 
             DB::commit();
 
-            sendBookingNotificationsViaEmail::dispatch($bookOrder);
-            // sendBookingNotificationsViaWhatsapp::dispatch($bookOrder);
+            if ($bookOrder) {
+                $orderDetails =  Order::with([
+                    'tripType',
+                    'car',
+                    'user',
+                    'fromAddressCity',
+                    'fromAddressState',
+                    'toAddressCity',
+                    'toAddressState',
+                    'airport'
+                ])->find($bookOrder->id)->toArray();
+
+                sendBookingNotificationsViaEmail::dispatch($orderDetails);
+                // sendBookingNotificationsViaWhatsapp::dispatch($bookOrder);
+
+                $bookOrder['qrCode'] = url('storage/qrCode/' . 'UpiQrCode.png');
+            }
 
             return $this->jsonResponse(true, ucfirst(str_replace('-', ' ', $request->trip_type)) . ' Trip booked successfully.', $bookOrder);
         } catch (\Exception $e) {

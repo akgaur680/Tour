@@ -4,10 +4,13 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+
 
 class SendMailToCustomer extends Mailable
 {
@@ -15,14 +18,18 @@ class SendMailToCustomer extends Mailable
 
     public $orderDetails;
     public $emailTitle;
+    public $emailSubject;
 
     /**
      * Create a new message instance.
      */
     public function __construct($orderDetails)
     {
+
         $this->orderDetails = $orderDetails;
-        $this->emailTitle = $this->generateTripTitle($orderDetails);
+        $this->emailSubject = $this->generateTripSubject($this->orderDetails);
+        $this->emailTitle = $this->generateTripTitle($this->orderDetails);
+
     }
 
     /**
@@ -31,7 +38,7 @@ class SendMailToCustomer extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->emailTitle, 
+            subject: '🚖' .$this->emailSubject .'🚖', 
         );
     }
 
@@ -52,30 +59,30 @@ class SendMailToCustomer extends Mailable
     /**
      * Generate Trip Title and Subject for the Email.
      */
-    private function generateTripSubject($orderDetails)
+    private function generateTripTitle($orderDetails)
     {
-        return match ($orderDetails->trip_type->slug) {
-            'one-way' => "Your confirmed One Way booking from {$orderDetails->from_address_city->name} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
-            'local' => "Your confirmed Local ({$orderDetails->total_hours} hrs/" . ($orderDetails->total_hours * 10) . " km) booking in {$orderDetails->from_address_city->name} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
-            'round-trip' => "Your confirmed Round booking from {$orderDetails->from_address_city->name} - {$orderDetails->to_address_city->name} - {$orderDetails->from_address_city->name} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+        return match ($orderDetails->trip_type['slug']) {
+            'one-way' => "Your confirmed One Way booking from {$orderDetails->pickup_location} to {$orderDetails->drop_location} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+            'local' => "Your confirmed Local ({$orderDetails->total_hours} hrs/" . ($orderDetails->total_hours * 10) . " km) booking in {$orderDetails->pickup_location} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+            'round-trip' => "Your confirmed Round booking from {$orderDetails->pickup_location} - {$orderDetails->drop_location} - {$orderDetails->pickup_location} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
             'airport' => $orderDetails->to_airport 
-                ? "Your confirmed Airport booking from {$orderDetails->from_address_city->name} - {$orderDetails->airport->name} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})"
-                : "Your confirmed Airport booking from {$orderDetails->airport->name} - {$orderDetails->from_address_city->name} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+                ? "Your confirmed Airport booking from {$orderDetails->pickup_location} - {$orderDetails->airport['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})"
+                : "Your confirmed Airport booking from {$orderDetails->airport['name']} - {$orderDetails->drop_location} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
             default => "Your confirmed booking (ID: {$orderDetails->booking_token})"
         };
     }
 
 
 
-    private function generateTripTitle($orderDetails)
+    private function generateTripSubject($orderDetails)
     {
-        return match ($orderDetails->trip_type->slug) {
-            'one-way' => "Your confirmed One Way booking from {$orderDetails->from_address_city->name} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
-            'local' => "Your confirmed Local ({$orderDetails->total_hours} hrs/" . ($orderDetails->total_hours * 10) . " km) booking in {$orderDetails->from_address_city->name} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
-            'round-trip' => "Your confirmed Round booking from {$orderDetails->from_address_city->name} - {$orderDetails->to_address_city->name} - {$orderDetails->from_address_city->name} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+        return match ($orderDetails->trip_type['slug']) {
+            'one-way' => "Your confirmed One Way booking from {$orderDetails->from_address_city['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+            'local' => "Your confirmed Local ({$orderDetails->total_hours} hrs/" . ($orderDetails->total_hours * 10) . " km) booking in {$orderDetails->from_address_city['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+            'round-trip' => "Your confirmed Round booking from {$orderDetails->from_address_city['name']} - {$orderDetails->to_address_city['name']} - {$orderDetails->from_address_city['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
             'airport' => $orderDetails->to_airport 
-                ? "Your confirmed Airport booking from {$orderDetails->from_address_city->name} - {$orderDetails->airport->name} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})"
-                : "Your confirmed Airport booking from {$orderDetails->airport->name} - {$orderDetails->from_address_city->name} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+                ? "Your confirmed Airport booking from {$orderDetails->from_address_city['name']} - {$orderDetails->airport['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})"
+                : "Your confirmed Airport booking from {$orderDetails->airport['name']} - {$orderDetails->from_address_city['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
             default => "Your confirmed booking (ID: {$orderDetails->booking_token})"
         };
     }

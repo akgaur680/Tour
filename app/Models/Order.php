@@ -47,6 +47,7 @@ class Order extends Model
         'total_hours',
         'payment_status',
         'booking_status',
+        'payment_proof',
     ];
 
     protected $casts = [

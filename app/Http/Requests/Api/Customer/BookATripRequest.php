@@ -70,6 +70,7 @@ class BookATripRequest extends FormRequest
             'car_id.exists' => 'The selected car is invalid. Please select a valid car.',
             'payment_type.in' => 'The selected payment type is invalid. Please select a valid payment type.',
             'is_diesel_car_needed.prohibited_if' => 'Due to the new government policy, a new car cannot be a diesel car. Please select either a new car or a diesel car, but not both.',
+            'payment_type.in' => 'The selected payment type is invalid. Please select a valid payment type including Half Payment, Partial Payment, Full Payment, Pay on Delivery.',
         ];
     }
 
