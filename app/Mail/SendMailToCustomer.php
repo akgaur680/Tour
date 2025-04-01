@@ -77,7 +77,7 @@ class SendMailToCustomer extends Mailable
     private function generateTripSubject($orderDetails)
     {
         return match ($orderDetails->trip_type['slug']) {
-            'one-way' => "Your confirmed One Way booking from {$orderDetails->from_address_city['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
+            'one-way' => "Your confirmed One Way booking from {$orderDetails->from_address_city['name']} to {$orderDetails->to_address_city['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
             'local' => "Your confirmed Local ({$orderDetails->total_hours} hrs/" . ($orderDetails->total_hours * 10) . " km) booking in {$orderDetails->from_address_city['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
             'round-trip' => "Your confirmed Round booking from {$orderDetails->from_address_city['name']} - {$orderDetails->to_address_city['name']} - {$orderDetails->from_address_city['name']} on {$orderDetails->pickup_date} (ID: {$orderDetails->booking_token})",
             'airport' => $orderDetails->to_airport 

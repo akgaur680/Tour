@@ -125,10 +125,10 @@ class BookATripService extends CoreService
                 sendBookingNotificationsViaEmail::dispatch($orderDetails);
                 // sendBookingNotificationsViaWhatsapp::dispatch($bookOrder);
 
-                $bookOrder['qrCode'] = url('storage/qrCode/' . 'UpiQrCode.png');
+                $orderDetails['qrCode'] = url('storage/qrCode/' . 'UpiQrCode.png');
+                return $this->jsonResponse(true, ucfirst(str_replace('-', ' ', $request->trip_type)) . ' Trip booked successfully.', $orderDetails);
             }
 
-            return $this->jsonResponse(true, ucfirst(str_replace('-', ' ', $request->trip_type)) . ' Trip booked successfully.', $bookOrder);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Booking failed: ' . $e->getMessage(), ['request' => $request->all()]);

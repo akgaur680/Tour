@@ -9,13 +9,13 @@ class GetAllBookedTripsService extends CoreService
 {
     public function getAllBookedTrips($request)
     {
-        $query = $request->query('query', '');
+        $query = $request->query('query', null);
 
-        if (!$this->checkIfQueryIsValid($query)) {
+        if ($query !== null && !$this->checkIfQueryIsValid($query)) {
             return $this->jsonResponse(false, 'Invalid query parameter passed. Please pass "current" or "history".');
         }
 
-        return $this->fetchBookedTrips($request,$query);
+        return $this->fetchBookedTrips($request, $query);
     }
 
     private function checkIfQueryIsValid($query): bool
@@ -23,18 +23,23 @@ class GetAllBookedTripsService extends CoreService
         return in_array($query, ['current', 'history'], true);
     }
 
-    private function fetchBookedTrips($request,$query)
+    private function fetchBookedTrips($request, $query = null)
     {
         $currentUser = $request->user();
 
-        if ($query === 'current') {
+        $queryBuilder = Order::where('user_id', $currentUser->id);
 
-            $trips = Order::where([
-                'user_id' => $currentUser->id,
+        if ($query === 'current') {
+            $queryBuilder->where([
                 'booking_status' => 'ongoing',
                 'pickup_date' => date('Y-m-d'),
-            ])->get();
-        } 
-        return $this->jsonResponse(true, "Fetched trips for: $query");
+            ]);
+        } elseif ($query === 'history') {
+            $queryBuilder->where('booking_status', 'completed');
+        }
+
+        $trips = $queryBuilder->get();
+
+        return $this->jsonResponse(true, "Fetched trips", $trips);
     }
 }

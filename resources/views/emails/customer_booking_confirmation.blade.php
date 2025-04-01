@@ -94,7 +94,7 @@
         <h3>Important Terms & Conditions:</h3>
         @php
         $tripType = $orderDetails->trip_type['slug'] ?? 'default';
-        $carPricePerKm = $orderDetails->car_price_per_km ?? 0;
+        $carPricePerKm = $orderDetails->car['price_per_km'] ?? 0;
         $distance = $orderDetails->distance ?? 0;
         $carPricePerHour = $orderDetails->car_price_per_hour ?? null;
 

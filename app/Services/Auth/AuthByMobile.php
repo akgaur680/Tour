@@ -82,7 +82,7 @@ class AuthByMobile extends CoreService
             return response()->json(['status' => false, 'message' => 'OTP Expired'], 400);
         }
         
-        $user->update(['mobile_verified' => true, 'otp' => null, 'otp_expiry' => null]);
+        $user->update(['mobile_verified' => true, 'otp' => null, 'otp_expiry' => null , 'fcm_token' => $data['fcm_token']]);
        
         $token = $user->createToken('authToken')->accessToken;
    

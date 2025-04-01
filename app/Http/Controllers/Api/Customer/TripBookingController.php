@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Customer\BookATripRequest;
+use App\Http\Requests\Api\Customer\CancelTripRequest;
 use App\Http\Requests\Api\Customer\PaymentProofRequest;
 use App\Services\Customer\BookATripService;
+use App\Services\Customer\CancelATripService;
 use App\Services\Customer\GetAllBookedTripsService;
 use App\Services\Customer\UploadPaymentProofService;
 use Illuminate\Http\Request;
@@ -28,8 +30,9 @@ class TripBookingController extends Controller
       return (new GetAllBookedTripsService())->getAllBookedTrips($request);
     }
 
-    public function cancelATrip(){
-
+    public function cancelATrip(CancelTripRequest $request)
+    {
+      return (new CancelATripService())->cancelATrip($request);
     }
 }
 
