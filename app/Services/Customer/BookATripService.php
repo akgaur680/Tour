@@ -99,10 +99,11 @@ class BookATripService extends CoreService
                 'cab_luggage_price' => $request->cab_luggage_price,
                 'is_diesel_car_needed' => $request->is_diesel_car_needed,
                 'diesel_car_price' => $request->diesel_car_price,
-                'received_amount' => $this->checkReceivedAmount($request->payment_type, $request->total_amount),
-                'original_amount' => $request->total_amount,
+                'total_amount' => $this->calculateTotalAmount($request,$request->original_amount),
+                'original_amount' => $request->original_amount,
                 'total_distance' => (int) $request->total_distance,
-                'payment_status' => 'pending',
+                'payment_type' => $request->payment_type,
+                'payment_status' => $request->payment_type == 'Pay on Delivery' ? 'completed' : 'pending',
                 'booking_status' => 'upcoming',
             ], $additionalData);
 
@@ -145,5 +146,32 @@ class BookATripService extends CoreService
             'Pay on Delivery' => 0,
             default => 0,
         };
+    }
+
+    private function calculateTotalAmount($request, $originalAmount)
+    {
+        $totalAMount = 0;
+        $checkIsChauffeurNeeded = $request->is_chauffeur_needed; // is_chauffeur_needed
+        $checkNewCarPromised = $request->is_new_car_promised; // is_new_car_promised
+        $checkCabLuggageNeeded = $request->is_cab_luggage_needed; // is_cab_luggage_needed
+        $checkDieselCarNeeded = $request->is_diesel_car_needed; // is_diesel_car_needed
+        if ($checkIsChauffeurNeeded) {
+            $totalAMount += $request->chauffeur_price;
+        }
+
+        if ($checkNewCarPromised) {
+            $totalAMount += $request->new_car_price;
+        }
+
+        if ($checkCabLuggageNeeded) {
+            $totalAMount += $request->cab_luggage_price;
+        }
+
+        if ($checkDieselCarNeeded) {
+            $totalAMount += $request->diesel_car_price * $request->total_distance;
+        }
+
+        return (int) $totalAMount + (int) $originalAmount;
+        
     }
 }

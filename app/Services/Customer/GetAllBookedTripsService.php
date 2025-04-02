@@ -33,9 +33,9 @@ class GetAllBookedTripsService extends CoreService
             $queryBuilder->where([
                 'booking_status' => 'ongoing',
                 'pickup_date' => date('Y-m-d'),
-            ]);
+            ])->whereIn('payment_status', ['completed', 'partial']);
         } elseif ($query === 'history') {
-            $queryBuilder->where('booking_status', 'completed');
+            $queryBuilder->whereIn('booking_status', ['completed', 'cancelled', 'failed']);
         }
 
         $trips = $queryBuilder->get();

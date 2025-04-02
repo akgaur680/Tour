@@ -45,9 +45,11 @@ class Order extends Model
         'original_amount',
         'total_distance',
         'total_hours',
+        'payment_type',
         'payment_status',
         'booking_status',
         'payment_proof',
+        'total_amount',
     ];
 
     protected $casts = [

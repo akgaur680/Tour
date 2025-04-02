@@ -36,11 +36,12 @@ return new class extends Migration {
             $table->decimal('diesel_car_price', 10, 2)->nullable();
             $table->decimal('received_amount', 10, 2)->nullable();
             $table->decimal('original_amount', 10, 2)->nullable();
+            $table->decimal('total_amount', 10, 2)->nullable();
             $table->decimal('total_distance', 10, 2)->nullable();
             $table->integer('total_hours')->nullable();
             $table->enum('payment_type', ['Half Payment', 'Partial Payment', 'Full Payment', 'Pay on Delivery']);
             $table->enum('payment_status', ['pending', 'partial', 'completed'])->default('pending');
-            $table->enum('booking_status', ['upcoming', 'ongoing', 'completed', 'cancelled'])->default('upcoming');
+            $table->enum('booking_status', ['upcoming', 'ongoing', 'completed', 'cancelled','failed'])->default('upcoming');
             $table->timestamps();
         });
     }
