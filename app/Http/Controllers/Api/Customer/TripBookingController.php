@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Customer\CancelTripRequest;
 use App\Http\Requests\Api\Customer\PaymentProofRequest;
 use App\Services\Customer\BookATripService;
 use App\Services\Customer\CancelATripService;
+use App\Services\Customer\CheckForUnpaidTrips;
 use App\Services\Customer\GetAllBookedTripsService;
 use App\Services\Customer\UploadPaymentProofService;
 use Illuminate\Http\Request;
@@ -33,6 +34,11 @@ class TripBookingController extends Controller
     public function cancelATrip(CancelTripRequest $request)
     {
       return (new CancelATripService())->cancelATrip($request);
+    }
+
+    public function checkForUnpaidTrips(Request $request)
+    {
+      return (new CheckForUnpaidTrips())->checkForUnpaidTrips($request);
     }
 }
 
