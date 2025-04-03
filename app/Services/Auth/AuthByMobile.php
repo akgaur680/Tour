@@ -35,10 +35,6 @@ class AuthByMobile extends CoreService
                 'mobile_verified' => false
             ]);
 
-            if($data['role'] == 'driver'){
-                $this->registerDriver($data, $user);
-            }
-
             $message = "Here is the OTP for Registration. Your OTP code is : $otp";
             $smsResponse = $this->sendSMS($user->mobile_no, $message, 'Registration');
           
@@ -86,7 +82,7 @@ class AuthByMobile extends CoreService
             return response()->json(['status' => false, 'message' => 'OTP Expired'], 400);
         }
         
-        $user->update(['mobile_verified' => true, 'otp' => null, 'otp_expiry' => null]);
+        $user->update(['mobile_verified' => true, 'otp' => null, 'otp_expiry' => null , 'fcm_token' => $data['fcm_token']]);
        
         $token = $user->createToken('authToken')->accessToken;
    
@@ -97,4 +93,5 @@ class AuthByMobile extends CoreService
             'user' => $user,
         ]);
     }
+
 }

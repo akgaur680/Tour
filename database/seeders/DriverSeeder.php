@@ -15,7 +15,7 @@ class DriverSeeder extends Seeder
 
         for ($i = 1; $i <= 3; $i++) { 
             $drivers[] = [
-                'user_id' => rand(12, 14),
+                'user_id' => 1 + $i,
                 'car_id' => rand(1, 10),
                 'driving_license' => 'DL-' . strtoupper(Str::random(10)),
                 'license_expiry' => now()->addYears(rand(1, 5)), 

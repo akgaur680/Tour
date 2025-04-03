@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Customer;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -23,8 +24,8 @@ class BookATripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'from_address' => ['required', 'string','regex:/^[A-Za-z\s]+,\s?[A-Za-z\s]+$/', 'different:to_address' ,'required_if:to_airport,true'],
-            'to_address' => ['required_if:trip_type,round-trip,one-way,airport', 'string', 'required_if:from_airport,true', 'regex:/^[A-Za-z\s]+,\s?[A-Za-z\s]+$/', 'different:from_address'],
+            'from_address' => ['required_if:trip_type,round-trip,one-way', 'string','regex:/^[A-Za-z\s]+,\s?[A-Za-z\s]+$/', 'different:to_address' ,'required_if:to_airport,true'],
+            'to_address' => ['required_if:trip_type,round-trip,one-way', 'string', 'required_if:from_airport,true', 'regex:/^[A-Za-z\s]+,\s?[A-Za-z\s]+$/', 'different:from_address'],
             'trip_type' => ['required', 'string', 'exists:trip_types,slug'],
             'return_date' => ['required_if:trip_type,round-trip', 'date'],
             'pickup_date' => ['required', 'date'],
@@ -35,15 +36,22 @@ class BookATripRequest extends FormRequest
             'customer_name' => ['required', 'string'],
             'customer_email' => ['required', 'email'],
             'customer_phone' => ['required', 'string', 'regex:/^\+?[0-9]{10,15}$/'],
-            'pickup_location' => ['required', 'string'],
+            'pickup_location' => ['required_if:trip_type,one-way,local,round-trip',  'string' , 'required_if:to_airport,true'],
+            'drop_location' => ['required_if:trip_type,one-way', 'string' ,'required_if:from_airport,true'],
             'car_id' => ['required', 'exists:cars,id'],
+            'driver_id' => ['required', 'exists:users,id'],
             'total_distance' => ['required', 'string'],
-            'total_hours' => ['required_if:trip_type,local', 'string', 'min:1'],
+            'total_hours' => ['required_if:trip_type,local', 'numeric', 'min:1'],
+            'original_amount' => ['required', 'numeric', 'min:1'],
             'is_chauffeur_needed' => ['required', 'boolean'],
-            'preffered_chauffeur_language' => ['required_if:is_chauffeur_needered,true', 'string'],
+            'chauffeur_price' => ['required_if:is_chauffeur_needed,true', 'numeric', 'min:1'],
+            'preffered_chauffeur_language' => ['required_if:is_chauffeur_needed,true', 'in:Hindi,English'],
             'is_new_car_promised' => ['required', 'boolean'],
+            'new_car_price' => ['required_if:is_new_car_promised,true', 'numeric', 'min:1'],
             'is_cab_luggage_needed' => ['required', 'boolean'],
+            'cab_luggage_price' => ['required_if:is_cab_luggage_needed,true', 'numeric', 'min:1'],
             'is_diesel_car_needed' => ['required', 'boolean'  , Rule::prohibitedIf($this->is_new_car_promised == true) ],
+            'diesel_car_price' => ['required_if:is_diesel_car_needed,true', 'numeric', 'min:1'],
             'payment_type' => ['required', 'string', 'in:Half Payment,Partial Payment,Full Payment,Pay on Delivery'],
         ];
     }
@@ -63,7 +71,18 @@ class BookATripRequest extends FormRequest
             'car_id.exists' => 'The selected car is invalid. Please select a valid car.',
             'payment_type.in' => 'The selected payment type is invalid. Please select a valid payment type.',
             'is_diesel_car_needed.prohibited_if' => 'Due to the new government policy, a new car cannot be a diesel car. Please select either a new car or a diesel car, but not both.',
+            'payment_type.in' => 'The selected payment type is invalid. Please select a valid payment type including Half Payment, Partial Payment, Full Payment, Pay on Delivery.',
         ];
+    }
+
+
+    public function withValidator(Validator $validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->from_airport && $this->to_airport) {
+                $validator->errors()->add('from_airport', 'From and To airports cannot be selected at the same time.');
+            }
+        });
     }
 
 }

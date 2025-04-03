@@ -15,6 +15,7 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
+        'booking_token',
         'from_address_city_id',
         'from_address_state_id',
         'to_address_city_id',
@@ -24,26 +25,40 @@ class Order extends Model
         'pickup_date',
         'pickup_time',
         'airport_id',
+        'from_airport',
+        'to_airport',
         'user_id',
+        'driver_id',
         'pickup_location',
         'drop_location',
         'car_id',
         'is_chauffeur_needed',
+        'chauffeur_price',
         'preffered_chauffeur_language',
         'is_new_car_promised',
+        'new_car_price',
         'is_cab_luggage_needed',
+        'cab_luggage_price',
         'is_diesel_car_needed',
+        'diesel_car_price',
         'received_amount',
-        'total_amount',
+        'original_amount',
         'total_distance',
         'total_hours',
         'payment_type',
         'payment_status',
-        'order_status',
         'booking_status',
-        'razorpay_order_id',
-        'razorpay_payment_id',
-        'razorpay_signature',
+        'payment_proof',
+        'total_amount',
+    ];
+
+    protected $casts = [
+        'from_airport' => 'boolean',
+        'to_airport' => 'boolean',
+        'is_chauffeur_needed' => 'boolean',
+        'is_new_car_promised' => 'boolean',
+        'is_cab_luggage_needed' => 'boolean',
+        'is_diesel_car_needed' => 'boolean',
     ];
 
     public function tripType()

@@ -34,5 +34,11 @@ Route::middleware(['auth:api'])->group(function () {
 
     // Get Profile Details
     Route::get('get-profile-details',[AuthController::class,'getProfileDetails'] );
+    
+    // Upload Payment Proof
+    Route::post('/upload-payment-proof',[TripBookingController::class,'uploadPaymentProof'] );
 
+    //Check For Any Unpaid Trips
+    Route::get('/check-for-unpaid-trips',[TripBookingController::class,'checkForUnpaidTrips'] );
 });
+

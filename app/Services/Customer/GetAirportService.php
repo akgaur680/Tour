@@ -3,10 +3,12 @@
 namespace App\Services\Customer;
 
 use App\Models\Airport;
+use App\Services\CoreService;
 use Illuminate\Http\JsonResponse;
 use Exception;
 
-class GetAirportService {
+class GetAirportService  extends CoreService
+ {
 
     public function getAirports($request)  : JsonResponse
     {
@@ -28,13 +30,7 @@ class GetAirportService {
     
             $locations = $airports->map(fn($airport) => $airport->name . ', ' . $airport->state)->toArray();
 
-    
-            return response()->json([
-                'status' => true,
-                'message' => 'Airports found',
-                'data' => $locations
-            ]);
-    
+            return $this->jsonResponse(true, 'Airports found', $locations);
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
