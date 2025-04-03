@@ -12,95 +12,169 @@ function editPricing(event, id) {
         .then((data) => {
             if (data.status == true) {
                 console.log(data);
-                showForm(event, "pricingDiv", "pricing", "edit", "Edit", "Update");
-                const name = document.getElementById("name");
-                const email = document.getElementById("email");
-                const mobile_no = document.getElementById("mobile_no");
-                const car_id = document.getElementById("car_id");
-                const driving_license = document.getElementById("driving_license");
-                const adhaar_number = document.getElementById("adhaar_number");
-                const dob = document.getElementById("dob");
-                const license_expiry = document.getElementById("license_expiry");
-                const address = document.getElementById("address");
+                showForm(
+                    event,
+                    "pricingDiv",
+                    "pricing",
+                    "edit",
+                    "Edit",
+                    "Update"
+                );
+                const origin = document.getElementById("origin");
+                const destination = document.getElementById("destination");
+                const airport = document.getElementById("airport_name");
+                const car = document.getElementById("car_type");
+                const price = document.getElementById("price");
 
-              const trip_type =document.querySelector('input[name="trip_type"]');
-              const car_type = document.getElementById("car_type");
-              const airport_type = document.querySelector('input[name="airport_type"]');
-              const origin = document.getElementById("origin");
-              const destination = document.getElementById("destination");
-              const airport_name = document.getElementById("airport_name");
-              const price = document.getElementById("price");
+                const airportType = document.getElementById("airport_type");
+                origin.value = data.pricing.origin_city_id
+                    ? data.pricing.origin_city.name +
+                      ", " +
+                      data.pricing.origin_state.name
+                    : "";
+                    origin.dataset.cityId = data.pricing.origin_city_id;
+                    origin.dataset.stateId = data.pricing.origin_state_id;
+                destination.value = data.pricing.destination_city_id
+                    ? data.pricing.destination_city.name +
+                      ", " +
+                      data.pricing.destination_state.name
+                    : "";
+                    destination.dataset.cityId = data.pricing.destination_city_id;
+                    destination.dataset.stateId = data.pricing.destination_state_id;
+                airport.value = data.pricing.airport_id
+                    ? data.pricing.airport.name
+                    : "";
+                    airport.dataset.airportId = data.pricing.airport_id;
+                    
+                car.value = data.pricing.car_id;
+                price.value = data.pricing.price;
+                const tripTypes = document.querySelectorAll(
+                    "input[name='trip_type']"
+                );
+                const selectedTripType = data.pricing.trip_type_id;
 
-              trip_type.value = data.pricing.trip_type;
+                tripTypes.forEach((radio) => {
+                    if (radio.value == selectedTripType) {
+                        radio.checked = true;
+                    }
+                });
+                const originField = document.getElementById("origin");
+                const destinationField = document.getElementById("destination");
+                const airportIdField = document.getElementById("airport_name");
+                const destinationTypeDiv = document
+                    .querySelector("[name='airport_type']")
+                    .closest(".col-sm-6");
+                function updateFormDisplay() {
+                    const selectedTripType = document.querySelector(
+                        "input[name='trip_type']:checked"
+                    ).value;
 
-               
-                name.value = data.driver.user.name;
-                email.value = data.driver.user.email;
-                mobile_no.value = data.driver.user.mobile_no;
-                driving_license.value = data.driver.driving_license;
-                adhaar_number.value = data.driver.adhaar_number;
-                dob.value = data.driver.user.dob;
-                license_expiry.value = data.driver.license_expiry;
-                address.value = data.driver.user.address;
-                // Set the car_id value
-                car_id.value = data.driver.car_id; // Set the value
-                car_id.value = data.driver.car_id.toString(); 
+                    if (selectedTripType === "1") {
+                        originField.closest(".col-sm-6").style.display =
+                            "block";
+                        destinationField.closest(".col-sm-6").style.display =
+                            "block";
+                        airportIdField.closest(".col-sm-6").style.display =
+                            "none";
+                        destinationTypeDiv.style.display = "none";
+                    } else if (selectedTripType === "4") {
+                        destinationTypeDiv.style.display = "block";
+                        updateAirportTypeDisplay();
+                    }
+                }
+                function updateAirportTypeDisplay() {
+                    const selectedAirportType = document.querySelector(
+                        "input[name='airport_type']:checked"
+                    ).value;
+                    const fromAirportInput =
+                        document.getElementById("from_airport");
+                    const toAirportInput =
+                        document.getElementById("to_airport");
 
-                 // Update Profile image
-                 const profileImage = document.getElementById("profile_image_preview");
-                 profileImage.src = data.driver.user.profile_image
-                     ? `/storage/${data.driver.user.profile_image}`
-                     : "/adminassets/dist/img/defaultProfile.avif";
-                 profileImage.style.display = "block"; // Ensure it is visible
-                // Update License image
-                const licenseImage = document.getElementById("license_image_preview");
-                licenseImage.src = data.driver.license_image
-                    ? `/storage/${data.driver.license_image}`
-                    : "/adminassets/dist/img/defaultLicense.avif";
-                licenseImage.style.display = "block"; // Ensure it is visible
+                    if (data.pricing.origin_city_id === null) {
+                        fromAirportInput.checked = true;
+                        airportIdField.closest(".col-sm-6").style.display =
+                            "block";
+                        destinationField.closest(".col-sm-6").style.display =
+                            "block";
+                        originField.closest(".col-sm-6").style.display = "none";
+                    } else if (data.pricing.destination_city_id === null) {
+                        toAirportInput.checked = true;
+                        airportIdField.closest(".col-sm-6").style.display =
+                            "block";
+                        originField.closest(".col-sm-6").style.display =
+                            "block";
+                        destinationField.closest(".col-sm-6").style.display =
+                            "none";
+                    }
+                }
 
-                // Update Adhaar image
-                const adhaarFrontImage = document.getElementById("adhaar_image_front_preview");
-                adhaarFrontImage.src = data.driver.adhaar_image_front
-                    ? `/storage/${data.driver.adhaar_image_front}`
-                    : "/adminassets/dist/img/defaultAdhaar.avif";
-                adhaarFrontImage.style.display = "block"; // Ensure it is visible
-
-                const adhaarBackImage = document.getElementById("adhaar_image_back_preview");
-                adhaarBackImage.src = data.driver.adhaar_image_back
-                    ? `/storage/${data.driver.adhaar_image_back}`
-                    : "/adminassets/dist/img/defaultAdhaar.avif";
-                adhaarBackImage.style.display = "block"; // Ensure it is visible
-
-                const title = document.getElementById("div-title");
-                title.innerHTML = "Update";
-
+                updateFormDisplay();
                 const btn = document.getElementById("submitBtn");
                 btn.textContent = "Update";
-                btn.setAttribute("onclick", `updateDriver(event, ${data.driver.id});`);
+                btn.setAttribute("onclick", `updatePricing(event, ${data.pricing.id});`);
             }
         });
 }
 
-
-function updateDriver(event, id) {
+function updatePricing(event, id) {
     event.preventDefault();
 
-    const form = document.getElementById("driversForm");
+    const tripTypeRadios = document.querySelectorAll("input[name='trip_type']");
+    const airportTypeRadios = document.querySelectorAll(
+        "input[name='airport_type']"
+    );
+    const originField = document.getElementById("origin");
+    const destinationField = document.getElementById("destination");
+    const airportIdField = document.getElementById("airport_name");
+    const destinationTypeDiv = document
+        .querySelector("[name='airport_type']")
+        .closest(".col-sm-6");
+    const carTypeId = document.getElementById("car_type").value;
+    const form = document.getElementById("pricingForm");
     const formData = new FormData(form);
-    formData.append("_method", "PUT");
 
-    // Clear previous errors
-    clearErrors();
+    console.log(airportIdField.dataset.airportId);
 
-    // Validate Form
-    const validationErrors = validateDriverForm(formData);
-    if (validationErrors.length > 0) {
-        showValidationErrors(validationErrors);
-        return;
+    formData.append("car_id", carTypeId);
+
+    if (originField.closest(".col-sm-6").style.display !== "none") {
+        formData.append("origin", originField.value);
+        formData.append("origin_city_id", originField.dataset.cityId);
+        formData.append("origin_state_id", originField.dataset.stateId);
+    }
+    if (destinationField.closest(".col-sm-6").style.display !== "none") {
+        formData.append("destination", destinationField.value);
+        formData.append("destination_city_id", destinationField.dataset.cityId);
+        formData.append(
+            "destination_state_id",
+            destinationField.dataset.stateId
+        );
+    }
+    if (airportIdField.closest(".col-sm-6").style.display !== "none") {
+        formData.append("airport", airportIdField.value);
+        formData.append("airport_id", airportIdField.dataset.airportId);
     }
 
-    fetch(`/admin/drivers/${id}`, {
+    formData.append(
+        "trip_type_id",
+        document.querySelector("input[name='trip_type']:checked").value
+    );
+
+    formData.append("_method", "PUT");
+    
+
+    // Clear previous errors
+    // clearErrors();
+
+    // // Validate Form
+    // const validationErrors = validateDriverForm(formData);
+    // if (validationErrors.length > 0) {
+    //     showValidationErrors(validationErrors);
+    //     return;
+    // }
+
+    fetch(`/admin/fixed-pricing/${id}`, {
         method: "POST", // ✅ Use POST (not PUT)
         body: formData,
         headers: {
@@ -118,17 +192,15 @@ function updateDriver(event, id) {
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 3000
+                    timer: 3000,
                 });
                 dataTable.ajax.reload(null, false); // Reload DataTable
 
                 console.log(dataTable.data);
                 setTimeout(() => {
-                    closeDiv(event, "driversDiv");
-                    
-                  
+                    closeDiv(event, "pricingDiv");
                 }, 500);
-    
+
                 form.reset();
             } else {
                 Swal.fire({
@@ -138,7 +210,7 @@ function updateDriver(event, id) {
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 3000
+                    timer: 3000,
                 });
             }
         })
