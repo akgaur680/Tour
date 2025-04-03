@@ -327,7 +327,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="pages/widgets.html" class="nav-link">
+              <a href="/admin/trip-type" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Trip Categories
@@ -337,7 +337,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="pages/widgets.html" class="nav-link">
+              <a href="/admin/customers" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Customers
@@ -347,7 +347,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="pages/widgets.html" class="nav-link">
+              <a href="/admin/bookings" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Bookings
@@ -1028,28 +1028,60 @@
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="{{ asset('adminassets/dist/js/pages/dashboard.js') }}"></script>
   <script src="{{ asset('adminassets/js/script.js') }}"></script>
+  <!-- Cars JS Files -->
+
   @php
   $scripts = glob(public_path('adminassets/js/cars/*.js'));
   @endphp
 
-@foreach ($scripts as $script)
-<script src="{{ asset('adminassets/js/cars/' . basename($script)) }}"></script>
-@endforeach
-@php
+  @foreach ($scripts as $script)
+  <script src="{{ asset('adminassets/js/cars/' . basename($script)) }}"></script>
+  @endforeach
+  <!-- Drivers JS Files -->
+
+  @php
   $scripts = glob(public_path('adminassets/js/drivers/*.js'));
   @endphp
 
-@foreach ($scripts as $script)
-<script src="{{ asset('adminassets/js/drivers/' . basename($script)) }}"></script>
-@endforeach
+  @foreach ($scripts as $script)
+  <script src="{{ asset('adminassets/js/drivers/' . basename($script)) }}"></script>
+  @endforeach
+  <!-- Fixed Pricing JS Files -->
 
-@php
+  @php
   $scripts = glob(public_path('adminassets/js/pricing/*.js'));
   @endphp
 
-@foreach ($scripts as $script)
-<script src="{{ asset('adminassets/js/pricing/' . basename($script)) }}"></script>
-@endforeach
+  @foreach ($scripts as $script)
+  <script src="{{ asset('adminassets/js/pricing/' . basename($script)) }}"></script>
+  @endforeach
+
+  <!-- Trip Type JS Files -->
+  @php
+  $scripts = glob(public_path('adminassets/js/tripType/*.js'));
+  @endphp
+
+  @foreach ($scripts as $script)
+  <script src="{{ asset('adminassets/js/tripType/' . basename($script)) }}"></script>
+  @endforeach
+
+  <!-- Customers JS Files -->
+  @php
+  $scripts = glob(public_path('adminassets/js/customers/*.js'));
+  @endphp
+
+  @foreach ($scripts as $script)
+  <script src="{{ asset('adminassets/js/customers/' . basename($script)) }}"></script>
+  @endforeach
+
+  <!-- Bookings JS Files -->
+  @php
+  $scripts = glob(public_path('adminassets/js/bookings/*.js'));
+  @endphp
+
+  @foreach ($scripts as $script)
+  <script src="{{ asset('adminassets/js/bookings/' . basename($script)) }}"></script>
+  @endforeach
 
 </body>
 

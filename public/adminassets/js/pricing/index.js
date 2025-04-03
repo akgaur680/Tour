@@ -11,7 +11,7 @@ const pricingColumns = [
         render: function (data, type, row) {
 
             return `
-                <button onclick="viewPricing(${row.id})" style="all: unset; cursor: pointer;">
+                <button onclick="viewPricing(event,${row.id})" style="all: unset; cursor: pointer;">
                     <i class="fa fa-eye"></i>
                 </button>
                 <button onclick="editPricing(event,${row.id})" style="all: unset; cursor: pointer;">
@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const destinationTypeDiv = document
         .querySelector("[name='airport_type']")
         .closest(".col-sm-6");
+    const airportTypeDiv = document.getElementById("airportTypeDiv"); 
 
     const fields = [
         {
@@ -170,10 +171,25 @@ document.addEventListener("DOMContentLoaded", function () {
             destinationField.closest(".col-sm-6").style.display = "block";
             airportIdField.closest(".col-sm-6").style.display = "none";
             destinationTypeDiv.style.display = "none";
+            airportTypeDiv.style.display = "none";
         } else if (selectedTripType === "4") {
             destinationTypeDiv.style.display = "block";
+            airportTypeDiv.style.display = "block";
+
             updateAirportTypeDisplay();
         }
+    }
+
+    function openAddModal(event) {
+        event.preventDefault();
+        document.getElementById("origin").value = "";
+        document.getElementById("destination").value = "";
+        document.getElementById("airport_name").value = "";
+        document.getElementById("car_type").value = "";
+        document.getElementById("price").value = "";
+        document.querySelector("input[name='trip_type'][value='1']").checked = true;
+        updateFormDisplay();
+        showForm(event, "pricingDiv", "Pricing", "store", "Add", "Save");
     }
 
     function updateAirportTypeDisplay() {
@@ -206,5 +222,58 @@ document.addEventListener("DOMContentLoaded", function () {
     // fetchSuggestions(destinationField);
     // fetchSuggestions(airportIdField);
 
-    // document.getElementById("addPricingBtn").addEventListener("click", addPricing(event));
+    document.getElementById("addPricingModalBtn").addEventListener("click", openAddModal);
 });
+
+
+
+function deletePricing(id) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/admin/fixed-pricing/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Deleted!",
+                        text: data.message,
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    console.log(data);
+                    dataTable.ajax.reload(null, false); // Reload DataTable without resetting pagination
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                });
+        }
+    });
+}

@@ -77,11 +77,8 @@ function updateCar(event, id) {
                     timer: 3000
                 });
                 dataTable.ajax.reload(null, false); // Reload DataTable without resetting pagination
-                setTimeout(() => {
-                    closeDiv(null, "addCarDiv");
-                }, 500);
-    
                 form.reset();
+                closeDiv(null, "addCarDiv");
             } else {
                 Swal.fire({
                     icon: "error",

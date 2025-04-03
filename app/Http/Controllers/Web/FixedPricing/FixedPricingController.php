@@ -100,9 +100,10 @@ class FixedPricingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AddPricingRequest $request, string $id)
     {
-        //
+        $validated = $request->validated();
+        return (new FixedPricingServices)->update($validated, $id);
     }
 
     /**
@@ -110,6 +111,6 @@ class FixedPricingController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return (new FixedPricingServices)->destroy($id);
     }
 }

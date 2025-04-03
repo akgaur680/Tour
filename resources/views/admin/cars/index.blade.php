@@ -31,14 +31,14 @@
 
 
                 <!-- <button class="btn btn-outline-success" onclick="showForm(event, 'addCarDiv', 'store')">Add New Car</button> -->
-                <button class="btn btn-outline-success" onclick="showForm(event, 'addCarDiv', 'cars', 'store', 'Add New Car', 'Save Car')">Add Car</button>
+                <button class="btn btn-outline-success" onclick="showForm(event, 'addCarDiv', 'cars', 'store', 'Add New', 'Save Car')">Add Car</button>
 
             </div>
             <!-- Add / Update Car -->
             <div class="modal" id="addCarDiv" style="display: none;">
                 <div class="card modal-content">
                     <h2 class="card-title mt-2" id="card-title">
-                        <span id="car-title"></span>
+                        <span id="div-title"></span><span>&nbsp;Car</span>
                         <button type="button" class="close m-3" aria-label="Close" onclick="closeDiv(event, 'addCarDiv')">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -97,7 +97,7 @@
 
                             <br>
                             <br>
-                            <button type="button" name="submit" class="btn btn-outline-success" id="addCarBtn" onclick="addCar(event)" name="addCarBtn">Save</button>
+                            <button type="button" name="submit" class="btn btn-outline-success" id="submitBtn" onclick="addCar(event)" name="addCarBtn">Save</button>
                         </form>
 
 
