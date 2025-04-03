@@ -25,7 +25,6 @@ class TripBookingController extends Controller
       return (new UploadPaymentProofService())->uploadPaymentProof($request);
     }
 
-    // On Hold
     public function getBookedTrips(Request $request)
     {
       return (new GetAllBookedTripsService())->getAllBookedTrips($request);

@@ -26,20 +26,28 @@ class GetAllBookedTripsService extends CoreService
     private function fetchBookedTrips($request, $query = null)
     {
         $currentUser = $request->user();
-
-        $queryBuilder = Order::where('user_id', $currentUser->id);
-
+        $trips = collect();
+    
         if ($query === 'current') {
-            $queryBuilder->where([
-                'booking_status' => 'ongoing',
-                'pickup_date' => date('Y-m-d'),
-            ])->whereIn('payment_status', ['completed', 'partial']);
+            $trips = Order::where('user_id', $currentUser->id)
+                ->where('booking_status', 'ongoing')
+                ->whereDate('pickup_date', '=', now()->toDateString())
+                ->whereIn('payment_status', ['completed', 'partial'])
+                ->get();
         } elseif ($query === 'history') {
-            $queryBuilder->whereIn('booking_status', ['completed', 'cancelled', 'failed']);
+            $trips = Order::where('user_id', $currentUser->id)
+                ->whereIn('booking_status', ['completed', 'cancelled', 'failed'])
+                ->whereDate('pickup_date', '<=', now()->toDateString())
+                ->get();
+        } else {
+            $trips = Order::where('user_id', $currentUser->id)
+                ->whereDate('pickup_date', '>=', now()->toDateString())
+                ->where('booking_status', 'upcoming')
+                ->whereIn('payment_status', ['completed', 'partial'])
+                ->get();
         }
-
-        $trips = $queryBuilder->get();
-
+    
         return $this->jsonResponse(true, "Fetched trips", $trips);
     }
+    
 }
