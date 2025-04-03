@@ -3,6 +3,7 @@
 namespace App\Services\Customer;
 
 use App\Helpers\ImageHelper;
+use App\Jobs\SendPaymentNotification;
 use App\Models\Order;
 use App\Services\CoreService;
 use Illuminate\Support\Facades\Storage;
@@ -43,6 +44,8 @@ class UploadPaymentProofService extends CoreService
             return $this->jsonResponse(false, 'Failed to upload payment proof.');
         }
         
+        SendPaymentNotification::dispatch(url('/') . ImageHelper::getImageUrl($storedImagePath));
+
         return $this->jsonResponse(true, 'Payment proof uploaded successfully.');
     }
 

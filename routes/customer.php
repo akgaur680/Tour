@@ -37,5 +37,8 @@ Route::middleware(['auth:api'])->group(function () {
     
     // Upload Payment Proof
     Route::post('/upload-payment-proof',[TripBookingController::class,'uploadPaymentProof'] );
+
+    //Check For Any Unpaid Trips
+    Route::get('/check-for-unpaid-trips',[TripBookingController::class,'checkForUnpaidTrips'] );
 });
 

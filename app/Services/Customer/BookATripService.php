@@ -26,7 +26,7 @@ class BookATripService extends CoreService
 
     private function bookOneWayTrip($request)
     {
-        return $this->createOrder($request , [
+        return $this->createOrder($request, [
             'to_address_city_id' => $this->extractLocationDetails($request->to_address)['city_id'],
             'to_address_state_id' => $this->extractLocationDetails($request->to_address)['state_id'],
         ]);
@@ -46,27 +46,45 @@ class BookATripService extends CoreService
     {
         $airportName = strtok($request->airport_location, ',');
 
-        $checkFixedPrice = FixedTourPrices::where([
-            ['trip_type_id', TripType::where('slug', $request->trip_type)->value('id')],
-            ['airport_id', Airport::where('name', $airportName)->value('id')],
-            ['car_id', $request->car_id]
-        ])->exists();
-
-        if (!$checkFixedPrice) {
-            return $this->jsonResponse(false, 'No Booking Available for this route.');
-        }
-
         $airportId = Airport::where('name', $airportName)->value('id');
 
         $additionalData = ['airport_id' => $airportId];
-        if ($request->to_airport) {
-            return $this->createOrder($request, $additionalData);
-        }
 
-        return $this->createOrder($request, array_merge($additionalData, [
-            'to_address_city_id' => $this->extractLocationDetails($request->to_address)['city_id'],
-            'to_address_state_id' => $this->extractLocationDetails($request->to_address)['state_id'],
-        ]));
+        if ($request->from_airport) {
+            $checkFixedPriceFromAirport = FixedTourPrices::where([
+                ['trip_type_id', TripType::where('slug', $request->trip_type)->value('id')],
+                ['airport_id', Airport::where('name', $airportName)->value('id')],
+                ['car_id', $request->car_id],
+                ['destination_city_id', $this->extractLocationDetails($request->to_address)['city_id']],
+                ['destination_state_id',  $this->extractLocationDetails($request->to_address)['state_id']]
+            ])->exists();
+
+            if (!$checkFixedPriceFromAirport) {
+                return $this->jsonResponse(false, 'No Booking Available for this route.');
+            }
+
+            return $this->createOrder($request, array_merge($additionalData, [
+                'to_address_city_id' => $this->extractLocationDetails($request->to_address)['city_id'],
+                'to_address_state_id' => $this->extractLocationDetails($request->to_address)['state_id'],
+                'from_airport' => $request->from_airport
+            ]));
+        } else {
+            $checkFixedPrice = FixedTourPrices::where([
+                ['trip_type_id', TripType::where('slug', $request->trip_type)->value('id')],
+                ['airport_id', Airport::where('name', $airportName)->value('id')],
+                ['car_id', $request->car_id],
+                ['origin_city_id', $this->extractLocationDetails($request->from_address)['city_id']],
+                ['origin_state_id',  $this->extractLocationDetails($request->from_address)['state_id']]
+            ])->exists();
+
+            if (!$checkFixedPrice) {
+                return $this->jsonResponse(false, 'No Booking Available for this route.');
+            }
+
+            return $this->createOrder($request, array_merge($additionalData, [
+                'to_airport' => $request->to_airport
+            ]));
+        }
     }
 
     private function createOrder($request, array $additionalData = [])
@@ -80,15 +98,20 @@ class BookATripService extends CoreService
 
             $orderData = array_merge([
                 'booking_token' => 'S' . date('md') . '-' . rand(1000000, 9999999),
-                'from_address_city_id' => $from['city_id'],
-                'from_address_state_id' => $from['state_id'],
+                'from_address_city_id' => $from['city_id'] ?? null,
+                'from_address_state_id' => $from['state_id'] ?? null,
                 'trip_type_id' => $tripTypeId,
                 'pickup_date' => $request->pickup_date,
                 'pickup_time' => $request->pickup_time,
                 'user_id' => $request->user()->id,
                 'driver_id' => $request->driver_id,
-                'pickup_location' => $request->pickup_location ?? null,
-                'drop_location' => $request->drop_location ?? null,
+                'pickup_location' => $request->trip_type == 'airport' && $request->from_airport
+                    ? $request->pickup_location
+                    : $request->pickup_location ?? null,
+
+                'drop_location' => $request->trip_type == 'airport' && $request->to_airport
+                    ? $request->airport_location
+                    : $request->drop_location ?? null,
                 'car_id' => $request->car_id,
                 'is_chauffeur_needed' => $request->is_chauffeur_needed,
                 'chauffeur_price' => $request->chauffeur_price,
@@ -99,9 +122,9 @@ class BookATripService extends CoreService
                 'cab_luggage_price' => $request->cab_luggage_price,
                 'is_diesel_car_needed' => $request->is_diesel_car_needed,
                 'diesel_car_price' => $request->diesel_car_price,
-                'total_amount' => $this->calculateTotalAmount($request,$request->original_amount),
+                'total_amount' => $this->calculateTotalAmount($request, $request->original_amount),
                 'original_amount' => $request->original_amount,
-                'total_distance' => (int) $request->total_distance,
+                'total_distance' => (int) filter_var(explode(',', $request->total_distance)[0], FILTER_SANITIZE_NUMBER_INT),
                 'payment_type' => $request->payment_type,
                 'payment_status' => $request->payment_type == 'Pay on Delivery' ? 'completed' : 'pending',
                 'booking_status' => 'upcoming',
@@ -129,12 +152,16 @@ class BookATripService extends CoreService
                 $orderDetails['qrCode'] = url('storage/qrCode/' . 'UpiQrCode.png');
                 return $this->jsonResponse(true, ucfirst(str_replace('-', ' ', $request->trip_type)) . ' Trip booked successfully.', $orderDetails);
             }
-
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Booking failed: ' . $e->getMessage(), ['request' => $request->all()]);
-            return $this->jsonResponse(false, 'Something went wrong', $e->getMessage());
+            Log::error('Booking failed: ' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'request' => $request->all()
+            ]);
+            return $this->jsonResponse(false, "Error on line " . $e->getLine() . " in file " . $e->getFile() . ": " . $e->getMessage());
         }
+        
     }
 
     private function checkReceivedAmount($paymentType, $totalAmount)
@@ -168,10 +195,9 @@ class BookATripService extends CoreService
         }
 
         if ($checkDieselCarNeeded) {
-            $totalAMount += $request->diesel_car_price * $request->total_distance;
+            $totalAMount += $request->diesel_car_price * (int) filter_var(explode(',', $request->total_distance)[0], FILTER_SANITIZE_NUMBER_INT);
         }
 
         return (int) $totalAMount + (int) $originalAmount;
-        
     }
 }
