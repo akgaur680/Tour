@@ -101,4 +101,8 @@ class Order extends Model
         return $this->belongsTo(Airport::class, 'airport_id');
     }
 
+    public function driver(){
+        return $this->belongsTo(Driver::class, 'driver_id')->with('user');
+    }
+
 }

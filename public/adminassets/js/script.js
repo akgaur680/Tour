@@ -1,3 +1,18 @@
+
+let dataTable;
+// Initialize DataTable
+function InitializeTable(id, url, columns) {
+    document.addEventListener("DOMContentLoaded", function () {
+        dataTable = new DataTable(`#${id}`, {
+            ajax: {
+                url: `${url}`, // Replace with your Laravel route
+                dataSrc: "data",
+            },
+            columns: columns,
+        });
+    });
+}
+
 function showForm(
     event,
     divId,
@@ -60,20 +75,6 @@ function showForm(
 function closeDiv(event, divId) {
     const div = document.getElementById(divId);
     div.style.display = "none";
-}
-
-let dataTable;
-// Initialize DataTable
-function InitializeTable(id, url, columns) {
-    document.addEventListener("DOMContentLoaded", function () {
-        dataTable = new DataTable(`#${id}`, {
-            ajax: {
-                url: `${url}`, // Replace with your Laravel route
-                dataSrc: "data",
-            },
-            columns: columns,
-        });
-    });
 }
 
 function showValidationErrors(errors) {

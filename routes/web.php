@@ -43,4 +43,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('/admin/customers', CustomerController::class);
 
     Route::get('/admin/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::delete('/admin/cancel-booking/{token}', [BookingController::class, 'cancelBooking'])->name('bookings.cancel');
 });

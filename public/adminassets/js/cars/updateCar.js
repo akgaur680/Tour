@@ -46,16 +46,6 @@ function updateCar(event, id) {
     const formData = new FormData(form);
     formData.append("_method", "PUT");
 
-    // Clear previous errors
-    clearErrors();
-
-    // Validate Form
-    const validationErrors = validateCarForm(formData);
-    if (validationErrors.length > 0) {
-        showValidationErrors(validationErrors);
-        return;
-    }
-
     fetch(`/admin/cars/${id}`, {
         method: "POST", // ✅ Use POST (not PUT)
         body: formData,
@@ -79,15 +69,18 @@ function updateCar(event, id) {
                 dataTable.ajax.reload(null, false); // Reload DataTable without resetting pagination
                 form.reset();
                 closeDiv(null, "addCarDiv");
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error!",
-                    text: data.error,
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000
+            } else if (data.success == false) {
+                let errorMessages = data.errors; // Array of errors
+            
+                errorMessages.forEach((error, index) => {
+                    setTimeout(() => {
+                        toastr.error(error, "Error!", {
+                            closeButton: true,
+                            progressBar: true,
+                            positionClass: "toast-top-right",
+                            timeOut: 3000
+                        });
+                    }, index * 1000); // Show each error with a 1-second delay
                 });
             }
         })

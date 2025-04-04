@@ -13380,8 +13380,9 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 }
 
 [class*="sidebar-light-"] .nav-sidebar > .nav-item > .nav-link:active, [class*="sidebar-light-"] .nav-sidebar > .nav-item > .nav-link:focus {
-  color: #343a40;
+  color: #307bff;
 }
+
 
 [class*="sidebar-light-"] .nav-sidebar > .nav-item.menu-open > .nav-link,
 [class*="sidebar-light-"] .nav-sidebar > .nav-item:hover > .nav-link {
@@ -13465,7 +13466,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 }
 
 [class*="sidebar-dark-"] .nav-sidebar > .nav-item > .nav-link:active {
-  color: #c2c7d0;
+  color: #307bff;
 }
 
 [class*="sidebar-dark-"] .nav-sidebar > .nav-item.menu-open > .nav-link,

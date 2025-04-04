@@ -32,7 +32,7 @@ class FixedPricingController extends Controller
                             return $row->originCity->name . ', ' . $row->originState->name;
                         }
                     } else {
-                        return null;
+                        return $row->originCity->name . ', ' . $row->originState->name;
                     }
                 })
                 ->editColumn('destination', function ($row) {
@@ -45,7 +45,7 @@ class FixedPricingController extends Controller
                             return $row->destinationCity->name . ', ' . $row->destinationState->name;
                         }
                     } else {
-                        return null;
+                        return $row->destinationCity->name . ', ' . $row->destinationState->name;
                     }
                 })
                 ->editColumn('car_image', function ($row) {
