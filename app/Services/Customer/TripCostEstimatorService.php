@@ -125,6 +125,7 @@ class TripCostEstimatorService extends CoreService
                 'trip_type' => match ($request->trip_type) {
                     'airport' => 'Outstation | One Way',
                     'local' => 'Local ' . $item->car->price_per_hour . ' hrs | ' . ($item->car->price_per_hour * 10) . ' kms : One Way',
+                    'one-way' => 'Outstation | One Way',
                     default => 'Outstation | Round Trip',
                 },
                 'pickup_date' => $request->pickup_date,
@@ -171,6 +172,7 @@ class TripCostEstimatorService extends CoreService
                 'trip_type' => match ($request->trip_type) {
                     'airport' => 'Outstation | One Way',
                     'local' => 'Local ' . $car->price_per_hour . ' hrs | ' . ($car->price_per_hour * 10) . ' kms : One Way',
+                    'one-way' => 'Outstation | One Way',
                     default => 'Outstation | Round Trip',
                 },
                 'pickup_date' => $request->pickup_date,
