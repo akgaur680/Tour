@@ -2,11 +2,11 @@
 
 namespace App\Services\Customer;
 
+use App\Services\CoreService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse;
 use App\Services\CoreService;
-
 
 class GetNearByAddressService extends CoreService
 {
@@ -74,7 +74,7 @@ class GetNearByAddressService extends CoreService
         ->map(fn($place) => $place['name'] . ', ' . $city . ', ' . $state)
         ->values();
 
-        return $this->jsonResponse(true,'Nearby places found',$filteredPlaces);
+        return $this->jsonResponse(true,'Nearby places found' , $filteredPlaces);
     }
 
     public function getPickupAddresses(Request $request): JsonResponse
