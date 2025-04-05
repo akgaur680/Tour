@@ -2,8 +2,10 @@
 
 namespace App\Helpers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 
 class ImageHelper
 {
@@ -12,20 +14,25 @@ class ImageHelper
      */
     public static function storeImage($file, $folder)
     {
-
         if (!$file instanceof UploadedFile) {
-            throw new \Exception("Invalid file instance"); // Debugging
+            throw new \Exception("Invalid file instance");
         }
-
+    
         $path = "public/{$folder}";
-
         if (!Storage::exists($path)) {
             Storage::makeDirectory($path, 0775, true);
         }
-
-        return $file->store($folder, 'public'); // ✅ Store the file correctly
+    
+        $userId = Auth::id() ?? 'guest'; // fallback if no user is logged in
+        $timestamp = Carbon::now()->format('Ymd_His'); // e.g., 20250405_131045
+        $extension = $file->getClientOriginalExtension();
+        $fileName = "{$folder}_{$userId}_{$timestamp}." . $extension;
+    
+        $storedPath = $file->storeAs($folder, $fileName, 'public'); // store with custom name
+    
+        return $storedPath; // returns: folder/filename.ext
     }
-
+    
     /**
      * Get the full URL of an image.
      */

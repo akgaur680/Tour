@@ -6,6 +6,7 @@ use App\Helpers\ImageHelper;
 use App\Models\Driver;
 use App\Models\User;
 use App\Services\CoreService;
+use Illuminate\Support\Facades\DB;
 
 class DriverService extends CoreService
 {
@@ -26,10 +27,10 @@ class DriverService extends CoreService
             $data['license_image'] = ImageHelper::storeImage($licenseImage, 'drivers/licenses');
         }
         if ($adhaarImageFront) {
-            $data['adhaar_image_front'] = ImageHelper::storeImage($adhaarImageFront, 'drivers/adhaar');
+            $data['adhaar_image_front'] = ImageHelper::storeImage($adhaarImageFront, 'drivers/adhaar/front');
         }
         if ($adhaarImageBack) {
-            $data['adhaar_image_back'] = ImageHelper::storeImage($adhaarImageBack, 'drivers/adhaar');
+            $data['adhaar_image_back'] = ImageHelper::storeImage($adhaarImageBack, 'drivers/adhaar/back');
         }
 
         $user = User::create([
@@ -74,6 +75,8 @@ class DriverService extends CoreService
     }
 
     public function update(array $data, int $id){
+
+        DB::beginTransaction();
         $driver = Driver::findOrFail($id);
     
         // Extract and process images before unsetting them
@@ -89,10 +92,10 @@ class DriverService extends CoreService
             $data['license_image'] = ImageHelper::updateImage($licenseImage, $driver->license_image ?? null, 'drivers/licenses');
         }
         if ($adhaarImageFront) {
-            $data['adhaar_image_front'] = ImageHelper::updateImage($adhaarImageFront, $driver->adhaar_image_front ?? null, 'drivers/adhaar');
+            $data['adhaar_image_front'] = ImageHelper::updateImage($adhaarImageFront, $driver->adhaar_image_front ?? null, 'drivers/adhaar/front');
         }
         if ($adhaarImageBack) {
-            $data['adhaar_image_back'] = ImageHelper::updateImage($adhaarImageBack, $driver->adhaar_image_back ?? null, 'drivers/adhaar');
+            $data['adhaar_image_back'] = ImageHelper::updateImage($adhaarImageBack, $driver->adhaar_image_back ?? null, 'drivers/adhaar/back');
         }
     
         // Now unset image keys to avoid errors when updating DB
@@ -125,8 +128,10 @@ class DriverService extends CoreService
         ]);
     
         if ($update) {
+            DB::commit();
             return response()->json(['status' => true, 'message' => 'Driver Updated Successfully']);
         } else {
+            DB::rollback();
             return response()->json(['status' => false, 'message' => 'Error in Updating Driver']);
         }
     }

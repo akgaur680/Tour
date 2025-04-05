@@ -26,16 +26,16 @@ const bookingColumn = [
     { 
         data: 'actions', title: 'Actions', 
         render: function (data, type, row) {
-            console.log(row);
+            console.log(row.booking_token);
             
             if (row.booking_status === 'upcoming') {
                 return `
-                    <button onclick="cancelBooking(${row.booking_token})" class="badge badge-danger">
+                    <button type="button" onclick="cancelBooking('${row.booking_token}')" class="badge badge-danger">
                        Cancel Booking
                     </button>
                 `;
             }
-            return 'Cannot Cancel'; // No button if the status is not 'upcoming'
+            return `<span title="This booking cannot be cancelled at this stage"> <strong><i class="fa fa-lock"></i> &nbsp; Booking Locked</strong>  </span>`;
         },
         orderable: false,
         searchable: false

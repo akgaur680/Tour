@@ -31,6 +31,9 @@ class BookingController extends Controller
                     } else if ($row->payment_status == 'completed') {
                         $status = '<span class="badge badge-success">Completed</span>';
                     }
+                    else if($row->payment_status == 'failed'){
+                        $status = '<span class="badge badge-danger">Failed</span>';
+                    }
                     return $status;
                 })
                 // ->editColumn('booking_status', function ($row) {
@@ -52,9 +55,9 @@ class BookingController extends Controller
         return view('admin.bookings.index');
     }
 
-    public function cancelBooking(CancelBookingRequest $request, $token)
+    public function cancelBooking($token)
     {
-        $validated = $request->validated();
-        return (new BookingService)->cancelBooking($validated);
+        // $validated = $request->validated();
+        return (new BookingService)->cancelBooking($token);
     }
 }

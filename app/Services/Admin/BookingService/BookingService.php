@@ -19,7 +19,7 @@ class BookingService extends CoreService
 
     public function cancelBooking($request)
     {
-        $trip = Order::where(['booking_token' => $request->booking_token])->first();
+        $trip = Order::where(['booking_token' => $request])->first();
         $trip->booking_status = 'cancelled';
         $trip->save();
         if ($trip) {

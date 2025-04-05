@@ -35,7 +35,6 @@
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
@@ -291,21 +290,12 @@
               </a>
             </li>
             @endif
-            <li class="nav-item">
-              <a href="/admin/cars" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                  Add Users
-                  <span class="right badge badge-danger">New</span>
-                </p>
-              </a>
-            </li>
             <li class="nav-item ">
               <a href="/admin/cars" class="nav-link {{ request()->is('admin/cars') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Car Management
-                  <i class="right fas fa-user-friends"></i>
+                  <i class="right fas fa-taxi"></i>
                   <!-- <span class="right badge badge-danger">New</span> -->
                 </p>
               </a>
@@ -314,7 +304,16 @@
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Driver Management
-                  <i class="right fas fa-user-friends"></i>
+                  <i class="right fas fa-user-tie"></i>
+                  <!-- <span class="right badge badge-danger">New</span> -->
+                </p>
+              </a>
+            </li>
+            <li class="nav-item"><a href="/admin/driver-requests" class="nav-link {{ request()->is('admin/driver-requests') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  Driver Requests
+                  <i class="right fas fa-hand-paper"></i>
                   <!-- <span class="right badge badge-danger">New</span> -->
                 </p>
               </a>
@@ -365,6 +364,16 @@
                 <p>
                   Transactions
                   <i class="right fas fa-rupee-sign"></i>
+                  <!-- <span class="right badge badge-danger">New</span> -->
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/verify-payments" class="nav-link {{ request()->is('admin/verify-payments') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  Verify Payments
+                  <i class="right fas fa-check-circle"></i>
                   <!-- <span class="right badge badge-danger">New</span> -->
                 </p>
               </a>
@@ -485,6 +494,33 @@
 
   @foreach ($scripts as $script)
   <script src="{{ asset('adminassets/js/bookings/' . basename($script)) }}"></script>
+  @endforeach
+
+   <!-- Transactions JS Files -->
+   @php
+  $scripts = glob(public_path('adminassets/js/transactions/*.js'));
+  @endphp
+
+  @foreach ($scripts as $script)
+  <script src="{{ asset('adminassets/js/transactions/' . basename($script)) }}"></script>
+  @endforeach
+
+    <!-- Transactions JS Files -->
+    @php
+  $scripts = glob(public_path('adminassets/js/verifyPayment/*.js'));
+  @endphp
+
+  @foreach ($scripts as $script)
+  <script src="{{ asset('adminassets/js/verifyPayment/' . basename($script)) }}"></script>
+  @endforeach
+
+      <!-- Transactions JS Files -->
+      @php
+  $scripts = glob(public_path('adminassets/js/driverRequests/*.js'));
+  @endphp
+
+  @foreach ($scripts as $script)
+  <script src="{{ asset('adminassets/js/driverRequests/' . basename($script)) }}"></script>
   @endforeach
 
 </body>
