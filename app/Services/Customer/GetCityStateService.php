@@ -33,13 +33,13 @@ class GetCityStateService extends CoreService
             // Get IDs and State IDs before converting $cities to an array
             $cityIds = $cities->pluck('id')->toArray();
             $stateIds = $cities->pluck('state_id')->toArray();
-
-            return response()->json([
-                'status' => true,
-                'locations' => $locations,
-                'city_ids' => $cityIds,
-                'state_ids' => $stateIds
-            ]);
+			 return $this->jsonResponse(true, 'Fetched cities',$locations);
+           // return response()->json([
+              //  'status' => true,
+                //'locations' => $locations,
+                //'city_ids' => $cityIds,
+                //'state_ids' => $stateIds
+            //]);
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
