@@ -41,6 +41,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/admin/cars', CarController::class);
     Route::resource('admin/drivers', DriverController::class);
+    Route::post('/admin/drivers/{id}/toggle-availability', [DriverController::class, 'toggleAvailability']);
+    Route::post('/admin/drivers/{id}/toggle-approval', [DriverController::class, 'toggleApproval']);
+
     Route::resource('admin/fixed-pricing', FixedPricingController::class);
     Route::resource('/admin/trip-type', TripTypeController::class);
     Route::resource('/admin/customers', CustomerController::class);

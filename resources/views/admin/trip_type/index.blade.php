@@ -11,12 +11,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Fixed Pricing</h1>
+                    <h1 class="m-0">Trip Type</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Tour Fixed Pricing</li>
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                        <li class="breadcrumb-item active">Trip Type</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -28,20 +28,11 @@
     <div class="card w-75 text-center m-auto">
         <div class="card-body">
           
-            <table class="table tripTypeTable text-center table-hover  table-bordered" id="tripTypeTable">
-                <!-- <thead class="text-center">
-                    <tr class="text-center">
-                        <th>#</th>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>Car</th>
-                        <th>Price</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead> -->
-
-
-            </table>
+           <div class="table-responsive">
+           <table class="table tripTypeTable text-center table-hover  table-bordered" id="tripTypeTable">
+              
+              </table>
+           </div>
         </div>
     </div>
 </div>

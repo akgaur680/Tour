@@ -15,7 +15,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
                         <li class="breadcrumb-item active">Drivers</li>
                     </ol>
                 </div><!-- /.col -->
@@ -232,20 +232,11 @@
             </div>
 
 
-            <table class="table driverTable text-center table-hover  table-bordered" id="driverTable">
-                <thead class="text-center">
-                    <tr class="text-center">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>License Number</th>
-                        <th>Phone No.</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-
-            </table>
+           <div class="table-responsive">
+           <table class="table driverTable text-center table-hover  table-bordered" id="driverTable">
+              
+              </table>
+           </div>
         </div>
     </div>
 </div>

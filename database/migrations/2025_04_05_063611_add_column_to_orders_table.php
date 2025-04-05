@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->boolean('payment_verified')->default(0)->after('payment_status');
+            $table->enum('payment_status', ['pending', 'partial', 'completed', 'failed'])->default('pending')->change();
         });
     }
 

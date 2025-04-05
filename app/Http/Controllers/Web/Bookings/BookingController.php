@@ -36,19 +36,6 @@ class BookingController extends Controller
                     }
                     return $status;
                 })
-                // ->editColumn('booking_status', function ($row) {
-                //     $status = '';
-                //     if ($row->booking_status == 'upcoming') {
-                //         $status = '<span class="badge badge-warning">Up-Coming</span>';
-                //     } else if ($row->booking_status == 'ongoing') {
-                //         $status = '<span class="badge badge-info">On-Going</span>';
-                //     } else if ($row->booking_status == 'completed') {
-                //         $status = '<span class="badge badge-success">Completed</span>';
-                //     } else if ($row->booking_status == 'cancelled') {
-                //         $status = '<span class="badge badge-danger">Cancelled</span>';
-                //     }
-                //     return $status;
-                // })
                 ->rawColumns(['created_at', 'payment_status'])
                 ->make(true);
         }

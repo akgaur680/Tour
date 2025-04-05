@@ -15,7 +15,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
                         <li class="breadcrumb-item active">Cars</li>
                     </ol>
                 </div><!-- /.col -->
@@ -159,20 +159,11 @@
             </div>
 
 
-            <table class="table carTable text-center table-hover  table-bordered" id="carTable">
-                <thead class="text-center">
-                    <tr class="text-center">
-                        <th>#</th>
-                        <th>Image</th>
-                        <th>Car Number</th>
-                        <th>Car Model</th>
-                        <th>Car Type</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+            <div class="table-responsive">
+                <table class="table carTable text-center table-hover  table-bordered" id="carTable">
 
-
-            </table>
+                </table>
+            </div>
         </div>
     </div>
 </div>

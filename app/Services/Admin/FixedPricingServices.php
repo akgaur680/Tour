@@ -35,14 +35,40 @@ class FixedPricingServices extends CoreService
     }
 
     public function update(array $data, int $id)
-    {
-        $result = $this->model->findorFail($id)->update($data);
-        if ($result) {
-            return response()->json(['status' => true, 'message' => 'Pricing Updated Successfully', 'pricing' => $result]);
-        } else {
-            return response()->json(['status' => false, 'message' => 'Error Occured During Updating Pricing']);
+{
+    // Clean data based on trip_type_id
+    if (isset($data['trip_type_id']) && $data['trip_type_id'] == 4) {
+        // Airport trip: unset origin or destination depending on direction
+        if (isset($data['airport_id'])) {
+            // If origin is null, it's a "From Airport" trip
+            if (empty($data['origin_city_id'])) {
+                $data['origin_city_id'] = null;
+                $data['origin_state_id'] = null;
+                $data['origin'] = null;
+            }
+
+            // If destination is null, it's a "To Airport" trip
+            if (empty($data['destination_city_id'])) {
+                $data['destination_city_id'] = null;
+                $data['destination_state_id'] = null;
+                $data['destination'] = null;
+            }
         }
+    } elseif ($data['trip_type_id'] == 1) {
+        // City-to-City trip: clear airport fields
+        $data['airport_id'] = null;
+        $data['airport'] = null;
     }
+
+    $result = $this->model->findOrFail($id)->update($data);
+
+    if ($result) {
+        return response()->json(['status' => true, 'message' => 'Pricing Updated Successfully', 'pricing' => $result]);
+    } else {
+        return response()->json(['status' => false, 'message' => 'Error Occurred During Updating Pricing']);
+    }
+}
+
 
     public function destroy(int $id)
     {

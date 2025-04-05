@@ -148,5 +148,23 @@ class DriverService extends CoreService
             return response()->json(['status' => false, 'message' => 'Error Occured During Deleting Driver']);
         }
     }
+
+    public function toggleAvailability($request, $id){
+        
+        $driver = Driver::findOrFail($id);
+        $driver->is_available = $request->is_available;
+        $driver->save();
+
+        return response()->json(['status' => true]);
+    }
+
+    public function toggleApproval($request, $id){
+        
+        $driver = Driver::findOrFail($id);
+        $driver->is_approved = $request->is_approved;
+        $driver->save();
+
+        return response()->json(['status' => true]);
+    }
     
 }

@@ -18,7 +18,7 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
         if (Auth::attempt($validated)) {
-            if (Auth::user()) {
+            if (Auth::check() && Auth::user()->role === 'admin') {
                 return redirect('/admin/dashboard');
             } 
             else{
