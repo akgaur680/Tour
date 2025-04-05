@@ -34,18 +34,13 @@ class GetCityStateService extends CoreService
             $cityIds = $cities->pluck('id')->toArray();
             $stateIds = $cities->pluck('state_id')->toArray();
 
-            return response()->json([
-                'status' => true,
-                'locations' => $locations,
-                'city_ids' => $cityIds,
-                'state_ids' => $stateIds
-            ]);
+            return $this->jsonResponse(true, 'Cities found', $locations);
         } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Unable to fetch data',
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->jsonResponse(
+                false,
+                'Unable to fetch data',
+                $e->getMessage()
+            );
         }
     }
 }
