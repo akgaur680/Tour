@@ -79,16 +79,6 @@ function updateDriver(event, id) {
     const formData = new FormData(form);
     formData.append("_method", "PUT");
 
-    // Clear previous errors
-    clearErrors();
-
-    // Validate Form
-    const validationErrors = validateDriverForm(formData);
-    if (validationErrors.length > 0) {
-        showValidationErrors(validationErrors);
-        return;
-    }
-
     fetch(`/admin/drivers/${id}`, {
         method: "POST", // ✅ Use POST (not PUT)
         body: formData,
@@ -119,17 +109,20 @@ function updateDriver(event, id) {
                 }, 500);
     
                 form.reset();
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error!",
-                    text: data.error,
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            }
+            } else if (data.success == false) {
+            let errorMessages = data.errors; // Array of errors
+        
+            errorMessages.forEach((error, index) => {
+                setTimeout(() => {
+                    toastr.error(error, "Error!", {
+                        closeButton: true,
+                        progressBar: true,
+                        positionClass: "toast-top-right",
+                        timeOut: 3000
+                    });
+                }, index * 1000); // Show each error with a 1-second delay
+            });
+        }
         })
         .catch((error) => console.error("Error:", error));
 }

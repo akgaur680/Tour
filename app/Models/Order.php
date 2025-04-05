@@ -50,6 +50,7 @@ class Order extends Model
         'booking_status',
         'payment_proof',
         'total_amount',
+        'payment_verified',
     ];
 
     protected $casts = [
@@ -59,6 +60,7 @@ class Order extends Model
         'is_new_car_promised' => 'boolean',
         'is_cab_luggage_needed' => 'boolean',
         'is_diesel_car_needed' => 'boolean',
+        'payment_verified' => 'boolean',
     ];
 
     public function tripType()
@@ -99,6 +101,10 @@ class Order extends Model
     public function airport()
     {
         return $this->belongsTo(Airport::class, 'airport_id');
+    }
+
+    public function driver(){
+        return $this->belongsTo(Driver::class, 'driver_id')->with('user');
     }
 
 }

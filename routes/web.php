@@ -5,9 +5,12 @@ use App\Http\Controllers\Web\Bookings\BookingController;
 use App\Http\Controllers\Web\Cars\CarController;
 use App\Http\Controllers\Web\Customers\CustomerController;
 use App\Http\Controllers\Web\DashboardController;
+use App\Http\Controllers\Web\DriverRequest\DriverRequestController;
 use App\Http\Controllers\Web\Drivers\DriverController;
 use App\Http\Controllers\Web\FixedPricing\FixedPricingController;
 use App\Http\Controllers\Web\TripType\TripTypeController;
+use App\Http\Controllers\Web\Transaction\TransactionController;
+use App\Http\Controllers\Web\VerifyPayment\VerifyPaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,4 +46,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('/admin/customers', CustomerController::class);
 
     Route::get('/admin/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::delete('/admin/cancel-booking/{token}', [BookingController::class, 'cancelBooking'])->name('bookings.cancel');
+
+    Route::get('/admin/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::get('/admin/transactions/{id}', [TransactionController::class, 'getTransactionDetails'])->name('transactions.details');
+
+    Route::get('/admin/verify-payments', [VerifyPaymentController::class, 'index'])->name('verify-payments.index');
+    Route::get('/admin/verify-payment/{id}', [VerifyPaymentController::class, 'getVerifyPaymentDetails'])->name('verify-payments.details');
+    Route::post('/admin/verify-payment/{id}', [VerifyPaymentController::class, 'updateVerifyPaymentStatus'])->name('verify-payments.update-status');
+
+    Route::get('/admin/driver-requests', [DriverRequestController::class, 'index'])->name('driver-requests.index');
+    Route::get('admin/driver-request/{id}', [DriverRequestController::class, 'getDriverRequestDetails'])->name('driver-requests.details');
+    Route::post('/admin/driver-request/{id}', [DriverRequestController::class, 'submitApprovalStatus'])->name('driver-requests.update-status');
 });

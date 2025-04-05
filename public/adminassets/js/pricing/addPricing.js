@@ -53,15 +53,18 @@ console.log(airportIdField.dataset.airportId);
             dataTable.ajax.reload(null, false); // Reload DataTable
             form.reset();
             closeDiv(event, "pricingDiv");
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Error!",
-                text: data.error,
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000
+        } else if (data.success == false) {
+            let errorMessages = data.errors; // Array of errors
+        
+            errorMessages.forEach((error, index) => {
+                setTimeout(() => {
+                    toastr.error(error, "Error!", {
+                        closeButton: true,
+                        progressBar: true,
+                        positionClass: "toast-top-right",
+                        timeOut: 3000
+                    });
+                }, index * 1000); // Show each error with a 1-second delay
             });
         }
     })
