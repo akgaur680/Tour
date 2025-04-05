@@ -20,15 +20,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        // $this->call(RolePermissionSeeder::class);
-        // $this->call(AdminSeeder::class);
-        // $this->call(StatesTableSeeder::class);
+        $this->call(RolePermissionSeeder::class);
+        $this->call(AdminSeeder::class);
+        $this->call(StatesTableSeeder::class);
         // $this->call(CarSeeder::class);
         // $this->call(FixedTourPriceSeeder::class);
         // $this->call(CarTripTypeSeeder::class);
-        // $this->call(TripTypeSeeder::class);
+        $this->call(TripTypeSeeder::class);
         // $this->call(UserSeeder::class);
-        $this->call(DriverSeeder::class);
+        // $this->call(DriverSeeder::class);
 
         // User::factory()->create([
         //     'name' => 'Test User',
