@@ -138,23 +138,39 @@ function updatePricing(event, id) {
 
     formData.append("car_id", carTypeId);
 
-    if (originField.closest(".col-sm-6").style.display !== "none") {
-        formData.append("origin", originField.value);
-        formData.append("origin_city_id", originField.dataset.cityId);
-        formData.append("origin_state_id", originField.dataset.stateId);
-    }
-    if (destinationField.closest(".col-sm-6").style.display !== "none") {
-        formData.append("destination", destinationField.value);
-        formData.append("destination_city_id", destinationField.dataset.cityId);
-        formData.append(
-            "destination_state_id",
-            destinationField.dataset.stateId
-        );
-    }
-    if (airportIdField.closest(".col-sm-6").style.display !== "none") {
-        formData.append("airport", airportIdField.value);
-        formData.append("airport_id", airportIdField.dataset.airportId);
-    }
+  // Always explicitly set all possible fields (used or not)
+
+// Origin
+if (originField.closest(".col-sm-6").style.display !== "none") {
+    formData.append("origin", originField.value);
+    formData.append("origin_city_id", originField.dataset.cityId);
+    formData.append("origin_state_id", originField.dataset.stateId);
+} else {
+    formData.append("origin", "");
+    formData.append("origin_city_id", "");
+    formData.append("origin_state_id", "");
+}
+
+// Destination
+if (destinationField.closest(".col-sm-6").style.display !== "none") {
+    formData.append("destination", destinationField.value);
+    formData.append("destination_city_id", destinationField.dataset.cityId);
+    formData.append("destination_state_id", destinationField.dataset.stateId);
+} else {
+    formData.append("destination", "");
+    formData.append("destination_city_id", "");
+    formData.append("destination_state_id", "");
+}
+
+// Airport
+if (airportIdField.closest(".col-sm-6").style.display !== "none") {
+    formData.append("airport", airportIdField.value);
+    formData.append("airport_id", airportIdField.dataset.airportId);
+} else {
+    formData.append("airport", "");
+    formData.append("airport_id", "");
+}
+
 
     formData.append(
         "trip_type_id",
@@ -163,17 +179,6 @@ function updatePricing(event, id) {
 
     formData.append("_method", "PUT");
     
-
-    // Clear previous errors
-    // clearErrors();
-
-    // // Validate Form
-    // const validationErrors = validateDriverForm(formData);
-    // if (validationErrors.length > 0) {
-    //     showValidationErrors(validationErrors);
-    //     return;
-    // }
-
     fetch(`/admin/fixed-pricing/${id}`, {
         method: "POST", // ✅ Use POST (not PUT)
         body: formData,
@@ -194,13 +199,13 @@ function updatePricing(event, id) {
                     showConfirmButton: false,
                     timer: 3000,
                 });
-                dataTable.ajax.reload(null, false); // Reload DataTable
-
-                console.log(dataTable.data);
+              
                 setTimeout(() => {
                     closeDiv(event, "pricingDiv");
                 }, 500);
+                dataTable.ajax.reload(null, false); // Reload DataTable
 
+                console.log(dataTable.data);
                 form.reset();
             }else if (data.success == false) {
                 let errorMessages = data.errors; // Array of errors

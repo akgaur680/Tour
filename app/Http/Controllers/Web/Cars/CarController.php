@@ -52,7 +52,7 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        $car = Car::findorFail($id);
+        $car = Car::with('carTripTypes.tripType')->findorFail($id);
         if ($car) {
             return response()->json(['status' => true, 'car' => $car]);
         } else {

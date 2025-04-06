@@ -1,9 +1,9 @@
 const carColumns = [
-    { data: "id" },
-    { data: "car_image" },
-    { data: "car_number" },
-    { data: "car_model" },
-    { data: "car_type" },
+    { data: "DT_RowIndex", title:'#' },
+    { data: "car_image", title: "Car Image" },
+    { data: "car_number", title: "Car Number" },
+    { data: "car_model" , title: "Car Manufacturing Year" },
+    { data: "car_type" ,title: "Car Name" },
     {
         data: null,
 
