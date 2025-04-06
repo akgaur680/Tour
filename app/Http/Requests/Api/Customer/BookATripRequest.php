@@ -82,6 +82,9 @@ class BookATripRequest extends FormRequest
             if ($this->from_airport && $this->to_airport) {
                 $validator->errors()->add('from_airport', 'From and To airports cannot be selected at the same time.');
             }
+            if ($this->is_new_car_promised == true && $this->is_diesel_car_needed == true) {
+                $validator->errors()->add('is_diesel_car_needed', 'Due to the new government policy, a new car cannot be a diesel car. Please select either a new car or a diesel car, but not both.');
+            }
         });
     }
 
