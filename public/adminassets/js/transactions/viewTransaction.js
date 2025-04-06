@@ -47,10 +47,13 @@ function viewTransaction(event, id) {
                 document.getElementById("view_payment_status").innerHTML = '<span class="badge badge-warning">Pending</span>';
             }
             else if(transaction.payment_status == 'partial'){
-                document.getElementById("view_payment_status").innerHTML = '<span class="badge badge-info">Failed</span>';
+                document.getElementById("view_payment_status").innerHTML = '<span class="badge badge-info">Partial</span>';
             }
             else if(transaction.payment_status == 'completed'){
                 document.getElementById("view_payment_status").innerHTML = '<span class="badge badge-success">Completed</span>';
+            }
+            else if(transaction.payment_status == 'failed'){
+                document.getElementById("view_payment_status").innerHTML = '<span class="badge badge-danger">Failed</span>';
             }
             document.getElementById("view_booking_token").textContent = transaction.booking_token ?? "N/A";
             document.getElementById("view_received_amount").textContent = transaction.received_amount ?? 0;

@@ -1,11 +1,12 @@
 function viewCar(event, id) {
     event.preventDefault();
-    showForm(event, 'viewCarDiv', 'cars', 'view');
+    showForm(event, "viewCarDiv", "cars", "view");
 
     fetch(`/admin/cars/${id}`, {
         method: "GET",
         headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
         },
     })
         .then((response) => response.json())
@@ -14,13 +15,28 @@ function viewCar(event, id) {
                 console.log(data);
 
                 // Populate the View Car Modal
-                document.getElementById("view_car_number").textContent = data.car.car_number;
-                document.getElementById("view_car_model").textContent = data.car.car_model;
-                document.getElementById("view_car_type").textContent = data.car.car_type;
-                document.getElementById("view_seats").textContent = data.car.seats;
-                document.getElementById("view_luggage_limit").textContent = data.car.luggage_limit;
-                document.getElementById("view_price_per_km").textContent = data.car.price_per_km;
-                document.getElementById("view_ac").textContent = data.car.ac == 1 ? "AC" : "Non-AC";
+                document.getElementById("view_car_number").textContent =
+                    data.car.car_number;
+                document.getElementById("view_car_model").textContent =
+                    data.car.car_model;
+                document.getElementById("view_car_type").textContent =
+                    data.car.car_type;
+                document.getElementById("view_seats").textContent =
+                    data.car.seats;
+                document.getElementById("view_luggage_limit").textContent =
+                    data.car.luggage_limit;
+                document.getElementById("view_price_per_km").textContent =
+                    data.car.price_per_km;
+                document.getElementById("view_ac").textContent =
+                    data.car.ac == 1 ? "AC" : "Non-AC";
+                    document.getElementById('view_trip_types').textContent = 
+                    Array.isArray(data.car.car_trip_types) && data.car.car_trip_types.length
+                        ? data.car.car_trip_types
+                            .map(ct => ct.trip_type?.name)
+                            .filter(Boolean)
+                            .join(', ')
+                        : "No Trip Types available";
+                
 
                 // Update car image
                 const carImage = document.getElementById("view_car_image");

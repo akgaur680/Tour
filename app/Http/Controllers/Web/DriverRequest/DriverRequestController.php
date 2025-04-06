@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\DriverRequest;
 
 use App\Http\Controllers\Controller;
 use App\Models\Driver;
+use App\Services\Admin\DriverRequestService\DriverRequestService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -20,24 +21,10 @@ class DriverRequestController extends Controller
     }
 
     public function getDriverRequestDetails($id){
-        $driver = Driver::with(['user', 'car'])->where('id', $id)->first();
-        if($driver){
-            return response()->json(['status' => true, 'message'=> 'Driver Found Successfully', 'driver' => $driver]);
-        }
-        else{
-            return response()->json(['status' => false,'message' => 'Driver Not Found']);
-        }
+       return (new DriverRequestService)->getDriverRequestDetails($id);
     }
 
     public function submitApprovalStatus(Request $request, $id){
-        $driver = Driver::find($id);
-        if($driver){
-            $driver->is_approved = $request->is_approved;
-            $driver->save();
-            return response()->json(['status' => true, 'message' => 'Status Updated Successfully']);
-        }
-        else{
-            return response()->json(['status' => false, 'message' => 'Driver Not Found']);
-        }
+       return (new DriverRequestService())->submitApprovalStatus($request, $id);
     }
 }

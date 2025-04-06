@@ -15,7 +15,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
                         <li class="breadcrumb-item active">Verify Payments</li>
                     </ol>
                 </div><!-- /.col -->
@@ -117,18 +117,7 @@
           
         <div class="table-responsive">
         <table class="table verifyPaymentTable text-center table-hover table-responsive table-bordered" id="verifyPaymentTable">
-                <!-- <thead class="text-center">
-                    <tr class="text-center">
-                        <th>#</th>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>Car</th>
-                        <th>Price</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead> -->
-
-
+               
             </table>
         </div>
         </div>

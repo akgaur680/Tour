@@ -2,16 +2,27 @@
 let dataTable;
 // Initialize DataTable
 function InitializeTable(id, url, columns) {
-    document.addEventListener("DOMContentLoaded", function () {
-        dataTable = new DataTable(`#${id}`, {
-            ajax: {
-                url: `${url}`, // Replace with your Laravel route
-                dataSrc: "data",
-            },
-            columns: columns,
-        });
+    dataTable = new DataTable(`#${id}`, {
+        ajax: {
+            url: `${url}`,
+            dataSrc: "data",
+        },
+        columns: columns,
     });
 }
+
+
+function reloadTableWithRetry(retries = 10, delay = 300) {
+    if (typeof dataTable !== "undefined" && dataTable !== null) {
+        console.log(dataTable);
+        dataTable.ajax.reload(null, false);
+    } else if (retries > 0) {
+        setTimeout(() => reloadTableWithRetry(retries - 1, delay), delay);
+    } else {
+        console.error("DataTable is not initialized after waiting.");
+    }
+}
+
 
 function showForm(
     event,

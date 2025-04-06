@@ -15,7 +15,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
                         <li class="breadcrumb-item active">Cars</li>
                     </ol>
                 </div><!-- /.col -->
@@ -53,12 +53,12 @@
                                     <input type="text" class="form-control mb-2" id="car_number" name="car_number" value="{{old('car_number')}}" placeholder="Car Number">
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="car_model">Car Model:</label>
+                                    <label for="car_model">Car Model (Year):</label>
                                     <input type="text" class="form-control mb-2" id="car_model" name="car_model" value="{{old('car_model')}}" placeholder="Car Model">
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label for="car_type">Car Type:</label>
+                                    <label for="car_type">Car Name:</label>
                                     <input type="text" class="form-control mb-2" id="car_type" name="car_type" value="{{old('car_type')}}" placeholder="Car Type">
 
                                 </div>
@@ -87,6 +87,31 @@
 
                                     </select>
                                 </div>
+                                @php
+                                $tripTypes = \App\Models\TripType::all();
+                                @endphp
+
+                                <div class="col-sm-6">
+                                    <label for="trip_type_ids_display">Trip Types:</label>
+
+                                    <!-- Display selected values -->
+                                    <div class="dropdown" id="tripTypeDropdown">
+                                        <input type="text" id="trip_type_ids_display" class="form-control" placeholder="Select Trip Types" readonly onclick="toggleDropdown()" />
+                                        <div id="dropdownOptions" class="dropdown-menu w-100 p-2 border" style="display: none; max-height: 200px; overflow-y: auto;">
+                                            @foreach ($tripTypes as $type)
+                                            <label class="d-block">
+                                                <input type="checkbox" value="{{ $type->id }}" onchange="updateSelectedTripTypes()" />
+                                                {{ $type->name }}
+                                            </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <!-- Actual input to be sent to server -->
+                                    <input type="hidden" name="trip_type_ids[]" id="trip_type_ids_hidden" />
+                                </div>
+
+
                                 <div class="col-sm-6">
                                     <label for="car_image">Car Image:</label>
                                     <input type="file" accept="image/*" class="form-control mb-2" id="car_image" name="car_image" placeholder="Car Image">
@@ -117,62 +142,61 @@
                     </h2>
 
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Car Number:</label>
-                                <p id="view_car_number"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Car Model:</label>
-                                <p id="view_car_model"></p>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Car Type:</label>
-                                <p id="view_car_type"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">No. of Seats:</label>
-                                <p id="view_seats"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Luggage Limit:</label>
-                                <p id="view_luggage_limit"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Price Per KM:</label>
-                                <p id="view_price_per_km"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">AC Availability:</label>
-                                <p id="view_ac"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Car Image:</label>
-                                <div>
-                                    <img id="view_car_image" src="" alt="Car Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
-                                </div>
-                            </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>Car Number</th>
+                                        <td id="view_car_number"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Car Model</th>
+                                        <td id="view_car_model"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Car Type</th>
+                                        <td id="view_car_type"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>No. of Seats</th>
+                                        <td id="view_seats"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Luggage Limit</th>
+                                        <td id="view_luggage_limit"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Price Per KM</th>
+                                        <td id="view_price_per_km"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>AC Availability</th>
+                                        <td id="view_ac"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Trip Types</th>
+                                        <td id="view_trip_types"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Car Image</th>
+                                        <td>
+                                            <img id="view_car_image" src="" alt="Car Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+
                 </div>
             </div>
 
 
-            <table class="table carTable text-center table-hover  table-bordered" id="carTable">
-                <thead class="text-center">
-                    <tr class="text-center">
-                        <th>#</th>
-                        <th>Image</th>
-                        <th>Car Number</th>
-                        <th>Car Model</th>
-                        <th>Car Type</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+            <div class="table-responsive">
+                <table class="table carTable text-center table-hover  table-bordered" id="carTable">
 
-
-            </table>
+                </table>
+            </div>
         </div>
     </div>
 </div>

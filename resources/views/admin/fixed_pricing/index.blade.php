@@ -15,7 +15,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
                         <li class="breadcrumb-item active">Tour Fixed Pricing</li>
                     </ol>
                 </div><!-- /.col -->
@@ -134,70 +134,68 @@
                     </h2>
 
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Trip Type:</label>
-                                <p id="view_trip_type"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Fixed Price:</label>
-                                <p id="view_price"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Origin :</label>
-                                <p id="view_origin"></p>
-                            </div>
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Trip Type</th>
+                    <td id="view_trip_type"></td>
+                </tr>
+                <tr>
+                    <th>Fixed Price</th>
+                    <td id="view_price"></td>
+                </tr>
+                <tr>
+                    <th>Origin</th>
+                    <td id="view_origin"></td>
+                </tr>
+                <tr>
+                    <th>Destination</th>
+                    <td id="view_destination"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Destination:</label>
-                                <p id="view_destination"></p>
-                            </div>
-                            
+    <hr>
 
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <h5 class="text-center">Car Details</h5>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Car Name:</label>
-                                <p id="view_car_name"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Car Number:</label>
-                                <p id="view_car_number"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Price per KM:</label>
-                                <p id="view_price_per_km"></p>
-                            </div>
-                            <div class="col-sm-6">
-                            <label class="fw-bold">Car Image:</label>
-                            <div>
-                                <img id="view_car_image" src="" alt="Car Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
-                            </div>
-                        </div>
+    <h5 class="text-center mb-3">Car Details</h5>
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Car Name</th>
+                    <td id="view_car_name"></td>
+                </tr>
+                <tr>
+                    <th>Car Number</th>
+                    <td id="view_car_number"></td>
+                </tr>
+                <tr>
+                    <th>Price per KM</th>
+                    <td id="view_price_per_km"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-                        </div>
-                       
-                    </div>
+    <div class="text-center">
+        <label class="fw-bold">Car Image:</label>
+        <div>
+            <img id="view_car_image" src="" alt="Car Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+        </div>
+    </div>
+</div>
+
                 </div>
             </div>
 
 
-            <table class="table pricingTable text-center table-hover  table-bordered" id="pricingTable">
-                <!-- <thead class="text-center">
-                    <tr class="text-center">
-                        <th>#</th>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>Car</th>
-                        <th>Price</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead> -->
+          <div class="table-responsive">
+          <table class="table pricingTable text-center table-hover  table-bordered" id="pricingTable">
 
-
-            </table>
+</table>
+          </div>
         </div>
     </div>
 </div>

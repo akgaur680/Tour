@@ -14,10 +14,10 @@
     -webkit-animation-duration: 0.4s;
     animation-name: fadeIn;
     animation-duration: 0.4s;
-  }
-  
-  /* Modal Content */
-  .modal-content {
+}
+
+/* Modal Content */
+.modal-content {
     border-radius: 10px;
     position: fixed;
     overflow: scroll;
@@ -27,47 +27,49 @@
     background-color: #fefefe;
     width: 60%;
     height: 80%;
-    overflow-y: auto; 
+    overflow-y: auto;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
     animation-duration: 0.4s;
     margin: 0; /* Ensure no margin interferes */
-  }
-  
-  .modal-header {
+}
+
+.modal-header {
     /* padding: 2px 16px; */
     background-color: #6777ef;
     color: white;
-  }
-  
-  .modal-body {
+}
+
+.modal-body {
     padding: 2px 16px;
-  }
-  
-  .modal-footer {
+}
+
+.modal-footer {
     /* padding: 2px 16px; */
     background-color: #6777ef;
     color: white;
-  }
-  
-  /* Add Animation */
-  /* @-webkit-keyframes slideIn {
+}
+
+/* Add Animation */
+/* @-webkit-keyframes slideIn {
       from {bottom: -300px; opacity: 0} 
       to {bottom: 0; opacity: 1}
     } */
-  
-  /* @keyframes slideIn {
+
+/* @keyframes slideIn {
       from {bottom: -300px; opacity: 0}
       to {bottom: 0; opacity: 1}
     } */
-  
-  /* @-webkit-keyframes fadeIn {
+
+/* @-webkit-keyframes fadeIn {
       from {opacity: 0} 
       to {opacity: 1}
     }
      */
-  /* @keyframes fadeIn {
+/* @keyframes fadeIn {
       from {opacity: 0} 
       to {opacity: 1}
     } */
+
+
