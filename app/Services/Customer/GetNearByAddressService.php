@@ -6,7 +6,6 @@ use App\Services\CoreService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse;
-use App\Services\CoreService;
 
 class GetNearByAddressService extends CoreService
 {
