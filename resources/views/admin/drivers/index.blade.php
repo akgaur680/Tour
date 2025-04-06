@@ -163,71 +163,80 @@
                     </h2>
 
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Name:</label>
-                                <p id="view_name"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Email ID:</label>
-                                <p id="view_email"></p>
-                            </div>
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <td id="view_name"></td>
+                </tr>
+                <tr>
+                    <th>Email ID</th>
+                    <td id="view_email"></td>
+                </tr>
+                <tr>
+                    <th>Contact Number</th>
+                    <td id="view_mobile_no"></td>
+                </tr>
+                <tr>
+                    <th>View Car Details</th>
+                    <td id="view_car"></td>
+                </tr>
+                <tr>
+                    <th>Driving License</th>
+                    <td id="view_driving_license"></td>
+                </tr>
+                <tr>
+                    <th>Aadhaar Number</th>
+                    <td id="view_adhaar_number"></td>
+                </tr>
+                <tr>
+                    <th>Date of Birth</th>
+                    <td id="view_dob"></td>
+                </tr>
+                <tr>
+                    <th>Driving License Expiry</th>
+                    <td id="view_license_expiry"></td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td id="view_address"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Contact Number:</label>
-                                <p id="view_mobile_no"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">View Car Details:</label>
-                                <p id="view_car"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Driving License:</label>
-                                <p id="view_driving_license"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Adhaar Number:</label>
-                                <p id="view_adhaar_number"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Date Of Birth:</label>
-                                <p id="view_dob"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Driving License Expiry:</label>
-                                <p id="view_license_expiry"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Address:</label>
-                                <p id="view_address"></p>
-                            </div>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-6 d-flex flex-column align-items-center text-center mb-3">
-                                        <label class="fw-bold">Profile Image:</label>
-                                        <img id="view_profile_image" src="" alt="Profile Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
-                                    </div>
+    <div class="row text-center">
+        <div class="col-md-6 mb-3">
+            <label class="fw-bold">Profile Image:</label>
+            <div>
+                <img id="view_profile_image" src="" alt="Profile Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+            </div>
+        </div>
 
-                                    <div class="col-md-6 d-flex flex-column align-items-center text-center mb-3">
-                                        <label class="fw-bold">Driving License Image:</label>
-                                        <img id="view_driving_license_image" src="" alt="Driving License Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
-                                    </div>
+        <div class="col-md-6 mb-3">
+            <label class="fw-bold">Driving License Image:</label>
+            <div>
+                <img id="view_driving_license_image" src="" alt="Driving License Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+            </div>
+        </div>
 
-                                    <div class="col-md-6 d-flex flex-column align-items-center text-center mb-3">
-                                        <label class="fw-bold">Aadhaar Card Front Image:</label>
-                                        <img id="view_adhaar_front_image" src="" alt="Aadhaar Card Front Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
-                                    </div>
+        <div class="col-md-6 mb-3">
+            <label class="fw-bold">Aadhaar Card Front Image:</label>
+            <div>
+                <img id="view_adhaar_front_image" src="" alt="Aadhaar Card Front Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+            </div>
+        </div>
 
-                                    <div class="col-md-6 d-flex flex-column align-items-center text-center mb-3">
-                                        <label class="fw-bold">Aadhaar Card Back Image:</label>
-                                        <img id="view_adhaar_back_image" src="" alt="Aadhaar Card Back Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
-                                    </div>
-                                </div>
-                            </div>
+        <div class="col-md-6 mb-3">
+            <label class="fw-bold">Aadhaar Card Back Image:</label>
+            <div>
+                <img id="view_adhaar_back_image" src="" alt="Aadhaar Card Back Image" class="img-fluid rounded img_preview" style="max-height: 150px;">
+            </div>
+        </div>
+    </div>
+</div>
 
-
-                        </div>
-                    </div>
                 </div>
             </div>
 

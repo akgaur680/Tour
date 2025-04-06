@@ -40,53 +40,53 @@
                     </h2>
 
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Name :</label>
-                                <p id="view_name"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Email Id:</label>
-                                <p id="view_email"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Mobile Number :</label>
-                                <p id="view_mobile_no"></p>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Date of Birth:</label>
-                                <p id="view_dob"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Joined On:</label>
-                                <p id="view_joined_on"></p>
-                            </div>
-                            <div class="col-sm-6" id="addressDiv" style="display: none;">
-                                <label class="fw-bold">Address:</label>
-                                <p id="view_address"></p>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="fw-bold">Profile Image:</label>
-                                <div>
-                                    <img id="view_profile_image" src="" alt="Profile Image" class="img-fluid rounded img_preview" style="max-height: 150px; margin:auto">
-                                </div>
-
-                            </div>
-                           
-
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>Name</th>
+                                        <td id="view_name"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email Id</th>
+                                        <td id="view_email"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mobile Number</th>
+                                        <td id="view_mobile_no"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date of Birth</th>
+                                        <td id="view_dob"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Joined On</th>
+                                        <td id="view_joined_on"></td>
+                                    </tr>
+                                    <tr id="addressRow" style="display: none;">
+                                        <th>Address</th>
+                                        <td id="view_address"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Profile Image</th>
+                                        <td>
+                                            <img id="view_profile_image" src="" alt="Profile Image" class="img-fluid rounded img_preview" style="max-height: 150px; margin: auto;">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-
                     </div>
+
                 </div>
             </div>
 
-    <div class="table-responsive">
-        
-    <table class="table customerTable text-center table-hover  table-bordered" id="customerTable">
-               
-               </table>
-    </div>
+            <div class="table-responsive">
+
+                <table class="table customerTable text-center table-hover  table-bordered" id="customerTable">
+
+                </table>
+            </div>
         </div>
     </div>
 </div>
