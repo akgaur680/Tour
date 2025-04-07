@@ -8,6 +8,8 @@ use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\DriverRequest\DriverRequestController;
 use App\Http\Controllers\Web\Drivers\DriverController;
 use App\Http\Controllers\Web\FixedPricing\FixedPricingController;
+use App\Http\Controllers\Web\FixedPricing\GetCityStateController;
+use App\Http\Controllers\Web\Locations\GetPlacesController;
 use App\Http\Controllers\Web\TripType\TripTypeController;
 use App\Http\Controllers\Web\Transaction\TransactionController;
 use App\Http\Controllers\Web\VerifyPayment\VerifyPaymentController;
@@ -45,6 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/drivers/{id}/toggle-approval', [DriverController::class, 'toggleApproval']);
 
     Route::resource('admin/fixed-pricing', FixedPricingController::class);
+    Route::get('/admin/get-city-state', [GetPlacesController::class, 'getPlaces']);
+    Route::get('/admin/get-airports', [GetPlacesController::class, 'getAirpots']);
     Route::resource('/admin/trip-type', TripTypeController::class);
     Route::resource('/admin/customers', CustomerController::class);
 

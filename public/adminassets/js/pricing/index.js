@@ -46,17 +46,17 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             input: "origin",
             dropdown: "originDropdown",
-            api: "/api/customer/get-city-state",
+            api: "/admin/get-city-state",
         },
         {
             input: "destination",
             dropdown: "destinationDropdown",
-            api: "/api/customer/get-city-state",
+            api: "/admin/get-city-state",
         },
         {
             input: "airport_name",
             dropdown: "airportDropdown",
-            api: "/api/customer/get-airports",
+            api: "/admin/get-airports",
         },
     ];
 
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     .then((data) => {
                         if (data.status == true) {
                             dropdownMenu.innerHTML = ""; // Clear previous results
-                            if (api === "/api/customer/get-airports") {
+                            if (api === "/admin/get-airports") {
                                 const airports = data.data || []; // Ensure data array exists
                                 const airportIds = data.airport_ids || [];
 
