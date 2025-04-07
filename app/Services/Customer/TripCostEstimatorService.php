@@ -206,7 +206,7 @@ class TripCostEstimatorService extends CoreService
             'luggage_limit' => $car->luggage_limit,
             'price_per_km' => $car->price_per_km,
             'price_per_hour' => $car->price_per_hour,
-            'car_image' => url('public/' . ltrim($car->car_image, '/')),
+            'car_image' => url('storage/' . ltrim($car->car_image, '/')),
         ],$this->getDriverDetails($car));
     }
 
