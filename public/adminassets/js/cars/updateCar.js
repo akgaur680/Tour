@@ -20,6 +20,7 @@ function editCar(event, id) {
             document.getElementById("seats").value = data.car.seats;
             document.getElementById("luggage_limit").value = data.car.luggage_limit;
             document.getElementById("price_per_km").value = data.car.price_per_km;
+            document.getElementById("price_per_hour").value = data.car.price_per_hour;
             document.getElementById("ac").value = data.car.ac.toString();
 
             // Set car image

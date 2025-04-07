@@ -27,6 +27,8 @@ function viewCar(event, id) {
                     data.car.luggage_limit;
                 document.getElementById("view_price_per_km").textContent =
                     data.car.price_per_km;
+                    document.getElementById("view_price_per_hour").textContent =
+                    data.car.price_per_hour;
                 document.getElementById("view_ac").textContent =
                     data.car.ac == 1 ? "AC" : "Non-AC";
                     document.getElementById('view_trip_types').textContent = 
