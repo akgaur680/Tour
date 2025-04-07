@@ -4,17 +4,6 @@ function addcars(event) {
     const form = document.getElementById("addCarForm");
     const formData = new FormData(form);
     console.log(formData.get("trip_type_ids[]"));
-    
-
-    // // Clear previous errors
-    // clearErrors();
-
-    // // Validate Form
-    // const validationErrors = validateCarForm(formData);
-    // if (validationErrors.length > 0) {
-    //     showValidationErrors(validationErrors);
-    //     return;
-    // }
 
     fetch("/admin/cars", {
         method: "POST",

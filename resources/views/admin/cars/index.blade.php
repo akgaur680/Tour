@@ -78,6 +78,11 @@
 
                                 </div>
                                 <div class="col-sm-6">
+                                    <label for="price_per_hour">Price Per Hour:</label>
+                                    <input type="number" class="form-control mb-2" id="price_per_hour" name="price_per_hour" value="{{old('price_per_hour')}}" placeholder="Price Per Hour">
+
+                                </div>
+                                <div class="col-sm-6">
                                     <label for="ac">AC Availability:</label>
                                     <select id="ac" name="ac" class="form-control">
                                         <option value="" selected>Select AC Availability ...</option>
@@ -168,6 +173,10 @@
                                     <tr>
                                         <th>Price Per KM</th>
                                         <td id="view_price_per_km"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Price Per Hour</th>
+                                        <td id="view_price_per_hour"></td>
                                     </tr>
                                     <tr>
                                         <th>AC Availability</th>
