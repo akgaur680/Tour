@@ -31,19 +31,11 @@
 
   <!-- Yajra DataTables -->
  <!-- ✅ Latest Bootstrap 5 CSS -->
+ 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- ✅ Latest DataTables Bootstrap 5 CSS -->
 <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-
-<!-- ✅ Latest jQuery (v3.7.1) -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<!-- ✅ Latest DataTables Core JS -->
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-<!-- ✅ Latest DataTables Bootstrap 5 JS -->
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -279,12 +271,17 @@
 
   </div>
   <!-- ./wrapper -->
-  <!-- jQuery -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <!-- ✅ jQuery and DataTables JS (bottom of body) -->
 
   <script src="{{ asset('adminassets/plugins/jquery/jquery.min.js') }}"></script>
   <!-- jQuery UI 1.11.4 -->
   <script src="{{ asset('adminassets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+  <!-- jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script>
     $.widget.bridge('uibutton', $.ui.button);

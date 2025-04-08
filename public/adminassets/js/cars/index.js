@@ -16,7 +16,7 @@ const carColumns = [
         },
     },
 ];
-InitializeTable("carTable", "/admin/cars", carColumns);
+    InitializeTable("carTable", "/admin/cars", carColumns);
 
 // Delete Car Function
 function deleteCar(id) {

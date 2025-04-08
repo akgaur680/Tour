@@ -79,7 +79,7 @@ function cancelBooking(token) {
                     });
 
                     console.log(data);
-                    dataTable.ajax.reload(null, false); // Reload DataTable without resetting pagination
+                    reloadTable('bookingTable');
                 })
                 .catch((error) => {
                     console.error("Error:", error);

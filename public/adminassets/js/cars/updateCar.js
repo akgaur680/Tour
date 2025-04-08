@@ -95,7 +95,8 @@ function updateCar(event, id) {
                     timer: 3000
                 });
                 closeDiv(null, "addCarDiv");
-                dataTable.ajax.reload(null, true); // Reload DataTable without resetting pagination
+                reloadTable('carTable');
+
                 form.reset();
             } else if (data.success == false) {
                 let errorMessages = data.errors; // Array of errors

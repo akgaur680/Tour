@@ -24,7 +24,7 @@ function addcars(event) {
                     showConfirmButton: false,
                     timer: 3000,
                 });
-                dataTable.ajax.reload(null, false); // Reload DataTable
+                reloadTable('carTable');
                 form.reset();
                 closeDiv(event, "addCarDiv");
             } else if (data.success == false) {

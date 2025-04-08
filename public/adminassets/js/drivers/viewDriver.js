@@ -22,7 +22,7 @@ function viewDriver(event, id) {
                 document.getElementById("view_car").textContent = data.driver.car.car_type;
                 document.getElementById("view_driving_license").textContent = data.driver.driving_license;
                 document.getElementById("view_adhaar_number").textContent = data.driver.adhaar_number;
-                document.getElementById("view_dob").textContent = data.driver.dob;
+                document.getElementById("view_dob").textContent = data.driver.user.dob;
                 document.getElementById("view_license_expiry").textContent = data.driver.license_expiry;
                 document.getElementById("view_address").textContent = data.driver.user.address;
                 // Update Profile image

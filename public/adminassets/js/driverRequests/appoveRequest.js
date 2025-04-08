@@ -39,7 +39,7 @@ function submitApprovalStatus(event, id) {
             if(document.getElementById('viewDriverRequestDiv').style.display === 'block'){
                 closeDiv(event, 'viewDriverRequestDiv')
             }
-            dataTable.ajax.reload(null, false);
+            reloadTable('driverRequestTable');
             // Optionally reload or hide the form
         } else {
             Swal.fire({

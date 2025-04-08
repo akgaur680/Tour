@@ -121,10 +121,10 @@
                       @php
                       $status = $booking['booking_status'];
                       $badgeClass = match ($status) {
-                      'upcoming' => 'primary',
+                      'upcoming' => 'warning',
                       'ongoing' => 'info',
                       'completed' => 'success',
-                      'cancelled' => 'warning',
+                      'cancelled' => 'danger',
                       'failed' => 'danger',
                       default => 'secondary',
                       };
@@ -139,7 +139,7 @@
                 </tbody>
               </table>
              </div>
-              <div class="card-footer text-right"> <a href="/admin/cars" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <div class="card-footer text-right"> <a href="/admin/bookings" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
           </div>

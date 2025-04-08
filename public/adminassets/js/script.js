@@ -1,17 +1,20 @@
-
-let dataTable;
+var dataTable;
 // Initialize DataTable
 function InitializeTable(id, url, columns) {
     dataTable = new DataTable(`#${id}`, {
         ajax: {
             url: `${url}`,
+            type:'GET',
             dataSrc: "data",
+            cache: false,
         },
         columns: columns,
     });
 }
 
-
+function reloadTable(id) {
+    $(`#${id}`).DataTable().ajax.reload();
+}
 function reloadTableWithRetry(retries = 10, delay = 300) {
     if (typeof dataTable !== "undefined" && dataTable !== null) {
         console.log(dataTable);
@@ -22,7 +25,6 @@ function reloadTableWithRetry(retries = 10, delay = 300) {
         console.error("DataTable is not initialized after waiting.");
     }
 }
-
 
 function showForm(
     event,
@@ -48,17 +50,22 @@ function showForm(
     }
 
     // Set title and button text dynamically
-    const titleElement = div.querySelector(".modal-title, .form-title, #div-title");
+    const titleElement = div.querySelector(
+        ".modal-title, .form-title, #div-title"
+    );
     if (titleElement) {
         titleElement.textContent = type === "edit" ? "Edit" : defaultTitle;
     }
 
-    const buttonElement = div.querySelector('button[type="submit"], .modal-btn, #submitBtn');
+    const buttonElement = div.querySelector(
+        'button[type="submit"], .modal-btn, #submitBtn'
+    );
     if (buttonElement) {
-        buttonElement.textContent = type === "edit" ? "Update" : defaultButtonText;
-        buttonElement.removeAttribute('onclick');
+        buttonElement.textContent =
+            type === "edit" ? "Update" : defaultButtonText;
+        buttonElement.removeAttribute("onclick");
         if (type === "store") {
-            buttonElement.setAttribute('onclick', `add${entity}(event);`);
+            buttonElement.setAttribute("onclick", `add${entity}(event);`);
         }
     }
 
@@ -82,14 +89,13 @@ function showForm(
     };
 }
 
-
 function closeDiv(event, divId) {
     const div = document.getElementById(divId);
     div.style.display = "none";
 }
 
 function showValidationErrors(errors) {
-    errors.forEach(error => {
+    errors.forEach((error) => {
         const inputField = document.getElementById(error.field);
         if (inputField) {
             let errorSpan = document.createElement("span");
@@ -105,7 +111,10 @@ function showValidationErrors(errors) {
 }
 
 function clearErrors() {
-    document.querySelectorAll(".error-message").forEach(error => error.remove());
-    document.querySelectorAll(".input-error").forEach(input => input.classList.remove("input-error"));
+    document
+        .querySelectorAll(".error-message")
+        .forEach((error) => error.remove());
+    document
+        .querySelectorAll(".input-error")
+        .forEach((input) => input.classList.remove("input-error"));
 }
-

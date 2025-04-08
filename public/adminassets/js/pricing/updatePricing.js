@@ -203,7 +203,7 @@ if (airportIdField.closest(".col-sm-6").style.display !== "none") {
                 setTimeout(() => {
                     closeDiv(event, "pricingDiv");
                 }, 500);
-                dataTable.ajax.reload(null, false); // Reload DataTable
+                reloadTable('pricingTable')
 
                 console.log(dataTable.data);
                 form.reset();

@@ -68,14 +68,16 @@
                                     <label for="mobile_no">Select Car :</label>
                                     @php
                                     $cars = \App\Models\Car::all();
+                                    $assignedCarIds = \App\Models\Driver::pluck('car_id')->toArray();
                                     @endphp
                                     <select id="car_id" name="car_id" class="form-control mb-2">
                                         <option>Select Car</option>
-                                        @foreach ($cars as $car )
-                                        <option value="{{$car['id']}}">{{$car['car_type']}}</option>
+                                        @foreach ($cars as $car)
+                                        @if (!in_array($car->id, $assignedCarIds))
+                                        <option value="{{ $car->id }}">{{ $car->car_type }} - [{{ $car->car_number }}]</option>
+                                        @endif
                                         @endforeach
                                     </select>
-
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="driving_license">Driving License Number :</label>
