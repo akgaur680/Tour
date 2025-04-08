@@ -50,7 +50,7 @@ class BookATripRequest extends FormRequest
             'new_car_price' => ['required_if:is_new_car_promised,true', 'numeric', 'min:1'],
             'is_cab_luggage_needed' => ['required', 'boolean'],
             'cab_luggage_price' => ['required_if:is_cab_luggage_needed,true', 'numeric', 'min:1'],
-            'is_diesel_car_needed' => ['required', 'boolean'  , Rule::prohibitedIf($this->is_new_car_promised == true) ],
+            'is_diesel_car_needed' => ['required', 'boolean'],
             'diesel_car_price' => ['required_if:is_diesel_car_needed,true', 'numeric', 'min:1'],
             'payment_type' => ['required', 'string', 'in:Half Payment,Partial Payment,Full Payment,Pay on Delivery'],
         ];

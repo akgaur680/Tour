@@ -23,7 +23,7 @@ class TripCostEstimateRequest extends FormRequest
     {
         return [
             'from_address' => ['required_if:trip_type,round-trip,one-way', 'required_if:to_airport,true', 'string', 'regex:/^[A-Za-z\s]+,\s?[A-Za-z\s]+$/' , 'different:to_address'],
-            'to_address' => ['required_if:trip_type,round-trip,one-way,airport', 'required_if:from_airport,true', 'string', 'regex:/^[A-Za-z\s]+,\s?[A-Za-z\s]+$/', 'different:from_address'],
+            'to_address' => ['required_if:trip_type,round-trip,one-way', 'required_if:from_airport,true', 'string', 'regex:/^[A-Za-z\s]+,\s?[A-Za-z\s]+$/', 'different:from_address'],
             'airport_location' => ['required_if:trip_type,airport', 'string', 'regex:/^[A-Za-z\s]+,\s?[A-Za-z\s]+$/'],
             'from_airport' => ['required_if:trip_type,airport', 'boolean'],
             'to_airport' => ['required_if:trip_type,airport', 'boolean'],

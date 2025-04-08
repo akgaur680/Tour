@@ -326,8 +326,8 @@ class TripCostEstimatorService extends CoreService
             }
             $fixedPrices = FixedTourPrices::where([
                 ['airport_id', $getAirpotId],
-                ['destination_city_id', $from['city_id']],
-                ['destination_state_id', $from['state_id']],
+                ['origin_city_id', $from['city_id']],
+                ['origin_state_id', $from['state_id']],
                 ['trip_type_id', $getTripTypeId],
                 ['airport_id', $getAirpotId],
             ])->with('car')->get();
