@@ -23,7 +23,7 @@ function adddrivers(event) {
                 showConfirmButton: false,
                 timer: 3000
             });
-            dataTable.ajax.reload(null, false); // Reload DataTable
+            reloadTable('driverTable');
             form.reset();
             closeDiv(event, "driversDiv");
         }else if (data.success == false) {

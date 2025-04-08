@@ -50,9 +50,7 @@ function deleteCar(id) {
                         showConfirmButton: false,
                         timer: 3000
                     });
-
-                    dataTable.ajax.reload(null, false); // Reload DataTable without resetting pagination
-                    console.log(data);
+                    reloadTable("carTable");
                 })
                 .catch((error) => {
                     console.error("Error:", error);

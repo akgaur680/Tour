@@ -258,9 +258,7 @@ function deletePricing(id) {
                         showConfirmButton: false,
                         timer: 3000
                     });
-
-                    console.log(data);
-                    dataTable.ajax.reload(null, false); // Reload DataTable without resetting pagination
+                    reloadTable('pricingTable');
                 })
                 .catch((error) => {
                     console.error("Error:", error);

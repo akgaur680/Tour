@@ -204,8 +204,6 @@ if (airportIdField.closest(".col-sm-6").style.display !== "none") {
                     closeDiv(event, "pricingDiv");
                 }, 500);
                 reloadTable('pricingTable')
-
-                console.log(dataTable.data);
                 form.reset();
             }else if (data.success == false) {
                 let errorMessages = data.errors; // Array of errors

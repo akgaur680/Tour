@@ -35,7 +35,7 @@ function submitVerification(status) {
                 timer: 3000
             });
             closeDiv(event, 'verifyPaymentDiv');
-            dataTable.ajax.reload(); // or refresh your data table
+            reloadTable('verifyPaymentTable');
         } else {
            Swal.fire({
                icon: "error",

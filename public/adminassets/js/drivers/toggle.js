@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         showConfirmButton: false,
                         timer: 3000
                     });
-                    dataTable.ajax.reload();
+                    reloadTable('driverTable');
 
                 } else {
                     Swal.fire({
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         showConfirmButton: false,
                         timer: 3000
                     });
-                    dataTable.ajax.reload();
+                    reloadTable('driverTable');
                 } else {
                     Swal.fire({
                         icon: "error",

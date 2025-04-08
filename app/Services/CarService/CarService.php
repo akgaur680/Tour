@@ -18,6 +18,11 @@ class CarService extends CoreService
         $carImage = $data['car_image'] ?? null;
         unset($data['car_image']);
 
+        // Trim price_per_hour
+        if (isset($data['price_per_hour'])) {
+            $data['price_per_hour'] = round($data['price_per_hour']);
+
+        }
         if ($carImage) {
             $data['car_image'] = ImageHelper::storeImage($carImage, 'cars');
         }
@@ -57,6 +62,12 @@ class CarService extends CoreService
         if (!$car) {
             return response()->json(['status' => false, 'message' => 'Car Not Found']);
         }
+
+        // Trim price_per_hour
+        if (isset($data['price_per_hour'])) {
+            $data['price_per_hour'] = round($data['price_per_hour']);
+
+        }
         $carImage = $data['car_image'] ?? null;
         unset($data['car_image']);
 
@@ -65,7 +76,7 @@ class CarService extends CoreService
         unset($data['trip_type_ids']);
 
 
-
+        // Check if car_image is present in the request
         if ($carImage) {
             $data['car_image'] = ImageHelper::updateImage($carImage, $car->car_image, 'cars'); // Pass old image path
         }
@@ -89,9 +100,7 @@ class CarService extends CoreService
                 'message' => 'Car Updated Successfully',
                 'car' => $car,
             ]);
-        }
-        else
-        {
+        } else {
             DB::rollBack();
             return response()->json(['status' => false, 'message' => 'Error Occurred During Updating Car']);
         }

@@ -55,10 +55,8 @@ function deleteDriver(id) {
                         showConfirmButton: false,
                         timer: 3000,
                     });
-
-                    console.log(data);
-                    dataTable.ajax.reload(null, false); // Reload DataTable without resetting pagination
-                })
+                    reloadTable("driverTable");
+                    })
                 .catch((error) => {
                     console.error("Error:", error);
                     Swal.fire({

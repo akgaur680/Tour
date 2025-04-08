@@ -99,14 +99,8 @@ function updateDriver(event, id) {
                     showConfirmButton: false,
                     timer: 3000
                 });
-                dataTable.ajax.reload(null, false); // Reload DataTable
-
-                console.log(dataTable.data);
-                setTimeout(() => {
-                    closeDiv(event, "driversDiv");
-                    
-                  
-                }, 500);
+                reloadTable('driverTable');
+                closeDiv(event, "driversDiv");
     
                 form.reset();
             } else if (data.success == false) {

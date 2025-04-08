@@ -50,7 +50,7 @@ console.log(airportIdField.dataset.airportId);
                 showConfirmButton: false,
                 timer: 3000
             });
-            dataTable.ajax.reload(null, false); // Reload DataTable
+            reloadTable('pricingTable');
             form.reset();
             closeDiv(event, "pricingDiv");
         } else if (data.success == false) {
